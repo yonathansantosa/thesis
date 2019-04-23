@@ -1,0 +1,19 @@
+\chapter{Method}
+\label{chap:method}
+
+% This is the introduction to the thesis.\footnote{And this is a footnote.}  The
+% conclusion is in Chapter on page
+OOV problem is handled from quasi-generative perspective as
+aforementioned in \ref{chap:intro} by using neural language model
+under assumption that there is a form that could generate embedding
+for the original embedding. Hence that, the original embedding is used
+for training the model to generate the embedding. This model then will
+be used to estimate OOV embeddings. In other words, given sets of
+vocabulary $\mathcal{V}$ with size $V$ and pretrained embeddings
+$\mathcal{W}^{V \times d}$ for each word $w_{i} \in \mathcal{V}$ that
+is represented as a vector $e_i$ with $d$ dimension, the model is
+trained to map function $f:\mathcal{V} \rightarrow \mathbb{R}^d$ that
+minimizes $\vert f(w_i) - e_i \vert^{2}$.
+
+N-grams CNN is used to capture features of a word by using
+kernel with size of $n \times d$.

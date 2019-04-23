@@ -4,27 +4,36 @@
 % This is the introduction to the thesis.\footnote{And this is a
 % footnote.}  The conclusion is in Chapter on page
 Word embeddings is a method of word representation mainly used for
-natural language processing. It consists of vocabularies and its
-positional information in euclidean space. This positional information
-then can be used to infer interconnection between words, whether its
-similarities or usage of the word in a sentence\{CITE\}. To obtain
-word embeddings, a model is created to extract features of a word from
-a corpus and mapped its location in euclidean space based on the
-features found. These word embeddings then can be used to do many
-downstream tasks, such as postagging, machine translation, and
-sentiment analysis. In general, large corpus with many words and
-examples of word usage is prefered because the size of the
-vocabularies will increases and more words connection can be
-inferred\{CITE\}. However, it is not posible to have such corpus since
-the language itself is evolving and there are many cases of typography
-in a documents and these words maybe not present in the corpus hence
-not included in the vocabulary. This words are called as
-\textit{out-of-vocabulary} (OOV) words. Due to this problems, simple
-approach by asigning unique random embedding or by replacing OOV with
-an unknown \textit{\textless UNK\textgreater} token\{CITE\} . While in
-some cases using these simple approaches can produce acceptable
-results \{CITE\}, further improvement on downstream tasks can be
-achieved by using machine learning method to infer OOV embeddings.
+natural language processing. Text data appears differently in computer
+from images and sounds. Both images and sounds can be easily
+represented as mathematic models either using analog or digital
+signals but not with text data \citep{wordembedding2017yang}. Text
+data consists of strings that can only be modeled using one-hot
+vector. This one-hot vector does not have any information that infers
+connection between one to the other. Hence that, vector
+representations that maps semantic and syntactic information given
+one-hot vectors in a euclidean space is introduced
+\citep{wordembedding2017yang}. This positional information then can be
+used to infer interconnection between words, whether its similarities
+or usage of the word in a sentence \citep{distributional1954harris}.
+To obtain word embeddings, a model is created to extract features of a
+word from a corpus and map its location in euclidean space based on
+the features found. These word embeddings then can be used to do many
+downstream tasks, such as postagging, named entity recognition (NER),
+and sentiment analysis \citep{finding2015ling, neural2016lample}. In
+general, large corpus with many words and examples of word usage is
+prefered because the size of the vocabularies will increases and more
+words connection can be inferred \citep{size2018kutuzov}. However, it
+is not posible to have such corpus since the language itself is
+evolving and there are many cases of typography in a documents and
+these words maybe not present in the corpus hence not included in the
+vocabulary. This words are called as \textit{out-of-vocabulary} (OOV)
+words. Due to this problems, simple approach by asigning unique random
+embedding or by replacing OOV with an unknown \textit{\textless
+UNK\textgreater} token. While in some cases using these simple
+approaches can produce acceptable results \{CITE\}, further
+improvement on downstream tasks can be achieved by using machine
+learning method to infer OOV embeddings. 
 
 To infer OOV embeddings, the model is built over quasi-generative
 perspective. Only knowing the vocabularies and its embedding, the

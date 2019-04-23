@@ -1,3 +1,64 @@
 \begin{thebibliography}{}
 
+\bibitem[Brants, 2000]{tnt2000Brants}
+Brants, T. (2000).
+\newblock Tnt: A statistical part-of-speech tagger.
+\newblock In {\em Proceedings of the Sixth Conference on Applied Natural
+  Language Processing}, ANLC '00, pages 224--231, Stroudsburg, PA, USA.
+  Association for Computational Linguistics.
+
+\bibitem[Cutting et~al., 1992]{apractical1992cutting}
+Cutting, D., Kupiec, J., Pedersen, J., and Sibun, P. (1992).
+\newblock A practical part-of-speech tagger.
+\newblock In {\em Proceedings of the Third Conference on Applied Natural
+  Language Processing}, ANLC '92, pages 133--140, Stroudsburg, PA, USA.
+  Association for Computational Linguistics.
+
+\bibitem[Kim et~al., 2015]{character2015kim}
+Kim, Y., Jernite, Y., Sontag, D., and Rush, A.~M. (2015).
+\newblock Character-aware neural language models.
+\newblock {\em CoRR}, abs/1508.06615.
+
+\bibitem[Kutuzov and Kunilovskaya, 2018]{size2018kutuzov}
+Kutuzov, A. and Kunilovskaya, M. (2018).
+\newblock {\em Size vs. Structure in Training Corpora for Word Embedding
+  Models: Araneum Russicum Maximum and Russian National Corpus}, pages 47--58.
+
+\bibitem[Lample et~al., 2016]{neural2016lample}
+Lample, G., Ballesteros, M., Subramanian, S., Kawakami, K., and Dyer, C.
+  (2016).
+\newblock Neural architectures for named entity recognition.
+\newblock {\em CoRR}, abs/1603.01360.
+
+\bibitem[Li and Yang, 2017]{wordembedding2017yang}
+Li, Y. and Yang, T. (2017).
+\newblock {\em Word Embedding for Understanding Natural Language: A Survey},
+  volume~26.
+
+\bibitem[Ling et~al., 2015]{finding2015ling}
+Ling, W., Dyer, C., Black, A.~W., Trancoso, I., Fermandez, R., Amir, S.,
+  Marujo, L., and Luis, T. (2015).
+\newblock Finding function in form: Compositional character models for open
+  vocabulary word representation.
+\newblock In {\em Proceedings of the 2015 Conference on Empirical Methods in
+  Natural Language Processing}, pages 1520--1530, Lisbon, Portugal. Association
+  for Computational Linguistics.
+
+\bibitem[Mikolov et~al., 2013]{Distributed2013mikolov}
+Mikolov, T., Sutskever, I., Chen, K., Corrado, G., and Dean, J. (2013).
+\newblock Distributed representations of words and phrases and their
+  compositionality.
+\newblock {\em CoRR}, abs/1310.4546.
+
+\bibitem[Pinter et~al., 2017]{mimicking2017Pinter}
+Pinter, Y., Guthrie, R., and Eisenstein, J. (2017).
+\newblock Mimicking word embeddings using subword rnns.
+\newblock {\em Proceedings of the 2017 Conference on Empirical Methods in
+  Natural Language Processing}.
+
+\bibitem[S.~Harris, 1954]{distributional1954harris}
+S.~Harris, Z. (1954).
+\newblock Distributional structure.
+\newblock {\em Word}, 10:146--162.
+
 \end{thebibliography}
