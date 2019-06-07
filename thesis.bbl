@@ -14,6 +14,17 @@ Cutting, D., Kupiec, J., Pedersen, J., and Sibun, P. (1992).
   Language Processing}, ANLC '92, pages 133--140, Stroudsburg, PA, USA.
   Association for Computational Linguistics.
 
+\bibitem[Forrester, 2008]{forrester2008abrief}
+Forrester, J.~C. (2008).
+\newblock A brief overview of english as a language in change.
+\newblock {\em CCSE}, abs/1508.06615(4).
+
+\bibitem[Ghosh and Kristensson, 2017]{ghosh2017correction}
+Ghosh, S. and Kristensson, P.~O. (2017).
+\newblock Neural networks for text correction and completion in keyboard
+  decoding.
+\newblock {\em CoRR}, abs/1709.06429.
+
 \bibitem[Kim et~al., 2015]{character2015kim}
 Kim, Y., Jernite, Y., Sontag, D., and Rush, A.~M. (2015).
 \newblock Character-aware neural language models.
@@ -60,5 +71,12 @@ Pinter, Y., Guthrie, R., and Eisenstein, J. (2017).
 S.~Harris, Z. (1954).
 \newblock Distributional structure.
 \newblock {\em Word}, 10:146--162.
+
+\bibitem[Tissier et~al., 2017]{tissier2017dict2vec}
+Tissier, J., Gravier, C., and Habrard, A. (2017).
+\newblock {D}ict2vec : Learning word embeddings using lexical dictionaries.
+\newblock In {\em Proceedings of the 2017 Conference on Empirical Methods in
+  Natural Language Processing}, pages 254--263, Copenhagen, Denmark.
+  Association for Computational Linguistics.
 
 \end{thebibliography}

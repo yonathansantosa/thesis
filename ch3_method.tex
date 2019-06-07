@@ -3,17 +3,116 @@
 
 % This is the introduction to the thesis.\footnote{And this is a footnote.}  The
 % conclusion is in Chapter on page
+\section{Sequence feature extraction}
 OOV problem is handled from quasi-generative perspective as
-aforementioned in \ref{chap:intro} by using neural language model
+aforementioned in chapter \ref{chap:intro} by using neural language model
 under assumption that there is a form that could generate embedding
 for the original embedding. Hence that, the original embedding is used
-for training the model to generate the embedding. This model then will
-be used to estimate OOV embeddings. In other words, given sets of
-vocabulary $\mathcal{V}$ with size $V$ and pretrained embeddings
-$\mathcal{W}^{V \times d}$ for each word $w_{i} \in \mathcal{V}$ that
-is represented as a vector $e_i$ with $d$ dimension, the model is
-trained to map function $f:\mathcal{V} \rightarrow \mathbb{R}^d$ that
-minimizes $\vert f(w_i) - e_i \vert^{2}$.
+for training the model to generate the embedding. In chapter
+\ref{chap:intro}, reasons why lstm could perform worse is because the
+hidden states is controlled by cell gates making the information that
+is carried on is the most recent after the cell gates decided to
+forget inputs at certain time $t$. 
 
-N-grams CNN is used to capture features of a word by using
-kernel with size of $n \times d$.
+\begin{align}
+    \label{eq:lstm:f_t}
+    f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
+    \label{eq:lstm:i_t}    
+    i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \\
+    \label{eq:lstm:Cc_t}
+    \tilde{C}_t &= tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \\
+    \label{eq:lstm:C_t}
+    C_t &= f_t \times C_{t-1} + i_t \times \tilde{C}_t \\
+    \label{eq:lstm:o_t}
+    o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \\
+    \label{eq:lstm:h_t}
+    h_t &= o_t \times tanh(C_t)
+\end{align}
+
+Formally, when $C_t = 0$ from eq. \ref{eq:lstm:C_t}, hidden state from
+eq. \ref{eq:lstm:h_t} will be reset to $0$ rendering hidden states
+prior to time $t$ gone. This problem can be solved by using bi-lstm,
+since bi-lstm process sequence in forward and reverse order making
+both early and later sequence held by the last hidden state for each
+forward lstm and reverse lstm respectively. Another problem might
+arise when we need to divide sequence into more than three
+subsequence. Hence another approach is needed since intermediate
+subsequence might get deleted or carried along with the later sequence
+even with bi-lstm.
+\begin{figure}
+    \label{fig:subsequence}
+    \begin{align*}
+        &un \vert recogniz \vert able \\
+        &inter \vert national \vert ities \\
+        &oto \vert rhino \vert laryngolog \vert ical \\
+        &hepatico \vert chol \vert angio \vert gastro \vert stomy
+    \end{align*}
+    \caption{Word examples with three or more subsequences}
+\end{figure}
+We can find many examples especially from more technical areas as
+shown on Figure \ref{fig:subsequence}. Since on \textsc{Mimick}
+\cite{mimicking2017Pinter} implementation only the last hidden state
+is used for inferencing word embedding, another approach is proposed.
+
+\begin{figure}
+    \label{fig:4grams}
+    \begin{align*}
+        unrecognizable : &unre \vert nrec \vert reco \vert ecog \vert cogn \vert ogni \vert gniz \vert niza \vert izab \vert zabl \vert able\\
+        internationalities : &inte \vert nter \vert tern \vert erna \vert rnat \vert nati \vert atio \vert tion \vert iona \vert onal \vert \\
+        &nali \vert alit \vert liti \vert itie \vert ties\\
+        otorhinolaryngological : &otor \vert torh \vert orhi \vert rhin \vert hino \vert inol \vert nola \vert olar \vert lary \vert \\
+        &aryn \vert ryng \vert yngo \vert ngol \vert golo \vert olog \vert logi \vert ogic \vert gica \vert ical\\
+        hepaticocholangiogastrostomy : &hepa \vert epat \vert pati \vert atic \vert tico \vert icoc \vert coch \vert ocho \vert chol \vert hola \vert olan \vert\\
+        &lang \vert angi \vert ngio \vert giog \vert ioga \vert ogas \vert gast \vert astr \vert stro \vert\\
+        &tros \vert rost \vert osto \vert stom \vert tomy
+    \end{align*}
+    \caption{4-grams examples}
+\end{figure}
+
+For all subsequence to be processed, we need a method that accounts
+for all sequence yet still able to divides the whole sequence into
+subsequences. Consequently, n-grams is chosen because this method
+splits word into sequence of characters depends on the chosen window
+size. Those sequences of characters then feed into learning algortihm.
+This idea is similar to how human tries to recognize an unseen word by
+reading subword that is understandable beforhand when no explanation
+or context were given. 
+
+This model then will be used to estimate OOV embeddings. In other
+words, given sets of vocabulary $\mathcal{V}$ with size $\vert\mathcal{V}\vert$ and
+pretrained embeddings $\mathcal{W}^{\vert\mathcal{V}\vert \times d}$ for each word $w_{i}
+\in \mathcal{V}$ that is represented as a vector $e_i$ with $d$
+dimension, the model is trained to map function $f:\mathcal{V}
+\rightarrow \mathbb{R}^d$ that minimizes $\vert f(w_i) - e_i
+\vert^{2}$. This approach is similar to \textsc{Mimick}
+\cite{mimicking2017Pinter} approach. The text input is represented as
+a sequence of character $[c_1, c_2, \dots, c_m]$ for $c_i \in
+\mathcal{C}$. Those sequence then transformed as sequence of vectors
+$g_i$ with $b$ dimension by using character embeddings
+$\mathcal{G}^{\vert \mathcal{C} \vert \times b}$. For simplicity,
+sequence of $[g_1, g_2, \dots, g_m]$ will be called $[\hat{g}]$.
+$[\hat{g}]$ becomes 2-dimensional matrix that has size of $m \times
+b$. In summary, given word $w$ will be transformed using function $h$
+into $[\hat{g}]$.
+
+\begin{equation}
+    \label{eq:word2charemb}
+    h: w \rightarrow [\hat{g}]
+\end{equation}
+
+To process $[\hat{g}]$ like an n-grams, CNN is used. CNN is basically
+a method to do convolution on matrix by using a kernel $k_i \in K$. This
+operation is represented with $*$ symbol. To mimick n-grams, kernel
+with size of $n \times b$ is used, producing another vector $\hat{t}$
+that represents the value of each grams, then non-linearity is applied
+to this vector. Several kernel is used to learn several features for
+producing embeddings. Each of these kernel will be responsible to find
+grams that are affecting the results, thus the vector $\hat{t_i}$ that
+are results of convolution $[\hat{g}] * k_i$ will be maxpooled to
+produce one number. In details, from given sequence of character
+embedding $[\hat{g}]$, only gram that produces the highest value when
+convoluted by using kernel $k_i$ will be processed. Since, there are
+$\vert K \vert$ number of filter, $\vert K \vert$ number of grams will
+be considered to be important to the results. Furhtermore, by using
+several window sizes for n-grams (bigram, trigram, etc.), more
+features will be able to be learned. 

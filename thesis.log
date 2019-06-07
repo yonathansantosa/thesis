@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2018.5.3)  22 APR 2019 16:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2018.5.3)  7 JUN 2019 14:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -246,36 +246,90 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (./thesis.aux)
+)) (e:/texlive/2018/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip55
+
+For additional information on amsmath, use the `?' option.
+(e:/texlive/2018/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (e:/texlive/2018/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen118
+)) (e:/texlive/2018/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen119
+) (e:/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count105
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count106
+\leftroot@=\count107
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count108
+\DOTSCASE@=\count109
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen120
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count110
+\c@MaxMatrixCols=\count111
+\dotsspace@=\muskip11
+\c@parentequation=\count112
+\dspbrk@lvl=\count113
+\tag@help=\toks18
+\row@=\count114
+\column@=\count115
+\maxfields@=\count116
+\andhelp@=\toks19
+\eqnshift@=\dimen121
+\alignsep@=\dimen122
+\tagshift@=\dimen123
+\tagwidth@=\dimen124
+\totwidth@=\dimen125
+\lineht@=\dimen126
+\@envbody=\toks20
+\multlinegap=\skip56
+\multlinetaggap=\skip57
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+) (./thesis.aux)
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
  (e:/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count105
-\scratchdimen=\dimen118
-\scratchbox=\box26
-\nofMPsegments=\count106
-\nofMParguments=\count107
-\everyMPshowfont=\toks17
-\MPscratchCnt=\count108
-\MPscratchDim=\dimen119
-\MPnumerator=\count109
-\makeMPintoPDFobject=\count110
-\everyMPtoPDFconversion=\toks18
+\scratchcounter=\count117
+\scratchdimen=\dimen127
+\scratchbox=\box28
+\nofMPsegments=\count118
+\nofMParguments=\count119
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count120
+\MPscratchDim=\dimen128
+\MPnumerator=\count121
+\makeMPintoPDFobject=\count122
+\everyMPtoPDFconversion=\toks23
 )
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -311,38 +365,38 @@ LaTeX Font Info:    ... okay on input line 78.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box27
-Package backref Info: ** backref set up for natbib ** on input line 78.
-Package hyperref Info: Link coloring ON on input line 78.
+\AtBeginShipoutBox=\box29
+Package backref Info: ** backref set up for natbib ** on input line 79.
+Package hyperref Info: Link coloring ON on input line 79.
 (e:/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
  (e:/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count111
+\c@section@level=\count123
 )
-LaTeX Info: Redefining \ref on input line 78.
-LaTeX Info: Redefining \pageref on input line 78.
-LaTeX Info: Redefining \nameref on input line 78.
+LaTeX Info: Redefining \ref on input line 79.
+LaTeX Info: Redefining \pageref on input line 79.
+LaTeX Info: Redefining \nameref on input line 79.
  (./thesis.out) (./thesis.out)
 \@outlinefile=\write3
 \openout3 = `thesis.out'.
 
-<uslogo.pdf, id=52, 160.6pt x 98.3675pt>
+<uslogo.pdf, id=56, 160.6pt x 98.3675pt>
 File: uslogo.pdf Graphic file (type pdf)
 <use uslogo.pdf>
-Package pdftex.def Info: uslogo.pdf  used on input line 97.
+Package pdftex.def Info: uslogo.pdf  used on input line 98.
 (pdftex.def)             Requested size: 170.71652pt x 104.56621pt.
  [1
 
 {e:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./uslogo.pdf>] [2
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 147.
+LaTeX Font Info:    Try loading font information for U+msa on input line 148.
  (e:/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 147.
+LaTeX Font Info:    Try loading font information for U+msb on input line 148.
  (e:/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -374,20 +428,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ] (./ch1_introduction.tex
 Chapter 1.
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 33.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 41.
 (e:/texlive/2018/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 33.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 34.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 41.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 43.
  (e:/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 34.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 43.
 
-Underfull \vbox (badness 1412) has occurred while \output is active []
+Underfull \vbox (badness 3354) has occurred while \output is active []
 
  [1
 
@@ -397,48 +451,48 @@ Chapter 2.
 
 ]) (./ch3_method.tex [4]
 Chapter 3.
-) [5
+[5
 
-]
+] [6]) [7]
 Chapter 4.
-[6
+[8
 
 ] (./thesis.bbl (./thesis.brf)
 \tf@brf=\write7
 \openout7 = `thesis.brf'.
 
- [7
+ [9
 
 
-]) [8]
+]) [10]
 Appendix A.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 261.
-[9
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 262.
+[11
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 261.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 262.
  (./thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 261.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 261.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 262.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 262.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: EC3EA14543B473C049F7EF4AAB555DB6;679.
+(rerunfilecheck)             Checksum: E1BA24EA4BA1DD42ED70B0A5641EAEB6;757.
 Package rerunfilecheck Info: File `thesis.brf' has not changed.
-(rerunfilecheck)             Checksum: B8EB3CABD3476F7A16CEFB62FCAFF93D;655.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 261.
+(rerunfilecheck)             Checksum: C9CCDB16FB0414AE7CA4102E21E353E7;967.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 262.
  ) 
 Here is how much of TeX's memory you used:
- 7129 strings out of 493769
- 104055 string characters out of 6154182
- 205346 words of memory out of 5000000
- 10661 multiletter control sequences out of 15000+600000
- 13726 words of font info for 51 fonts, out of 8000000 for 9000
+ 7754 strings out of 493769
+ 111421 string characters out of 6154182
+ 218537 words of memory out of 5000000
+ 11255 multiletter control sequences out of 15000+600000
+ 14027 words of font info for 52 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 42i,11n,43p,361b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,11n,50p,361b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
 <e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><e:/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (16 pages, 186651 bytes).
+Output written on thesis.pdf (18 pages, 204856 bytes).
 PDF statistics:
- 268 PDF objects out of 1000 (max. 8388607)
- 231 compressed objects within 3 object streams
- 45 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 320 PDF objects out of 1000 (max. 8388607)
+ 281 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
+ 110 words of extra memory for PDF output out of 10000 (max. 10000000)
 

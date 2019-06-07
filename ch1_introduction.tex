@@ -8,38 +8,68 @@ natural language processing. Text data appears differently in computer
 from images and sounds. Both images and sounds can be easily
 represented as mathematic models either using analog or digital
 signals but not with text data \citep{wordembedding2017yang}. Text
-data consists of strings that can only be modeled using one-hot
-vector. This one-hot vector does not have any information that infers
-connection between one to the other. Hence that, vector
-representations that maps semantic and syntactic information given
-one-hot vectors in a euclidean space is introduced
-\citep{wordembedding2017yang}. This positional information then can be
-used to infer interconnection between words, whether its similarities
-or usage of the word in a sentence \citep{distributional1954harris}.
-To obtain word embeddings, a model is created to extract features of a
-word from a corpus and map its location in euclidean space based on
-the features found. These word embeddings then can be used to do many
-downstream tasks, such as postagging, named entity recognition (NER),
-and sentiment analysis \citep{finding2015ling, neural2016lample}. In
-general, large corpus with many words and examples of word usage is
-prefered because the size of the vocabularies will increases and more
-words connection can be inferred \citep{size2018kutuzov}. However, it
-is not posible to have such corpus since the language itself is
-evolving and there are many cases of typography in a documents and
+data consists of strings that can only be modeled using one-hot vector
+(from given \textit{d}-dimension for \textit{d} words that are known,
+only one dimension is one and the rest are zeroes). This one-hot
+vector does not have any information that infers connection between
+one to the other. Hence that, vector representations that maps
+semantic and syntactic information given one-hot vectors in a
+euclidean space is introduced \citep{wordembedding2017yang}. This
+positional information then can be used to infer interconnection
+between words, whether its similarities or usage of the word in a
+sentence \citep{distributional1954harris}. To obtain word embeddings,
+a model is created to extract features of a word from a corpus and map
+its location in euclidean space based on the features found. These
+word embeddings then can be used to do many downstream tasks, such as
+postagging, named entity recognition (NER), and sentiment analysis
+\citep{finding2015ling, neural2016lample}. In general, large corpus
+with many words and examples of word usage is prefered because the
+size of the vocabularies will increases and more words connection can
+be inferred from the corpus \citep{size2018kutuzov}. However, it is
+not posible to have such corpus since the language itself is changing
+overtime \citep{forrester2008abrief}. Furthermore, there are cases of
+typographical error, especially after internet and social media are
+booming where anybody willingly write text over these platforms and
 these words maybe not present in the corpus hence not included in the
-vocabulary. This words are called as \textit{out-of-vocabulary} (OOV)
-words. Due to this problems, simple approach by asigning unique random
-embedding or by replacing OOV with an unknown \textit{\textless
-UNK\textgreater} token. While in some cases using these simple
-approaches can produce acceptable results \{CITE\}, further
+vocabulary thus making many typographical error while in its correct
+form it actually is. In addition with the increased number of
+smartphone which uses touch screen, some typographical error is
+expected \cite{ghosh2017correction}. All this words that are
+non-existent in the corpus and its embedding cannot be inferred are
+called as \textit{out-of-vocabulary} (OOV) words. One may use simple
+approach by asigning unique random embedding or by replacing OOV with
+an unknown \textit{\textless UNK\textgreater} embedding. While in some
+cases using these simple approaches and continue on the training on
+the downstream tasks can produce acceptable results \{CITE\}, further
 improvement on downstream tasks can be achieved by using machine
-learning method to infer OOV embeddings. 
+learning method to infer OOV embeddings.
 
 To infer OOV embeddings, the model is built over quasi-generative
 perspective. Only knowing the vocabularies and its embedding, the
-model tried to generate embedding for OOV words, the results are
-tested for downstream task namely postagging and compared to previous
-state of the art to search for improvement over previous models.
+model tried to generate embedding for OOV words. Previous
+\textit{state-of-the-art} used lstm to infer OOV embeddings
+\citep{mimicking2017Pinter}. Character embedding is used to transform
+sequence of characters then forwarded into bi-lstm then to fully
+connected layer. In language model, bi-lstm generally works by
+separating sub-word by remembering and forgeting previous sequence
+from both end. Those sub-word then will be used to infer its
+embedding. The problem might arise when there are more than two
+important sub-words and they are not in sequence, meaning that there
+exist at least one character between two important sub-words, hence
+the information is incomplete since lstm will dampen the previous
+sequence if the next sequence sub-words are considered more important.
+Instead of taking the whole words as a sequence and considering its
+importance based on time, by using n-grams and picking which grams
+that are considered to be important in theory should gives better
+results since the information is complete and only left for the model
+to pick which n-grams are more important. The only problem is that for
+the model to pick which grams that should be included in the model is
+impossible to do since there are many word combinations making the
+model needs to accept huge number of inputs. Instead of handpicking
+the features of n-grams, convolutional neural network (CNN) can be used to
+pick which features needs to be considered by using character
+embedding and treat the character sequence embedding as an image.
+
 
 % \section{About the logo}
 

@@ -15,6 +15,21 @@ embeddings since more information will be able to be learned. Word2vec
 model has no oov handling, meaning either random vector or unknown
 \textit{\textless UNK\textgreater} embedding will be used.
 
+Polyglot embedding ........
+
+Dict2vec is yet another embedding that is trained by looking up
+definitions of words from cambridge dictionary
+\cite{tissier2017dict2vec}. This embedding was created because the
+previous method is trained with unsupervised manner, meaning that
+there is no supervision between pairs of words. There might exists
+pair of words that are actually related but do not appear enough
+inside a corpus making it harder for the model to find connection.
+Thus, this model is trained by creating sets of strong and weak pairs of
+words, then move both pairs closer and further respectively based on
+the pairs. The model then evaluated using several word similarity
+tasks to show imporvements over vanilla implementation of word2vec and
+fasttext.
+
 Part-of-Speech-Tagging (postagging) is a process of determining
 grammatical category (tag) of given word in a certain sentence. In English,
 exist words that has ambiguous grammatical category, such as word
