@@ -1,0 +1,132 @@
+\chapter{Implementation}
+\label{chap:implementation}
+
+\section{Preparation}
+    \subsection{Dataset Preparation}
+        \subsubsection{Character Embedding}
+            The character dictionary consists of first 128 ASCII
+            characters with deletion for non character types (the first 32
+            ASCII symbols). Then the character embedding was initialized
+            by randomizing from normal distribution with $\mu = 0$ and
+            $\sigma = 1$.
+
+        \subsubsection{Pretrained Word Embedding}
+            In order to train the model, pretrained embedding is needed
+            since the model will tries to predict embedding of from known
+            vocabulary $v \in \mathcal{V}$ with its known embedding $w \in
+            \mathcal{W}$. For this purpose, word2vec which trained on
+            Google news dataset using skip-gram model containing 3 million
+            words and phrases (name, hyperlink, connected words,
+            etc.)\citep{Distributed2013mikolov}. Word2vec
+            \footnote{Pretrained embedding available at 
+            \url{https://code.google.com/archive/p/word2vec/}}
+            contains phrases from negative sampling and for the purpose of
+            this research those phrases did not included. The embedding
+            has 300 dimensional vectors. Only top 40 thousands words with
+            removal if the word contains "\_" (underscore).
+            
+            Another pretrained embedding is polyglot \footnote{Pretrained
+            embedding available at
+            \url{https://polyglot.readthedocs.io/en/latest/index.html}}
+            \citep{polyglot2013alrfou} which contains multilingual
+            embeddings. For this research, only English embedding that
+            contains around 100 thousands with 60 dimensional vector
+            representation. This pretrained embedding is also used in OOV
+            handling model \textsc{Mimick} \citep{mimicking2017Pinter} which
+            used as baseline model.
+
+            Dict2vec\footnote{Pretrained embedding available at
+            \url{https://github.com/tca19/dict2vec}} is yet another word
+            embedding that trained based on the definition of a word in
+            dictionary \citep{dict2vect2017tissier}. Originally, this
+            embedding was tested using word similarity tasks, hence this
+            embedding is used as baseline model for word similarity tasks.
+
+        \subsubsection{Word Similarity Dataset}
+            Several word similarity dataset were used in order to increase
+            the pair examples since for the datasets that is collected,
+            the maximum number of pairs is 3000 pairs. Those datasets are
+            asdf, sadf, asdf, asdf, asdf, asdf, sadg, and asdfsadf.
+
+    \subsection{Programming Language and Tools}
+        The model was using PyTorch 1.0.1
+        \citep{pytorch2017paszke} on top of Python 3.6. Most of the
+        basic model, for instance 2d convolution layer, 2d maxpool
+        layer, fully connected layer, bi-lstm, and many activation
+        functions and loss function, thus will serve enough for the
+        purpose of this research.
+            
+    \subsection{Hardware}
+        The model was trained on the freely available Google
+        Colaboratory\footnote{Google Colaboratory available at
+        \url{https://colab.research.google.com/}} which gives randomized
+        hardware specification, thus the exact hardware used cannot be
+        determined. Nevertheless, this only affects the time needed to
+        train the model and not the results.
+
+\section{Training}
+    \subsection{Training OOV model}
+        Firstly, the pretrained embeddings acted as the datasets were
+        splitted up into train-val set with $80\%$ and $20\%$
+        randomized split respectively with batch size of 64. The word
+        $w_i \in V$ becomes the input of the model and the word
+        embedding $e_i \in \mathcal{W}$ becomes the target. The input
+        word splitted into sequence of characters and start token and
+        end token were added at the beginning and at the end of the
+        word respectively. The maximum length of a word was fixed to
+        be 20, thus words, with added starting and ending token, that
+        has length less than the maximum length was appended with
+        padding token. These sequence of characters then transformed
+        into character embeddings. These character embeddings then
+        processed by the model producing the predicted word embedding.
+        The model was trained with learning rate $lr = 0.01$ with no
+        dropout as dropout does not work well just as in
+        \textsc{Mimick} \citep{mimicking2017Pinter}. 
+
+        The character embeddings were processed with CNN n-gram
+        following \citep{convolutional2014kim} architecture for word
+        n-gram. N-gram with window size $n = [2, 3, 4, 5, 6, 7]$ were
+        used with respective kernel size $n \times d$ to simulate
+        n-grams.
+
+        After max-over-time pooled, the vector representation then
+        passed into fully connected network with highway network to
+        produce the predicted word embedding. The error then
+        calculated using Mean Squared Error as mentioned on equation
+        \ref{eq:errorf} then back-propagated to update the weights.
+
+        Similar datasets are used to train \textsc{Mimick}
+        \citep{mimicking2017Pinter} with parameters taken from the
+        original paper. Both model trained with $1000$ epochs then the
+        error graph were compared.
+    
+\section{Evaluating with Downstream Tasks}
+    \subsection{Part-of-Speech Tagging}
+        For POStagging task, the readily brown corpus and its tagset
+        from NLTK\footnote{Available at \url{https://www.nltk.org/}}.
+        In this tasks, two kind of evaluation methods were done.
+        Firstly, all the word embeddings only inferred from the
+        trained OOV model and the OOV model trained together with the
+        POStagger. Secondly, only OOV from the pretrained embedding
+        are inferred by using the OOV model and then those embeddings
+        are used as input for the POStagger. For the latter method,
+        embeddings of the words are frozen to get a notion whether the
+        OOV model improves the results compared to replacing OOV with
+        unknown token or a random embedding. The OOV model then
+        changed with \textsc{Mimick} \citep{mimicking2017Pinter} to
+        compare the results with the previous state-of-the-art.
+
+    \subsection{Word Similarity}
+        Word similarity task is quite straight forward. Given pairs of
+        words, if the word is an OOV in the pretrained embedding, the
+        word embeddings were predicted from OOV models then the cosine
+        similarity of the word embeddings are calculated and compared
+        between two models. 
+        
+        The baseline embeddings used for this task, dict2vec
+        \citep{dict2vect2017tissier}, was also tested using random OOV
+        embedding by randomly giving OOV word random embedding and
+        choosing the maximum results of several tries. The results
+        then compared with if the OOV were predicted using the OOV
+        models trained with dict2vec pretrained embedding
+        \citep{dict2vect2017tissier}.

@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{report}
+\documentclass[a4paper,12pt]{report}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,9 +41,15 @@
 \usepackage{graphicx,color}
 \usepackage{epstopdf}
 \usepackage[british]{babel}
+\usepackage{threeparttable}  
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{soul}
 % The left-hand-side should be 40mm.  The top and bottom margins should be
 % 25mm deep.  The right hand margin should be 20mm.
-\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=4cm,right=2cm,headsep=10pt]{geometry}
+\usepackage[a4paper,top=3.5cm,bottom=3.5cm,left=4cm,right=3cm,headsep=10pt]{geometry}
 \flushbottom
 % Pages should be numbered consecutively thorugh the main text.  Page numbers
 % should be located centrally at the top of the page.
@@ -62,15 +68,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ANY OTHER DECLARATIONS HERE:
-
+\titleformat*{\section}{\Large\bfseries}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HYPERREF
 \usepackage[colorlinks,pagebackref,pdfusetitle,urlcolor=blue,citecolor=blue,linkcolor=blue,bookmarksnumbered,plainpages=false]{hyperref}
+% \usepackage{hyperref}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{multirow}
 % For print version, use this instead:
 %\usepackage[pdfusetitle,bookmarksnumbered,plainpages=false]{hyperref}
 %\usepackage{backref}
@@ -98,85 +106,106 @@
 %%	(iv) the name of the University of Sussex;
 %%	(v) the month and year of submission.
 \thispagestyle{empty}
-\begin{flushright}
-\includegraphics[width=6cm]{uslogo}
-\end{flushright}	
+% \begin{flushright}
+% \includegraphics[width=6cm]{uslogo}
+% \end{flushright}	
 \vskip40mm
 \begin{center}
 % TITLE
-\huge\textbf{My Theory of Everything}
-\vskip2mm
+\huge\textbf{OOV Handling by Learning Subword using CNN based N-grams}\\
+\vskip 1.5cm
 % SUBTITLE (optional)
-\LARGE\textit{How it all works}
-\vskip5mm
+% \LARGE\textit{How it all works}
+% \vskip5mm
 % AUTHOR
-\Large\textbf{Joe Bloggs}
-\normalsize
-\end{center}
+\large Yonathan Purbo Santosa\\
+Matriculation Number: 2993106\\
+XXXX XX, XX\\
+% \Large\textbf{Joe Bloggs}
+% \normalsize
+% \vfill
+\vskip 1.5cm
+Master thesis\\
+Computer Science
+% \vfill
+\vskip 1.5cm
+Supervisors:\\
+Prof. Jehn Lehmann\\
+Dr. Giulio Napolitano
 \vfill
-\begin{flushleft}
-\large
-% QUALIFICATION
-Submitted for the degree of Doctor of Philosophy \\
-University of Sussex	\\
-% DATE OF SUBMISSION
-September 2008
-\end{flushleft}		
+\textsc{Institut f{\"u}r Informatik III}\\
+\textsc{Rheinische Friedrich-Wilhelms-Universit{\"a}t Bonn}
+\end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newpage
+\thispagestyle{empty}
+\mbox{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DECLARATIONS
-\chapter*{Declaration}
-I hereby declare that this thesis has not been and will not be
-submitted in whole or in part to another University for the award of
-any other degree.
-	
+\chapter*{Declaration of Authorship}
+I, Student name, declare that this thesis, titled "OOV Handling by
+Learning Subword using CNN based N-grams", and the work presented in
+it are my own. I confirm that:
+
+\begin{itemize}
+	\item This work was done wholly or mainly while in candidature for
+	a research degree at this University.
+	\item Where any part of this thesis has previously been submitted for a degree
+	or any other qualication at this University or any other institution,
+	this has been clearly stated.
+	\item Where I have consulted the published work of others, this is always
+	clearly attributed.
+	\item Where I have quoted from the work of others, the source is always
+	given. Except for such quotations, this thesis is entirely my own work.
+	I have acknowledged all main sources of help.
+	\item Where the thesis is based on work done by myself jointly with others,
+	I have made clear exactly what was done by others and what I have
+	contributed myself.
+\end{itemize}
 % ADDITIONAL DECLARATIONS HERE (IF ANY)
 
 \vskip5mm
-Signature:
-\vskip20mm
+\underline{\makebox[0.9\linewidth][l]{Signed:}} \\~\\
+
+\underline{\makebox[0.9\linewidth][l]{Date:}}
+
 % AUTHOR
-Joe Bloggs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ACKNOWLEDGEMENT
+\chapter*{Acknowledgements}
+blah blah blah
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUMMARY PAGE
-\thispagestyle{empty}
-\newpage
-\null\vskip10mm
-\begin{center}
-\large
-\underline{UNIVERSITY OF SUSSEX}
-\vskip20mm
-% AUTHOR, QUALIFICATION
-\textsc{Joe Bloggs, Doctor of Philosophy}
-\vskip20mm
-% TITLE
-\underline{\textsc{My Theory of Everything}}
-\vskip0mm
-% SUBTITLE (optional)
-\underline{\textsc{How it all works}}
-\vskip20mm
-\underline{\textsc{Summary}}
-\vskip2mm
-\end{center}
-% Change line spacing
-\renewcommand{\baselinestretch}{1.0}
-\small\normalsize
+% \thispagestyle{empty}
+% \newpage
+% \null\vskip10mm
+% \begin{center}
+% \large
+% \underline{UNIVERSITY OF SUSSEX}
+% \vskip20mm
+% % AUTHOR, QUALIFICATION
+% \textsc{Joe Bloggs, Doctor of Philosophy}
+% \vskip20mm
+% % TITLE
+% \underline{\textsc{My Theory of Everything}}
+% \vskip0mm
+% % SUBTITLE (optional)
+% \underline{\textsc{How it all works}}
+% \vskip20mm
+% \underline{\textsc{Summary}}
+% \vskip2mm
+% \end{center}
+% % Change line spacing
+% \renewcommand{\baselinestretch}{1.0}
+% \small\normalsize
 % SUMMARY HERE (300 word limit for most subjects):
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ACKNOWLEDGEMENTS
-\chapter*{Acknowledgements}
-\renewcommand{\baselinestretch}{\linespacing}
-\small\normalsize
-% ACKNOWLEDGEMENTS HERE:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -212,8 +241,10 @@ Joe Bloggs
 
 \input{ch1_introduction}
 \input{ch2_related_works}
-\input{ch3_method}
-\input{ch4_implementation}
+\input{ch3_preliminaries}
+\input{ch4_method}
+\input{ch5_implementation}
+\input{ch6_results_and_discussion}
 
 %-----------------------------------------------------
 % Chapter: Conclusion

@@ -1,5 +1,5 @@
-\chapter{Literature Review}
-\label{chap:literature}
+\chapter{Related Work}
+\label{chap:relatedwork}
 
 % This is the introduction to the thesis.\footnote{And this is a
 % footnote.}  The conclusion is in Chapter on page
@@ -19,7 +19,7 @@ Polyglot embedding ........
 
 Dict2vec is yet another embedding that is trained by looking up
 definitions of words from cambridge dictionary
-\cite{tissier2017dict2vec}. This embedding was created because the
+\citep{tissier2017dict2vec}. This embedding was created because the
 previous method is trained with unsupervised manner, meaning that
 there is no supervision between pairs of words. There might exists
 pair of words that are actually related but do not appear enough
@@ -28,9 +28,9 @@ Thus, this model is trained by creating sets of strong and weak pairs of
 words, then move both pairs closer and further respectively based on
 the pairs. The model then evaluated using several word similarity
 tasks to show imporvements over vanilla implementation of word2vec and
-fasttext.
+fasttext. 
 
-Part-of-Speech-Tagging (postagging) is a process of determining
+Part-of-Speech-Tagging (POStagging) is a process of determining
 grammatical category (tag) of given word in a certain sentence. In English,
 exist words that has ambiguous grammatical category, such as word
 "tag" can be either noun or verb depends on the usage of it

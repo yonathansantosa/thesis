@@ -5,7 +5,6 @@ model.png
 postag.ai
 postag.svg
 postag-01-01.png
-drawings/postag
 thesis.aux
 thesis.bbl
 thesis.blg
@@ -17,5 +16,5 @@ thesis.out
 thesis.toc
 postag1.pdf
 thesis.synctex.gz
-drawings/model.drawio
+drawings/
 images/postag2.pdf

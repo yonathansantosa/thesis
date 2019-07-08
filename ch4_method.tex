@@ -16,20 +16,20 @@
         carried on is the most recent after the cell gates decided to
         forget inputs at certain time $t$. 
 
-        \begin{align}
-            \label{eq:lstm:f_t}
-            f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
-            \label{eq:lstm:i_t}    
-            i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \\
-            \label{eq:lstm:Cc_t}
-            \tilde{C}_t &= tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \\
-            \label{eq:lstm:C_t}
-            C_t &= f_t \times C_{t-1} + i_t \times \tilde{C}_t \\
-            \label{eq:lstm:o_t}
-            o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \\
-            \label{eq:lstm:h_t}
-            h_t &= o_t \times tanh(C_t)
-        \end{align}
+        % \begin{align}
+        %     \label{eq:lstm:f_t}
+        %     f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
+        %     \label{eq:lstm:i_t}    
+        %     i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \\
+        %     \label{eq:lstm:Cc_t}
+        %     \tilde{C}_t &= tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \\
+        %     \label{eq:lstm:C_t}
+        %     C_t &= f_t \times C_{t-1} + i_t \times \tilde{C}_t \\
+        %     \label{eq:lstm:o_t}
+        %     o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \\
+        %     \label{eq:lstm:h_t}
+        %     h_t &= o_t \times tanh(C_t)
+        % \end{align}
 
         Formally, when $C_t = 0$ from equation \ref{eq:lstm:C_t},
         hidden state from equation \ref{eq:lstm:h_t} will be reset to
@@ -57,7 +57,7 @@
 
         We can find many examples especially from more technical areas
         as shown on figure \ref{fig:subsequence}. Since on
-        \textsc{Mimick} \cite{mimicking2017Pinter} implementation only
+        \textsc{Mimick} \citep{mimicking2017Pinter} implementation only
         the last hidden state is used for inferencing word embedding,
         another approach is proposed.
 
@@ -81,11 +81,12 @@
         sequence into subsequences. Consequently, n-grams is chosen
         because this method splits word into sequence of characters
         depends on the chosen window size as shown on figure
-        \ref{fig:4grams}. Those sequences of characters then feed into
-        learning algortihm. This idea is similar to how human tries to
-        recognize an unseen word by reading subword that is
-        understandable beforhand when no explanation or context were
-        given. 
+        \ref{fig:4grams} inspired from CNN word n-grams
+        \citep{convolutional2014kim}. Those sequences of characters
+        then feed into learning algortihm. This idea is similar to how
+        human tries to recognize an unseen word by reading subword
+        that is understandable beforhand when no explanation or
+        context were given. 
 
         This model then will be used to estimate OOV embeddings. In
         other words, given sets of vocabulary $\mathcal{V}$ with size
@@ -96,7 +97,7 @@
         $f:\mathcal{V} \rightarrow \mathbb{R}^d$ that minimizes $\vert
         f(w_i) - e_i
         \vert^{2}$. This approach is similar to \textsc{Mimick}
-        \cite{mimicking2017Pinter} approach. The text input is
+        \citep{mimicking2017Pinter} approach. The text input is
         represented as a sequence of character $[c_1, c_2, \dots,
         c_m]$ for $c_i \in \mathcal{C}$. Those sequence then
         transformed as sequence of vectors $g_i$ with $b$ dimension by
@@ -152,7 +153,7 @@
         
         \begin{figure}
             \centering
-            \includegraphics[width=.8\linewidth]{images/model.pdf}
+            \includegraphics[width=.8\linewidth]{images/model2.pdf}
             \caption{OOV Inferencing Model}
             \label{fig:model}
         \end{figure}
@@ -186,7 +187,7 @@
     make used of word embedding. Hence that, the generated embeddings
     from the model can be evaluated by using those downstream tasks.
     The results then compared with the state-of-the-art OOV handling
-    model \textsc{Mimick} \cite{mimicking2017Pinter}.
+    model \textsc{Mimick} \citep{mimicking2017Pinter}.
     
     \subsection{Part-of-Speech Tagging}
         Part-of-speech tagging or POStagging is a task of classifying
@@ -194,19 +195,21 @@
         the word \{cite\}, for example: verb, noun, adverb, etc. Given
         sentence $S = \{w \in \mathcal{V} \vert ((w_1, t_1), (w_2,
         t_2), \dots, (w_n, t_n)\}$ with its POS-tag $t_i$, each word
-        $w_i \in S$ is converted into sequence of character then each
-        character is converted into character embedding $[\hat{g}]_i$
-        using model represented in equation \ref{eq:word2charemb}.
+        $w_i$ that exist in the vocabulary $w_i \in \mathcal{V}$ and
+        $w_i \in S$ is transformed into embedding $e_i$. For the OOV,
+        the sequence of the characters building a word transformed
+        into sequence of character embedding $[\hat{g}]_i$ using model
+        represented in equation \ref{eq:word2charemb} then the
+        embedding $e_i$ is predicted using the OOV handling model.
 
-        The sequence of character embeddings $[\hat{g}]_i$ then fed
-        into bi-lstm with logsoftmax activation function at the output
-        to get the POS-tag. To ease up computation time, adaptive
-        logsoftmax is used \cite{grave2018efficientsoftmax}. Instead
-        of calculating the whole classification, the frequent and
-        infrequent classes are separated thus there are many chance
-        that only frequent classes needs to be calculated. The
-        complete process of postagging process is shown in figure
-        \ref{fig:postag}.
+        The sequence of embeddings $e_i$ then fed into bi-lstm with
+        logsoftmax activation function at the output to get the
+        POS-tag. To ease up computation time, adaptive logsoftmax is
+        used \citep{grave2018efficientsoftmax}. Instead of calculating
+        the whole classification, the frequent and infrequent classes
+        are separated thus there are many chance that only frequent
+        classes needs to be calculated. The complete process of
+        postagging process is shown in figure \ref{fig:postag}.
 
         \begin{figure}
             \centering

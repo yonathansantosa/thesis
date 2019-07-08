@@ -1,0 +1,347 @@
+\chapter{Preliminaries}
+\label{chap:preliminaries}
+
+\section{Feedforward Neural Network}
+    Feedforward neural network or also known as multilayer perceptron
+    are a mathematical model that inspired from how neuron works in
+    biological body \citep{Goodfellow-et-al-2016}. The model takes
+    numerical input and produces numerical output. Originally it was a
+    single layer of input and a single layer of output. The cells
+    within input layer and output layer is called neuron. Given input
+    vector $\mathbf{x_i}$ with $n$-dimension from a dataset $D =
+    \{(\mathbf{x_1}, y_1), (\mathbf{x_2}, y_2), \dots, (\mathbf{x_i},
+    y_i)\}$, the model tries to predict a target $y_i$ correctly given
+    a set of weights $\mathbf{w}$. First the output $o$ are calculated
+    by calculating the dot product between $\mathbf{x_i}$ and
+    $\mathbf{w}$ as shown on equation \ref{eq:perceptron_out}. 
+    \begin{align}
+        \label{eq:perceptron_out}
+        o &= \mathbf{x_i} \cdot \mathbf{w} \\
+        o &= \sum_{j=1}^n (x_{ij} \times w_j)
+    \end{align}
+    After calculating the output $o$ and bias parameter $b$ is added,
+    the result passed to activation function $f(o)$ to produce the
+    perceptron output as shown on equation \ref{eq:perceptron_act}.
+    \begin{equation}
+        \label{eq:perceptron_act}
+        f(o) = \hat{y} =
+        \begin{cases}
+            1 & \text{if }\ o + b > 0,\\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation}
+    The input information fed through the model in chain with no
+    feedback thus the name feedforward. When the output are fed back
+    into the model, the model becomes recurrent network and it will be
+    explained on the next section. The model depicted in figure
+    \ref{fig:perceptron}.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=.5\linewidth]{images/perceptron.pdf}
+        \caption{Perceptron}
+        \label{fig:perceptron}
+    \end{figure}
+    
+    The results then compared with the original output $y_i$ in the
+    dataset to fix the parameter weight $\mathbf{w}$ and bias $b$ by
+    using backpropagation algorithm. The algorithm defines cost
+    funtion and calculate the gradient of the current loss then the
+    gradient information is processed by another algorithm called
+    stochastic gradient descent tries to find the optimal parameters
+    that produced the minimum cost. If $\mathbf{\hat{y}} =
+    f(\mathbf{x}, \mathbf{W}) = \mathbf{x} \cdot \mathbf{W}$ and the
+    cost $z = J(\mathbf{y})$ the simple calculation of the gradient
+    can be calculated as follows,
+    \begin{align}
+        \label{eq:gradient1}
+        \frac{\partial z}{\partial x_i} &= \sum_j \frac{\partial z}{\partial y_j} \frac{\partial y_j}{\partial x_i}\\
+        \label{eq:gradient2}        
+        &= \sum_j \frac{\partial z}{\partial y_j} \sum_k w_k
+    \end{align}
+    then the correction on parameter $\mathbf{W}$ can be calculated by
+    following calculation with some learning parameter $\eta$ as shown
+    on equation \ref{eq:sgd}.
+    \begin{align}
+        \label{eq:sgd}
+        \hat{w_i} = -\frac{\partial z}{\partial x_i} \times \eta \times w_i
+    \end{align}
+    Notice that the gradient is multiplied by $-1$ because the
+    gradient points uphill and to find the minimum cost, the
+    parameters needs to traverse downhill on the cost function.
+    
+    On the developement of perceptron, it is clear that model consist
+    of single layer of input and single layer of output does not
+    enough to solve XOR problem \citep{Goodfellow-et-al-2016}, since
+    what perceptron does is separating the space with a hyperplane or
+    in XOR problem a hyperline as shown on figure \ref{fig:xor}. 
+    \begin{figure}
+        \centering
+        \includegraphics[width=.5\linewidth]{images/xor.pdf}
+        \caption{XOR Problem}
+        \label{fig:xor}
+    \end{figure}
+    Thus multilayer perceptron were
+    introduced. This model consist of single layer of input, single
+    layer of output, and one or more hidden layer. On top of that,
+    more non-linear activation function were introduced. Some of those
+    are sigmoid, tanh, rectified linear unit (ReLU), and softmax
+    described in equation \ref{eq:sigmoid} until \ref{eq:softmax}.
+
+    \begin{align}
+        \label{eq:sigmoid}
+        \sigma(x) &= \frac{1}{1+e^{-x}} \\
+        \label{eq:tanh}
+        tanh(x) &= \frac{e^x-e^{-x}}{e^x + e^{-x}}\\
+        \label{eq:relu}
+        ReLU(x) &= x^+ = max(0, x)\\
+        \label{eq:softmax}
+        softmax(x) &= \frac{e^{x_i}}{\sum_{j=1}^J e^{x_j}}
+    \end{align}
+
+\section{Long-short Term Memory}
+    As aformentioned before, recurrent neural network (RNN) is a
+    neural network model that has feedback to its own neuron depicted
+    in figure \ref{fig:rnn}. This model used for processing sequential
+    data \citep{Goodfellow-et-al-2016}. The idea is given sequence of
+    input with length of $t$, $\mathbf{x}_i^{(t)} = x^{(1)}, x^{(2)},
+    \dots, x^{(\tau)}$, the input is processed with shared parameter to
+    give $t$-lengths output as depicted in figure
+    \ref{fig:unfolded_rnn}. Common usage of RNN is for processing
+    sentence. For example, given two sentences "I went to Paris in
+    2004" and "In 2004 I went to Paris". If we query the model to
+    extract information from both sentences and ask when did the
+    narator went to Paris, 2004 would be the relevant information
+    regardless when it is appears in a sentence
+    \citep{Goodfellow-et-al-2016}. If such task is trained using a
+    feedforward neural network that processes fixed size inputs, the
+    parameters for each input feature will be separated for each
+    sequence. In comparisson with feedforward neural network, RNN will
+    use the same parameters to process all the input sequence. 
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=.15\linewidth]{images/rnn.pdf}
+        \caption{Recurrent Neural Network}
+        \label{fig:rnn}
+    \end{figure}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=.5\linewidth]{images/unfolded_rnn.pdf}
+        \caption{Unfolded Recurrent Neural Network}
+        \label{fig:unfolded_rnn}
+    \end{figure}
+
+    The problem with RNN is that when given a really long sequence,
+    either the gradient calculation will vanish since if weight is
+    near zero and is multiplied several times sequentially over time
+    or the gradient exploded if the weight bigger than one and it is
+    multiplied several times \citep{Goodfellow-et-al-2016}. Those
+    problems making processing long sequence on RNN unfavorable. Hence
+    another method called long-short term memory (LSTM) was
+    introduced. LSTM was created with idea in mind that some paths
+    exist to give gradient ability to flow for long sequence. This was
+    achieved by introducing self-loops inside the hidden layer that
+    has time-scale mechanism that can change dynamically based on the
+    input \citep{Goodfellow-et-al-2016}. New components called cell
+    gate $C_t$, forget gate $f_t$, and input gate $i_t$ are introduced
+    to let the reccurent network split the graph of the hidden unit
+    thus gradient can be flowed longer by depending only from the
+    output $o_t$ or from both output and hidden states $o_t$ and $h_t$
+    respectively. The cell gate, interact with input and previous
+    hidden state $h_{t-1}$ to decide the current hidden state $h_t$.
+    The calculation process of LSTM for each time step $t=1$ to
+    $t=\tau$ is as follows,
+    \begin{align}
+        \label{eq:lstm:f_t}
+        f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
+        \label{eq:lstm:i_t}    
+        i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \\
+        \label{eq:lstm:Cc_t}
+        \tilde{C}_t &= tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \\
+        \label{eq:lstm:C_t}
+        C_t &= f_t \times C_{t-1} + i_t \times \tilde{C}_t \\
+        \label{eq:lstm:o_t}
+        o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \\
+        \label{eq:lstm:h_t}
+        h_t &= o_t \times tanh(C_t) \\
+        \label{eq:lstm:y_t}
+        \hat{y_t} &= softmax(o_t)
+    \end{align}
+
+    On top of the normal sequence, the reverse sequence can also be
+    calculated starting at time step $t=\tau$ to $t = 1$. This method
+    is called bidirectional-LSTM (bi-LSTM) depicted in figure
+    \ref{fig:bilstm}.
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=.6\linewidth]{images/lstm.pdf}
+        \caption{Gates inside LSTM hidden cell}
+        \label{fig:lstm}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.8\linewidth]{images/bi-lstm.pdf}
+        \caption{bi-LSTM with 4 sequence}
+        \label{fig:bilstm}
+    \end{figure}
+
+\section{Convolutional Neural Network}
+    Convolutional neural network (CNN) is a model that is used to
+    process data that has grid topology \citep{Goodfellow-et-al-2016}.
+    For a time series data that has a regular time interval, CNN can
+    process this as a 1D grid data and for an image data, CNN can
+    process this as a 2D grid or 3D grid given the number of channel
+    presents on the image data. This model concept was first
+    introduced for handwriting recognition
+    \citep{generalization1989lecun}.
+
+    In general, convolution is operation on two function that is
+    taking values from both function and multiplied together and
+    summed to get the total overlaps between both function at time
+    $t$. This process is easier to be explained with equation
+    \ref{eq:conv:2}.
+    \begin{align}
+        \label{eq:conv:1}
+        h(t) &= (f * g)(t)\\
+        \label{eq:conv:2}
+        h(t) &= \int_{-\infty}^\infty f(u)g(t-u) du
+    \end{align}
+    In discrete type signal, the calculation processes becomes as
+    shown in equation \ref{eq:conv_d:2}.
+    \begin{align}
+        \label{eq:conv_d:1}
+        h(t) &= (f * g)(t)\\
+        \label{eq:conv_d:2}
+        h(t) &= \sum_{u = -\infty}^{\infty} f(u)g(t-u)
+    \end{align}
+
+    In CNN, one of the function is the input data and the other is the
+    weight. Typically, the weight's, also known as kernel, size is
+    smaller than the input data. To process an image data, the image
+    input is convoluted with some kernels to produce different spatial
+    features. This features then will be processed with a feedforward
+    neural network to produce some prediction of classification or
+    regression. The convolution process of one patch of an input image
+    is depicted in figure \ref{fig:convolution}.
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=.6\linewidth]{images/convolution.pdf}
+        \caption{Convolution process of input image with kernel size $3\times3$}
+        \label{fig:convolution}
+    \end{figure}
+    
+    Another intermediate layer that can also be used in CNN called
+    maxpooling layer. Maxpooling is a process of finding a maximum
+    value inside a given window from a given grid. In CNN, maxpooling
+    is used for finding within the input data that gives the highest
+    response with a given kernel. Then the process of convolution and
+    maxpooling is repeated until desired architecture is produced. The
+    process of one patch of an input image is depicted in figure \ref{fig:maxpool}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=.4\linewidth]{images/maxpool.pdf}
+        \caption{Maxpooling process of input image with window size $2\times2$}
+        \label{fig:maxpool}
+    \end{figure}
+
+    Convolution and maxpool then can be combined together to produce
+    features map that act as input to the fully connected network. As
+    an example, CNN with two convolution and maxpool architecture is
+    depicted in figure \ref{fig:cnn}. In most cases, after doing
+    convolution, non-linear activation function are applied.
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=.8\linewidth]{images/cnn.pdf}
+        \caption{Example of CNN architecture}
+        \label{fig:cnn}
+    \end{figure}
+
+\section{N-grams}
+    N-grams is a method that is mostly used for word prediction
+    \citep{speech2009Jurafsky:2009:SLP:1214993}. Given a sentence,
+    \begin{center}
+        \texttt{Please do not sit ...}
+    \end{center}
+    word \textit{on} or \textit{at} is more likely to follow instead
+    of \textit{run} or \textit{bacteria}. In short, the previous task
+    can be written as $P(w\vert h)$, probability of the next word $w$
+    given some history part of sentence $h$. In previous case, the
+    history $h$ is "\textit{Please do not sit}" and the probability in
+    question is the following word $w$ will be "\textit{on}". To
+    solve this task, counting the appearance of history $h$ followed
+    by word $w$ \citep{speech2009Jurafsky:2009:SLP:1214993}.
+    Mathematically it can be written as follow,
+    \begin{equation*}
+        \label{eq:countingprob}
+        P(\text{on} \vert \text{Please do not sit}) = 
+        \frac{C(\text{Please do not sit on})}{C(\text{Please do not sit})}
+    \end{equation*}
+    Previous method can give good estimation, but because language is
+    creative and new sentences generated everytime, everything that
+    exist on the internet is not enough to produce good estimate
+    \citep{speech2009Jurafsky:2009:SLP:1214993}. On top of that, if
+    the joint probability of the sequence would be calculated, there
+    will be many estimations where each estimation is not exact
+    because there is no way for the probability to be calculated given
+    long sequence of preceeding words because as stated above,
+    language is creative
+    \citep{speech2009Jurafsky:2009:SLP:1214993}. Given sequence of
+    words $(w_1, w_2, \dots, w_n)$, the joint probability of these
+    sequence can be calculated by using chain rule as follows,
+    \begin{align}
+        \label{eq:jointprob1}
+        P(w_1, w_2, \dots, w_n) &= P(w_1)P(w_2 \vert w_1)P(w_3 \vert w_1, w_2) \dots
+        P(w_n \vert w_1, w_2, \dots, w_{n-1}) \\
+        \label{eq:jointprob2}
+        &= \prod_{i=1}^n P(w_i \vert w_1, \dots, w_{i-1})
+    \end{align}
+    As shown on equation \ref{eq:jointprob1}, each occurence of
+    preceeding sequence that followed by the desired word is estimated
+    by counting the occurence as shown in equation
+    \ref{eq:countingprob} for the whole history.
+    
+    Instead of previous calculation, better way to calculate the word
+    $W$ given history $h$ is needed because as stated above language
+    is creative making calculating exact probability impossible and
+    there will be too many estimation if there is long sequence that
+    preceeds the target word. Hence n-grams has been introduced to
+    approximate the probability of word $w$ from last few sequence of
+    the history $h$ instead of a whole
+    \citep{speech2009Jurafsky:2009:SLP:1214993}. For instance, only
+    two preceeding sequences will be taken into calculation.
+    In other words, instead of following probability calculation,
+    \begin{equation}
+        P(\text{on} \vert \text{Please do not sit})
+    \end{equation}
+    the approximation of the probability will be as follows,
+    \begin{equation}
+        P(\text{on} \vert \text{not sit})
+    \end{equation}
+    In other words, the conditional probability then approximated by
+    following equation,
+    \begin{equation}
+        \label{eq:condprobapprox}
+        P(w_n \vert w_1, w_2, \dots, w_{n-1}) \approx P(w_n \vert w_{n-2}, w_{n-1})
+    \end{equation}
+    This approximation method then can be used for joint probability
+    approximation as follows,
+    \begin{equation}
+        P(w_1, w_2, \dots, w_n) = \prod_{i=1}^n P(w_i \vert w_{i-2}, w_{i-1})
+    \end{equation}
+    for $P(W_j) = 1$ if $j < 1$.
+
+    There are multiple n-grams model that are distincted by the number
+    of sequence used to estimate probability of the next word $w$. For
+    example, preceeding word in the history $h$ is used for estimating
+    the next word $w$ in bigram model and two preceeding words in the
+    history $h$ is used in trigram model. In general, the window used
+    for n-grams are configurable to the needs of the expected results.
+    Another application of n-grams is that the sequence of character
+    is used instead of sequence of words to estimate the probability.
