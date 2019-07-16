@@ -4,18 +4,27 @@
 % This is the introduction to the thesis.\footnote{And this is a
 % footnote.}  The conclusion is in Chapter on page
 Word2vec is one of word embedding that is trained using skip-gram
-model \citep{Distributed2013mikolov}. A word $w(t)$ used as an input
-and its context word, for example context word with windows of 4 are
-$w(t-2), w(t-1), w(t+1),$ and $w(t+2)$, used as the target and the
-projection from input to the output is used as the representation of
-the input $w(t)$ that is usefull to predict the context words. This
-model is highly dependant on the corpus completeness. More examples
-and vocabulary a corpus has the better the representation of the
-embeddings since more information will be able to be learned. Word2vec
-model has no oov handling, meaning either random vector or unknown
-\textit{\textless UNK\textgreater} embedding will be used.
+model \citep{efficient2013mikolov}. A word $w(t)$ used as an
+input and its context word, for example context word with windows of 4
+are $w(t-2), w(t-1), w(t+1),$ and $w(t+2)$, used as the target. The
+model tried to project the input $w(t)$ to the output to predict the
+context words. This model is highly dependant on the corpus
+completeness. More examples and vocabulary a corpus has, the better the
+representation of the embeddings since more information will be able
+to be learned. Word2vec model has no oov handling, meaning either
+random vector or unknown \textit{\textless UNK\textgreater} embedding
+will be used for it.
 
-Polyglot embedding ........
+Polyglot is another word embedding that focused on multilingual
+application \citep{polyglot2013alrfou}. A total of one hundred and
+seventeen languages word embeddings were generated to give
+availability of different language models to be trained. Previously,
+specific language features were hand crafted by experts of specific
+language\citep{polyglot2013alrfou}. This makes applying a language
+model that are trained using commonly available language features
+harder, hence the creation of Polyglot word embedding. This embedding
+was trained on wikipedia article and has no OOV handling if there
+exist word that does not used in wikipedia.
 
 Dict2vec is yet another embedding that is trained by looking up
 definitions of words from cambridge dictionary
@@ -34,30 +43,32 @@ Part-of-Speech-Tagging (POStagging) is a process of determining
 grammatical category (tag) of given word in a certain sentence. In English,
 exist words that has ambiguous grammatical category, such as word
 "tag" can be either noun or verb depends on the usage of it
-\citep{apractical1992cutting}. To tackle this problems, many
+\citep{apractical1992cutting}. To tackle this problem, many
 researchers proposed to use mathematical models or statistical models
 namely hidden markov model \citep{apractical1992cutting}, n-grams
 \citep{tnt2000Brants}, and neural network model
 \citep{finding2015ling}. In this research, the neural network model
 will be implemented to serve as the downstream task. This model is a
-recurrent neural network (RNN) that took sequence of word embeddings
+long-short term memory (LSTM) that took sequence of word embeddings
 representing a sentence or parts of sentence then categorize each word
-embedding for its tag.
+embedding for its tag based on the usage in that sentence.
 
-As aforementioned above, some word embedding model such as Word2vec
-has no oov handling, thus creating a model to predict such word
-becomes research interest. One of the model that tries to tackle this
-problem successfully used bi-LSTM to predict embedding given sequence
-of characters from a word from a pretrained embedding
-\citep{mimicking2017Pinter}. As a result, oov embeddings are able to
-be predicted without the needs of knowing lexicon or model used for
-creating the word embedding. The results then tested to do downstream
-task namely postagging.
+As aforementioned above, some word embedding model such as Word2vec,
+Polyglot, and Dict2vec has no oov handling, thus creating a model to
+predict such word becomes a research interest. One of the model that
+tries to tackle this problem successfully by using bi-LSTM to predict
+embedding given sequence of characters from a word from a pretrained
+embedding named \textsc{Mimick} \citep{mimicking2017Pinter}. As a
+result, oov embeddings are able to be predicted without the needs of
+knowing lexicon or model used for creating the word embedding. The
+results then tested to do downstream task namely POStagging.
 
-N-grams often used to capture word features. N-grams relies on
-characters that make up a word, later on a sentence. With character
-embedding and convolution neural network (CNN), n-grams can be calculated by
-convoluting sets of characters embedding with the kernel size of $n
-\times d$ for $n$ is the number of grams and $d$ is the dimension of
-the embeddings. This CNN n-grams then can be used to create a neural
-language model \citep{character2015kim}.
+For training an OOV model, some kind of feature extraction method
+needs to be used. One of feature extraction method called n-grams
+often used to capture word features. N-grams can be applied in both
+character grams in a word or word grams in a sentence. With character
+embedding and convolution neural network (CNN), n-grams can be
+calculated by convoluting sets of characters embedding with the kernel
+size of $n \times d$ for $n$ is the number of grams and $d$ is the
+dimension of the embeddings. This CNN n-grams then can be used to
+create a neural language model \citep{character2015kim}.

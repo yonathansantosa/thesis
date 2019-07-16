@@ -11,30 +11,31 @@
     vector $\mathbf{x_i}$ with $n$-dimension from a dataset $D =
     \{(\mathbf{x_1}, y_1), (\mathbf{x_2}, y_2), \dots, (\mathbf{x_i},
     y_i)\}$, the model tries to predict a target $y_i$ correctly given
-    a set of weights $\mathbf{w}$. First the output $o$ are calculated
+    a set of weights $\mathbf{w}$. First the output $o_i$ are calculated
     by calculating the dot product between $\mathbf{x_i}$ and
     $\mathbf{w}$ as shown on equation \ref{eq:perceptron_out}. 
     \begin{align}
         \label{eq:perceptron_out}
-        o &= \mathbf{x_i} \cdot \mathbf{w} \\
-        o &= \sum_{j=1}^n (x_{ij} \times w_j)
+        o_i &= \mathbf{x_i} \cdot \mathbf{w} \\
+        o_i &= \sum_{j=1}^n (x_{ij} \times w_j)
     \end{align}
-    After calculating the output $o$ and bias parameter $b$ is added,
-    the result passed to activation function $f(o)$ to produce the
-    perceptron output as shown on equation \ref{eq:perceptron_act}.
+    After calculating the output $o_i$ and another parameter bias $b$ is
+    added, the result passed to activation function $f(o_i)$ to produce
+    the perceptron output as shown on equation
+    \ref{eq:perceptron_act}.
     \begin{equation}
         \label{eq:perceptron_act}
-        f(o) = \hat{y} =
+        f(o_i) = \hat{y_i} =
         \begin{cases}
-            1 & \text{if }\ o + b > 0,\\
+            1 & \text{if }\ o_i + b > 0,\\
             0 & \text{otherwise}
         \end{cases}
     \end{equation}
     The input information fed through the model in chain with no
     feedback thus the name feedforward. When the output are fed back
     into the model, the model becomes recurrent network and it will be
-    explained on the next section. The model depicted in figure
-    \ref{fig:perceptron}.
+    explained on the next section. The perceptron model is depicted in
+    figure \ref{fig:perceptron}.
 
     \begin{figure}
         \centering
@@ -45,10 +46,10 @@
     
     The results then compared with the original output $y_i$ in the
     dataset to fix the parameter weight $\mathbf{w}$ and bias $b$ by
-    using backpropagation algorithm. The algorithm defines cost
-    funtion and calculate the gradient of the current loss then the
+    using backpropagation algorithm. The algorithm defines a cost
+    funtion and calculate the gradient of the current cost, then the
     gradient information is processed by another algorithm called
-    stochastic gradient descent tries to find the optimal parameters
+    stochastic gradient descent to try to find the optimal parameters
     that produced the minimum cost. If $\mathbf{\hat{y}} =
     f(\mathbf{x}, \mathbf{W}) = \mathbf{x} \cdot \mathbf{W}$ and the
     cost $z = J(\mathbf{y})$ the simple calculation of the gradient
@@ -59,7 +60,7 @@
         \label{eq:gradient2}        
         &= \sum_j \frac{\partial z}{\partial y_j} \sum_k w_k
     \end{align}
-    then the correction on parameter $\mathbf{W}$ can be calculated by
+    The correction on parameter $\mathbf{W}$ can be calculated by
     following calculation with some learning parameter $\eta$ as shown
     on equation \ref{eq:sgd}.
     \begin{align}
@@ -68,25 +69,29 @@
     \end{align}
     Notice that the gradient is multiplied by $-1$ because the
     gradient points uphill and to find the minimum cost, the
-    parameters needs to traverse downhill on the cost function.
+    parameters needs to traverse downhill on the cost function. The
+    learning parameter $\eta$ act as penalization factor for the
+    gradient to avoid jumping the optimal solution. Generally, $\eta$
+    is set to be near zero.
     
-    On the developement of perceptron, it is clear that model consist
-    of single layer of input and single layer of output does not
-    enough to solve XOR problem \citep{Goodfellow-et-al-2016}, since
-    what perceptron does is separating the space with a hyperplane or
-    in XOR problem a hyperline as shown on figure \ref{fig:xor}. 
+    On the developement of perceptron, it is clear that model
+    consisting of single layer of input and single layer of output
+    does not enough to solve XOR problem
+    \citep{Goodfellow-et-al-2016}, since what perceptron does is
+    separating the space with a hyperplane, or in XOR problem a
+    hyperline as shown on figure \ref{fig:xor}. 
     \begin{figure}
         \centering
         \includegraphics[width=.5\linewidth]{images/xor.pdf}
         \caption{XOR Problem}
         \label{fig:xor}
     \end{figure}
-    Thus multilayer perceptron were
-    introduced. This model consist of single layer of input, single
-    layer of output, and one or more hidden layer. On top of that,
-    more non-linear activation function were introduced. Some of those
-    are sigmoid, tanh, rectified linear unit (ReLU), and softmax
-    described in equation \ref{eq:sigmoid} until \ref{eq:softmax}.
+    Thus multilayer perceptron were introduced. This model consist of
+    single layer of input, single layer of output, and one or more
+    hidden layer. On top of that, more non-linear activation function
+    were introduced. Some of those are sigmoid, tanh, rectified linear
+    unit (ReLU), and softmax described in equation \ref{eq:sigmoid}
+    until \ref{eq:softmax}.
 
     \begin{align}
         \label{eq:sigmoid}
@@ -100,6 +105,18 @@
     \end{align}
 
 \section{Long-short Term Memory}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.15\linewidth]{images/rnn.pdf}
+        \caption{Recurrent Neural Network}
+        \label{fig:rnn}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\linewidth]{images/unfolded_rnn.pdf}
+        \caption{Unfolded Recurrent Neural Network}
+        \label{fig:unfolded_rnn}
+    \end{figure}
     As aformentioned before, recurrent neural network (RNN) is a
     neural network model that has feedback to its own neuron depicted
     in figure \ref{fig:rnn}. This model used for processing sequential
@@ -119,20 +136,6 @@
     sequence. In comparisson with feedforward neural network, RNN will
     use the same parameters to process all the input sequence. 
 
-    \begin{figure}
-        \centering
-        \includegraphics[width=.15\linewidth]{images/rnn.pdf}
-        \caption{Recurrent Neural Network}
-        \label{fig:rnn}
-    \end{figure}
-
-    \begin{figure}
-        \centering
-        \includegraphics[width=.5\linewidth]{images/unfolded_rnn.pdf}
-        \caption{Unfolded Recurrent Neural Network}
-        \label{fig:unfolded_rnn}
-    \end{figure}
-
     The problem with RNN is that when given a really long sequence,
     either the gradient calculation will vanish since if weight is
     near zero and is multiplied several times sequentially over time
@@ -149,7 +152,7 @@
     to let the reccurent network split the graph of the hidden unit
     thus gradient can be flowed longer by depending only from the
     output $o_t$ or from both output and hidden states $o_t$ and $h_t$
-    respectively. The cell gate, interact with input and previous
+    respectively. The cell gate interacts with input and previous
     hidden state $h_{t-1}$ to decide the current hidden state $h_t$.
     The calculation process of LSTM for each time step $t=1$ to
     $t=\tau$ is as follows,
@@ -169,6 +172,9 @@
         \label{eq:lstm:y_t}
         \hat{y_t} &= softmax(o_t)
     \end{align}
+    Cell gate $C_t$ controls the output and the hidden state as
+    described in equation \ref{eq:lstm:h_t}. If $C_t = 0$, the hidden
+    state $h_t = 0$, meaning all the previous information is dropped.
 
     On top of the normal sequence, the reverse sequence can also be
     calculated starting at time step $t=\tau$ to $t = 1$. This method
@@ -193,7 +199,7 @@
     Convolutional neural network (CNN) is a model that is used to
     process data that has grid topology \citep{Goodfellow-et-al-2016}.
     For a time series data that has a regular time interval, CNN can
-    process this as a 1D grid data and for an image data, CNN can
+    process this as a 1D grid data and for an image data CNN can
     process this as a 2D grid or 3D grid given the number of channel
     presents on the image data. This model concept was first
     introduced for handwriting recognition

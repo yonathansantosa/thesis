@@ -4,92 +4,137 @@
 % This is the introduction to the thesis.\footnote{And this is a
 % footnote.}  The conclusion is in Chapter on page.
 \section{Motivation} 
-    Word embeddings is a method of word representation mainly used for
-    natural language processing. Text data appears differently in
-    computer from images and sounds. Generally image represented as
-    two-dimensional matrix with finite number of points cell elements
-    containing numerical value \citep{imageprocessing2018tyagi}. On the
-    other hand, sound is represented as one-dimensional signal
-    representing air pressure in the ear canal
-    \citep{sound1995rocchesso}. Both images and sounds can be easily
-    represented as mathematic models either using analog or digital
-    signals but not with text data \citep{wordembedding2017yang}. Text
-    data consists of strings that can only be modeled using one-hot
-    vector (from given \textit{d}-dimension for \textit{d} words that
-    are known, only one dimension is one and the rest are zeroes).
-    This one-hot vector does not have any information that infers
-    connection between one to the other. Hence that, vector
-    representations that maps semantic and syntactic information given
-    one-hot vectors in a euclidean space is introduced
-    \citep{wordembedding2017yang}. This positional information then
-    can be used to infer interconnection between words, whether its
-    similarities or usage of the word in a sentence
-    \citep{distributional1954harris}. To obtain word embeddings, a
-    model is created to extract features of a word from a corpus and
-    map its location in euclidean space based on the features found.
-    These word embeddings then can be used to do many downstream
-    tasks, such as postagging, named entity recognition (NER), and
-    sentiment analysis \citep{finding2015ling, neural2016lample}. In
-    general, large corpus with many words and examples of word usage
-    is prefered because the size of the vocabularies will increases
-    and more words connection can be inferred from the corpus
-    \citep{size2018kutuzov}. However, it is not posible to have such
-    corpus since the language itself is changing overtime
-    \citep{forrester2008abrief}. Furthermore, there are cases of
-    typographical error, especially after internet and social media
-    are booming where anybody willingly write text over these
-    platforms and these words may not be present in the corpus hence
-    not included in the vocabulary thus making many typographical
-    error while in its correct form it actually is. In addition with
-    the increased number of smartphone which uses touch screen, some
-    typographical error is expected \citep{ghosh2017correction}. All
-    this words that are non-existent in the corpus and its embedding
-    cannot be inferred are called as \textit{out-of-vocabulary} (OOV)
-    words. One may use simple approach by asigning unique random
-    embedding or by replacing OOV with an unknown \textit{\textless
-    UNK\textgreater} embedding. While in some cases using these simple
-    approaches and continue on the training on the downstream tasks
-    can produce acceptable results \{CITE\}, further improvement on
-    downstream tasks can be achieved by using machine learning method
-    to infer OOV embeddings.
+    Word embeddings is a method for word representation mainly used in
+    natural language processing domain. Text data represented
+    differently in machine unlike images and sounds data. Generally
+    image represented as two-dimensional to four-dimensional (given
+    different channels size) matrix with finite number of cell
+    elements containing numerical value to represent color intensity
+    on each location \citep{imageprocessing2018tyagi}. For example RGB
+    image represented with 3 dimensional matrix. Each dimension
+    represents red color, green color, and blue color respectively. On
+    the other hand, sound is represented as one-dimensional signal or
+    stack of those signals (given several channels) representing air
+    pressure in the ear canal (for instance one channel for the left
+    ear and one for the other) \citep{sound1995rocchesso}. Both images
+    and sounds can be easily represented as mathematic models either
+    using analog or digital signals but not with text data
+    \citep{wordembedding2017yang}. Hence word embedding was introduced
+    to give ability for representing text as a mathematical model
+    namely a vector.
+    
+    Text data consists of sequence of characters that is represented
+    by codes that is standardize, as an example ASCII. In ASCII each
+    character is represented by a number from $0$ to $127$ that later
+    on extended until $255$. Combinations of these number then
+    translated by computer to represent a character. Originally, in
+    natural language processing text data can only be modeled using
+    one-hot vecto. This vector is one-dimensional vector that has
+    $d$-dimension given \textit{d} words that are known or used. Each
+    word is represented by one dimension and depends on the used word
+    entries in the sentence, the correspondent dimension's value is
+    $1$ and the rest is $0$ hence the name one-hot vector. Similar
+    representation also used for representing characters. The problem
+    with one-hot vector is that it does not have any information that
+    infers connection between one to the other. It only encodes that
+    certain word is used in a certain sentence in a certain sequence.
+    Instead of sparse representation for each word, dense vector
+    representations that maps semantic and syntactic information
+    between words given one-hot vectors in a euclidean space is
+    introduced \citep{wordembedding2017yang, Distributed2013mikolov}.
+    Hopfully, this positional information then can be used to infer
+    interconnection between words, whether its similarities or usage
+    of the word in a sentence \citep{distributional1954harris}. To
+    obtain word embeddings, a model is created to extract features of
+    a word from a corpus and map its location in euclidean space based
+    on the features found \citep{Distributed2013mikolov,
+    polyglot2013alrfou, dict2vect2017tissier}. These word embeddings
+    then can be used to do many downstream tasks, such as postagging,
+    named entity recognition (NER), and sentiment analysis
+    \citep{finding2015ling, neural2016lample}. 
+    
+    In general, large corpus with many words and examples of word
+    usage is prefered because the size of the vocabularies will be
+    higher and more words connection can be inferred from the corpus
+    \citep{size2018kutuzov}. On top of that, multiple usage of a
+    vocabulary might also be used as a training data as an examples of
+    cases of vocabulary usage in a sentence. However, it is not
+    possible to have enough corpus since the language itself is
+    creative and changing overtime \citep{forrester2008abrief,
+    speech2009Jurafsky:2009:SLP:1214993}. Furthermore, there are cases
+    of typographical error, especially on social media platform where
+    anybody willingly write text over these platforms
+    \citep{Liu2010SentimentAA} and some of these words may not be
+    present in the corpus hence not included in the vocabulary even
+    though there exist another word that has the exact same meaning to
+    those words thus it should more or less has close distance to the
+    standard or original word\citep{mapping2012eisenstein}. In
+    addition with the increased number of smartphone which uses touch
+    screen, increased number in typographical error is to be expected
+    \citep{ghosh2017correction}. All this words that are non-existent
+    in the corpus and its generated embedding because of unability to
+    collect such corpus or simply because of emergence of new slang or
+    typographical error making the embedding to be unknown are called as
+    \textit{out-of-vocabulary} (OOV) words. One may use simple
+    approach by asigning unique random embedding or by replacing OOV
+    with an unknown \textit{\textless UNK\textgreater} embedding
+    \citep{predicting2019garneau}, that later hoped to be generalized
+    in training. despite the fact that it can be used for oov, further
+    improvement on downstream tasks can be achieved by using machine
+    learning method to infer OOV embeddings.
 
     To infer OOV embeddings, the model is built over quasi-generative
     perspective. Only knowing the vocabularies and its embedding, the
-    model tried to generate embedding for OOV words. Previous
-    \textit{state-of-the-art} used lstm to infer OOV embeddings
-    \citep{mimicking2017Pinter}. Character embedding is used to
-    transform sequence of characters then forwarded into bi-lstm then
-    to fully connected layer. In language model, bi-lstm generally
-    works by separating sub-word by remembering and forgeting previous
-    sequence from both end. Those sub-word then will be used to infer
-    its embedding. The problem might arise when there are more than
-    two important sub-words and they are not in sequence, meaning that
-    there exist at least one character between two sub-words
-    considered important, hence the information is incomplete since
-    lstm will dampen the previous sequence if the next sequence
-    sub-words are considered more important. Because of the
-    aformentioned problem, a new method will be proposed.
+    embedding for OOV words will be generated by the model. Previous
+    \textit{state-of-the-art} used LSTM to infer OOV embeddings called
+    \textsc{Mimick} \citep{mimicking2017Pinter}. For this model to
+    infer OOV embedding, character embedding is first randomly
+    initialized with a set of characters as its vocabulary. The
+    character embedding then used to transform sequence of characters
+    in a word into sequence of embedding. The sequence of the
+    character embeddings then forwarded into bi-LSTM then to fully
+    connected layer. In language model, bi-LSTM generally works by
+    separating sub-word by remembering and forgeting previous sequence
+    from both end. How LSTM works in connection to this problem will
+    be further explained in chapter \ref{chap:method}. The last hidden
+    state of the bi-LSTM then will be used to infer its embedding. By
+    architecture of LSTM, the gates inside the hidden neuron might
+    drop previous information. Hence a problem might arise when there
+    are more than two important sub-words and they are not in
+    sequence, meaning that there exist at least one character between
+    two sub-words considered important, hence the information is
+    incomplete since the previous information will be dampened by LSTM
+    hidden neuron interiors if the next sequence of sub-words are
+    considered more important. This problem will be explained further
+    in chapter \ref{chap:method}. From the explanation above, proposal
+    of a new method to handle OOV is created.
 
 \section{Objectives}
-    Instead of taking the whole words as a sequence and considering
-    its importance based on time using LSTM, by using n-grams and
-    picking which grams that are considered to be important in theory
-    should gives better results since the information is complete and
-    only left for the model to pick which n-grams features are more
-    important. The only problem is that for the model to pick which
-    grams that should be included in the model is impossible to do
-    since there are many word combinations making the model needs to
-    accept huge number of inputs. Instead of handpicking the features
-    of n-grams, convolutional neural network (CNN) can be used to pick
-    which features needs to be considered by using character embedding
-    and treat the character sequence embedding as an image. The
-    features picked then will be processed to predict the word
-    embedding for the input word.
+    A model to infer OOV that able to generate embedding for the
+    correspondence word has to be created. In \textsc{Mimick}, the
+    whole sequence is processed by a bi-LSTM. By the problem mentioned
+    earlier, instead of taking the whole words as a sequence and
+    considering its importance based on time and occurence using
+    bi-LSTM, n-grams will be used to pick which grams (set of
+    sequence) that are considered to be important. In theory this
+    method should gives better results in downstream tasks since the
+    information fed is complete and only left for the model to pick which
+    n-grams features are more important. The only problem is that for
+    the model to pick which grams that should be included in the model
+    is impossible to do since there are many word combinations making
+    the model needs to accept huge number of inputs. Instead of
+    handpicking the features of n-grams, convolutional neural network
+    (CNN) can be used to learn the existed features and pick which
+    features needs to be considered by using character embedding and
+    treat the character sequence embedding as an image. The features
+    picked then will be processed to predict the word embedding for
+    the input word using feedforward network.
 
 \section{Contributions}
     \begin{enumerate}
-        \item A new OOV handling model
-        \item Improved OOV handling model
+        \item An improved OOV handling model for downstream task
+        \item contributions 1
+        \item contributions 2
     \end{enumerate}
 
 \section{Thesis Structure}
@@ -97,16 +142,20 @@
     \nameref{chap:relatedwork} chapter, the previous works that are in
     relatives with research done in this documents are mentioned
     especially the baseline used in this research. In the following,
-    \nameref{chap:preliminaries} chapter, base theories that
-    considered to be needed are explained in details here. In the
-    \nameref{chap:method} chapter, the method of solution proposed to
-    the problem are explained. In the \nameref{chap:implementation}
-    chapter, the method of solution proposed to the problem are
-    described in technical way to show how it is implemented. In the
-    \nameref{chap:results} chapter, the results are shown and
-    discussed the relation with the baseline. Lastly,
+    \nameref{chap:preliminaries} chapter, base theories for
+    feedforward neural network, recurrent neural network, and n-grams
+    that are considered to be needed are explained in details here. On
+    top of that, the problem of the previous \textit{state-of-the-art}
+    will be explained here. In the \nameref{chap:method} chapter, the
+    method of solution proposed to the problem and the testing method
+    for analyzing the results are explained. In the
+    \nameref{chap:implementation} chapter, the method of solution
+    proposed to the problem are described in technical way to show how
+    it is implemented and tested. In the \nameref{chap:results}
+    chapter, the results are shown and discussed with the relation
+    with the previous \textit{state-of-the-art}. Lastly,
     \nameref{chap:conc} chapter talks about the conclusion that are
-    able to pull from this research.
+    able to be pulled from this research.
 
 
 % \section{About the logo}
