@@ -8,20 +8,21 @@
     natural language processing domain. Text data represented
     differently in machine unlike images and sounds data. Generally
     image represented as two-dimensional to four-dimensional (given
-    different channels size) matrix with finite number of cell
+    channels and alpha value) matrix with finite number of cell
     elements containing numerical value to represent color intensity
     on each location \citep{imageprocessing2018tyagi}. For example RGB
-    image represented with 3 dimensional matrix. Each dimension
-    represents red color, green color, and blue color respectively. On
-    the other hand, sound is represented as one-dimensional signal or
-    stack of those signals (given several channels) representing air
-    pressure in the ear canal (for instance one channel for the left
-    ear and one for the other) \citep{sound1995rocchesso}. Both images
-    and sounds can be easily represented as mathematic models either
-    using analog or digital signals but not with text data
-    \citep{wordembedding2017yang}. Hence word embedding was introduced
-    to give ability for representing text as a mathematical model
-    namely a vector.
+    image represented with 3-dimensional matrix. Each dimension
+    represents the intensity of red color, green color, and blue color
+    respectively in form of two-dimensional matrix. On the other hand,
+    sound is represented as one-dimensional signal or stack of those
+    signals (given several channels, it becomes two-dimensional)
+    representing air pressure in the ear canal (for instance one
+    channel for the left ear and one for the other)
+    \citep{sound1995rocchesso}. Both images and sounds can be easily
+    represented as mathematic models either using analog or digital
+    signals but not with text data \citep{wordembedding2017yang}.
+    Hence word embedding was introduced to give ability for
+    representing text as a mathematical model namely a vector.
     
     Text data consists of sequence of characters that is represented
     by codes that is standardize, as an example ASCII. In ASCII each
@@ -29,32 +30,34 @@
     on extended until $255$. Combinations of these number then
     translated by computer to represent a character. Originally, in
     natural language processing text data can only be modeled using
-    one-hot vecto. This vector is one-dimensional vector that has
+    one-hot vector. This vector is a one-dimensional vector that has
     $d$-dimension given \textit{d} words that are known or used. Each
     word is represented by one dimension and depends on the used word
     entries in the sentence, the correspondent dimension's value is
-    $1$ and the rest is $0$ hence the name one-hot vector. Similar
-    representation also used for representing characters. The problem
-    with one-hot vector is that it does not have any information that
-    infers connection between one to the other. It only encodes that
-    certain word is used in a certain sentence in a certain sequence.
-    Instead of sparse representation for each word, dense vector
-    representations that maps semantic and syntactic information
-    between words given one-hot vectors in a euclidean space is
-    introduced \citep{wordembedding2017yang, Distributed2013mikolov}.
-    Hopfully, this positional information then can be used to infer
+    $1$ and the rest is $0$ hence the name one-hot vector. The one-hot
+    vector then stacked with another one-hot vectors to represent
+    order of usage in a sentence. Similar representation also used for
+    representing characters. The problem with one-hot vector is that
+    it does not have any information that infers connection between
+    one to the other. It only encodes that certain word is used in a
+    certain sentence in a certain sequence. Instead of sparse
+    representation for each word, dense vector representations that
+    maps semantic and syntactic information between words given
+    one-hot vectors in a Euclidean space is introduced
+    \citep{wordembedding2017yang, Distributed2013mikolov}. Hopefully,
+    this positional information then can be used to infer
     interconnection between words, whether its similarities or usage
     of the word in a sentence \citep{distributional1954harris}. To
     obtain word embeddings, a model is created to extract features of
-    a word from a corpus and map its location in euclidean space based
+    a word from a corpus and map its location in Euclidean space based
     on the features found \citep{Distributed2013mikolov,
     polyglot2013alrfou, dict2vect2017tissier}. These word embeddings
-    then can be used to do many downstream tasks, such as postagging,
+    then can be used to do many downstream tasks, such as POS-tagging,
     named entity recognition (NER), and sentiment analysis
     \citep{finding2015ling, neural2016lample}. 
     
     In general, large corpus with many words and examples of word
-    usage is prefered because the size of the vocabularies will be
+    usage is preferred because the size of the vocabularies will be
     higher and more words connection can be inferred from the corpus
     \citep{size2018kutuzov}. On top of that, multiple usage of a
     vocabulary might also be used as a training data as an examples of
@@ -72,14 +75,15 @@
     addition with the increased number of smartphone which uses touch
     screen, increased number in typographical error is to be expected
     \citep{ghosh2017correction}. All this words that are non-existent
-    in the corpus and its generated embedding because of unability to
-    collect such corpus or simply because of emergence of new slang or
-    typographical error making the embedding to be unknown are called as
+    in the corpus because of inability to collect such corpus or
+    simply because of emergence of new slang or typographical error
+    making the embedding to be unknown are called as
     \textit{out-of-vocabulary} (OOV) words. One may use simple
-    approach by asigning unique random embedding or by replacing OOV
-    with an unknown \textit{\textless UNK\textgreater} embedding
+    approach by assigning unique random embedding for every OOV or by
+    replacing OOV with an unknown \textit{\textless UNK\textgreater}
+    token with randomly initialized embedding
     \citep{predicting2019garneau}, that later hoped to be generalized
-    in training. despite the fact that it can be used for oov, further
+    in training. Despite the fact that it can be used for OOV, further
     improvement on downstream tasks can be achieved by using machine
     learning method to infer OOV embeddings.
 
@@ -88,53 +92,55 @@
     embedding for OOV words will be generated by the model. Previous
     \textit{state-of-the-art} used LSTM to infer OOV embeddings called
     \textsc{Mimick} \citep{mimicking2017Pinter}. For this model to
-    infer OOV embedding, character embedding is first randomly
+    infer OOV embedding, character embedding was first randomly
     initialized with a set of characters as its vocabulary. The
     character embedding then used to transform sequence of characters
     in a word into sequence of embedding. The sequence of the
-    character embeddings then forwarded into bi-LSTM then to fully
-    connected layer. In language model, bi-LSTM generally works by
-    separating sub-word by remembering and forgeting previous sequence
-    from both end. How LSTM works in connection to this problem will
-    be further explained in chapter \ref{chap:method}. The last hidden
-    state of the bi-LSTM then will be used to infer its embedding. By
-    architecture of LSTM, the gates inside the hidden neuron might
-    drop previous information. Hence a problem might arise when there
-    are more than two important sub-words and they are not in
-    sequence, meaning that there exist at least one character between
-    two sub-words considered important, hence the information is
-    incomplete since the previous information will be dampened by LSTM
-    hidden neuron interiors if the next sequence of sub-words are
-    considered more important. This problem will be explained further
-    in chapter \ref{chap:method}. From the explanation above, proposal
-    of a new method to handle OOV is created.
+    character embeddings then forwarded into bidirectional Long-Short
+    Term Memory (bi-LSTM) then to fully connected layer. In language
+    model, bi-LSTM generally works by separating sub-word by
+    remembering and forgetting previous sequence from both end. How
+    LSTM works in connection to this problem will be further explained
+    in chapter \ref{chap:method}. The last hidden state of the bi-LSTM
+    then will be used to infer its embedding. By architecture of LSTM,
+    the gates inside the hidden neuron might drop previous
+    information. Hence a problem might arise when there are more than
+    two important sub-words and they are not in sequence, meaning that
+    there exist at least one character between two sub-words
+    considered important, hence the information is incomplete since
+    the previous information will be dampened by LSTM hidden neuron
+    interiors if the next sequence of sub-words are considered more
+    important. This problem will be explained further in chapter
+    \ref{chap:method}. From the explanation above, proposal of a new
+    method to handle OOV is created.
 
 \section{Objectives}
-    A model to infer OOV that able to generate embedding for the
-    correspondence word has to be created. In \textsc{Mimick}, the
-    whole sequence is processed by a bi-LSTM. By the problem mentioned
-    earlier, instead of taking the whole words as a sequence and
-    considering its importance based on time and occurence using
-    bi-LSTM, n-grams will be used to pick which grams (set of
-    sequence) that are considered to be important. In theory this
-    method should gives better results in downstream tasks since the
-    information fed is complete and only left for the model to pick which
-    n-grams features are more important. The only problem is that for
-    the model to pick which grams that should be included in the model
-    is impossible to do since there are many word combinations making
-    the model needs to accept huge number of inputs. Instead of
-    handpicking the features of n-grams, convolutional neural network
-    (CNN) can be used to learn the existed features and pick which
-    features needs to be considered by using character embedding and
-    treat the character sequence embedding as an image. The features
-    picked then will be processed to predict the word embedding for
-    the input word using feedforward network.
+    For OOV to be inferred, a model that are able to generate
+    embedding for the correspondence word has to be created. In
+    \textsc{Mimick}, the whole sequence is processed by a bi-LSTM. By
+    the problem mentioned earlier, instead of taking the whole words
+    as a sequence and considering its importance based on time and
+    occurrence using bi-LSTM, n-grams will be used to pick which grams
+    (set of sequence) that are considered to be important. In theory
+    this method should gives better results in downstream tasks since
+    the information fed is complete and only left for the model to
+    pick which n-grams features are more important. The only problem
+    is that for the model to pick which grams that should be included
+    in the model is impossible to do since there are many word
+    combinations making the model needs to accept huge number of
+    inputs. Instead of handpicking the features of n-grams,
+    convolutional neural network (CNN) can be used to learn the
+    existed features and pick which features needs to be considered by
+    using character embedding and treat the character sequence
+    embedding as two-dimensional matrix. The features picked then will
+    be processed to predict the word embedding for the input word
+    using feedforward network.
 
 \section{Contributions}
     \begin{enumerate}
         \item An improved OOV handling model for downstream task
-        \item contributions 1
-        \item contributions 2
+        \item Evaluation on different settings for baseline model and
+        the proposed model
     \end{enumerate}
 
 \section{Thesis Structure}
@@ -146,9 +152,9 @@
     feedforward neural network, recurrent neural network, and n-grams
     that are considered to be needed are explained in details here. On
     top of that, the problem of the previous \textit{state-of-the-art}
-    will be explained here. In the \nameref{chap:method} chapter, the
-    method of solution proposed to the problem and the testing method
-    for analyzing the results are explained. In the
+    will be explained in depth here. In the \nameref{chap:method}
+    chapter, the method of solution proposed to the problem and the
+    testing method for analyzing the results are explained. In the
     \nameref{chap:implementation} chapter, the method of solution
     proposed to the problem are described in technical way to show how
     it is implemented and tested. In the \nameref{chap:results}
@@ -156,78 +162,3 @@
     with the previous \textit{state-of-the-art}. Lastly,
     \nameref{chap:conc} chapter talks about the conclusion that are
     able to be pulled from this research.
-
-
-% \section{About the logo}
-
-% Figure \ref{us_figure} shows the logo for the University of
-% Sussex.\footnote{This is a URL: \url{http://www.sussex.ac.uk}} This
-% is consistent with Special Relativity \citep{Einstein1905}.
-% $E=mc^2$.
-
-% \begin{figure} \centering \includegraphics[width=5cm]{uslogo}
-%     \caption{The logo for the University of Sussex.}
-%     \label{us_figure} \end{figure}
-
-% Here is some Latin.
-
-% Class aptent taciti sociosqu ad litora torquent per conubia nostra,
-% per inceptos hymenaeos. Nullam suscipit lectus nec tellus. Praesent
-% malesuada nisl in neque. Nam dictum semper nisl. Ut ultricies
-% nonummy augue. Nunc ullamcorper eros in nisl. Sed eros purus,
-% vehicula eget, mattis nec, dignissim non, nulla. Suspendisse ac est
-% commodo libero rhoncus sagittis. Vestibulum quis augue ut enim
-% tincidunt ullamcorper. Vestibulum sem. Pellentesque enim ligula,
-% consequat quis, luctus vel, rutrum id, sem.
-
-% Donec eleifend erat quis enim. Maecenas volutpat cursus libero.
-% Fusce velit. Duis in metus. Sed lobortis, lorem id molestie
-% ullamcorper, leo lacus interdum urna, a dapibus augue massa id
-% magna. Curabitur leo. Cras sit amet lorem ut massa tincidunt
-% ullamcorper. Nulla sed urna vulputate enim sodales pharetra. Cras
-% vitae nulla a diam aliquam fermentum. Donec ullamcorper porttitor
-% arcu. Ut laoreet est. Suspendisse potenti. Curabitur tincidunt,
-% lorem nec pharetra viverra, arcu tellus tincidunt metus, sed
-% fringilla ligula lorem at odio. Integer arcu turpis, facilisis quis,
-% rhoncus quis, tristique et, nunc. Aenean massa pede, tempus nec,
-% sodales at, tristique id, tortor. Aenean porttitor, sapien et
-% interdum eleifend, urna felis eleifend nisi, non sagittis justo erat
-% et lorem.
-
-% Nam risus. Curabitur nec lectus. Nullam lobortis lacinia ipsum.
-% Donec sit amet tortor id sem tincidunt congue. Praesent ut quam. Sed
-% nisl nulla, adipiscing sit amet, dapibus ut, rutrum et, massa. Nunc
-% fringilla tincidunt nisl. Vestibulum vehicula nisl id augue. Sed
-% lobortis ligula sit amet nulla. Suspendisse viverra mauris non
-% libero. Curabitur ac neque at lectus consectetuer tempus. Donec
-% molestie magna consequat quam. Donec placerat turpis et risus.
-% Integer purus purus, accumsan sed, euismod eget, commodo ornare,
-% velit. Duis sit amet augue ut velit tristique blandit. Morbi in
-% odio. Nam urna.
-
-% Curabitur pulvinar tristique pede. Duis justo. Morbi libero diam,
-% varius et, faucibus non, blandit sit amet, nisi. Nam quam nunc,
-% mattis id, scelerisque vel, pellentesque at, nunc. Etiam mattis
-% ultrices odio. Suspendisse aliquam nisi sed sem. Praesent
-% scelerisque ultrices velit. Nam sit amet lectus. Nullam in ipsum vel
-% lectus nonummy consectetuer. Sed dictum. Maecenas massa sapien,
-% blandit in, sollicitudin id, vulputate ut, risus. Nulla facilisi.
-% Vivamus ut erat. Etiam massa. Cum sociis natoque penatibus et magnis
-% dis parturient montes, nascetur ridiculus mus. Suspendisse hendrerit
-% iaculis mi. Morbi tincidunt felis a urna.
-
-% Ut a quam. Nam aliquet suscipit pede. In vitae magna. Aliquam erat
-% volutpat. Etiam ut turpis. Ut convallis adipiscing velit. Cum sociis
-% natoque penatibus et magnis dis parturient montes, nascetur
-% ridiculus mus. Nam luctus ante sit amet pede. Nulla facilisi.
-% Pellentesque habitant morbi tristique senectus et netus et malesuada
-% fames ac turpis egestas. Etiam ultricies augue non eros. Vivamus
-% nulla lacus, varius sed, consectetuer id, tempus sed, velit.
-% Pellentesque habitant morbi tristique senectus et netus et malesuada
-% fames ac turpis egestas. Phasellus non dolor eu augue adipiscing
-% molestie. Duis eu est. Proin sodales pellentesque quam. Duis at
-% enim. Nulla vulputate, diam sed rutrum euismod, quam mauris
-% consectetuer massa, a dapibus nisi eros ac ligula. Nam tortor metus,
-% faucibus vitae, cursus vel, egestas sollicitudin, nulla.
-% Pellentesque habitant morbi tristique senectus et netus et malesuada
-% fames ac turpis egestas.
