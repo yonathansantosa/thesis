@@ -9,7 +9,7 @@
             first 32 ASCII symbols). Then the character embedding was
             initialized by randomizing from normal distribution with
             $\mu = 0$ and $\sigma = 1$. Another entries such as
-            unkonwn token \textit{\textless unk\textgreater}, starting
+            unknown token \textit{\textless UNK\textgreater}, starting
             token \textit{\textless s\textgreater}, ending token
             \textit{\textless e\textgreater} and padding token
             \textit{\textless p\textgreater} were added along with the
@@ -23,30 +23,42 @@
             which trained on Google news dataset using skip-gram model
             containing 3 million words and phrases (name, hyperlink,
             connected words, etc.) was used
-            \citep{Distributed2013mikolov}. Word2vec
-            \footnote{Pretrained embedding available at 
+            \citep{Distributed2013mikolov}. The embedding contains
+            300-dimensional vectors. Word2vec \footnote{Pretrained
+            embedding available at 
             \url{https://code.google.com/archive/p/word2vec/}}
-            contains phrases from negative sampling and for the purpose of
-            this research those phrases did not included. The embedding
-            has 300 dimensional vectors. Only first 40 thousands words with
-            removal if the word contains "\_" (underscore) or "http".
+            contains phrases that frequently appears, for instance the
+            word New and Jersey appears frequently side by side
+            because both of this words form name of a state in United
+            States of America. In the original vocabulary, this phrase
+            might be written as "New\_Jersey", thus for the purpose of
+            simplifying the input and the downstream tasks those
+            phrases did not included. On top of phrases, the original
+            vocabulary also includes hyperlinks which usually contains
+            "http". Such entries will also be removed. Only first 40
+            thousands words with removal if the word contains "\_"
+            (underscore) or "http" is used in this research.
             
             Another pretrained embedding is
             polyglot\footnote{Pretrained embedding available at
             \url{https://polyglot.readthedocs.io/en/latest/index.html}}
-            \citep{polyglot2013alrfou} which contains multilingual
-            embeddings. For this research, only English embedding that
-            contains around 100 thousands with 60 dimensional vector
-            representation. This pretrained embedding is also used in OOV
-            handling model \textsc{Mimick} \citep{mimicking2017Pinter} which
-            used as baseline model.
+             which contains multilingual embeddings
+            \citep{polyglot2013alrfou}. For this research, only
+            English embedding that contains around 100.000 words with
+            60-dimensional vector representations will be used. This
+            pretrained embedding is also used in OOV handling model
+            \textsc{Mimick} which used as baseline model
+            \citep{mimicking2017Pinter}.
 
             Dict2vec\footnote{Pretrained embedding available at
             \url{https://github.com/tca19/dict2vec}} is yet another word
             embedding that trained based on the definition of a word in
-            dictionary \citep{dict2vect2017tissier}. Originally, this
-            embedding was tested using word similarity tasks, hence this
-            embedding is used as baseline model for word similarity tasks.
+            dictionary \citep{dict2vect2017tissier}. Each words
+            location in Euclidean space was determined by the
+            appearance of another words in the definition that is
+            defined by the Cambridge dictionary. Originally, this
+            embedding was tested using word similarity tasks with
+            removal of OOV words.
 
         \subsubsection{Word Similarity Dataset}
             Several word similarity dataset were used in order to
@@ -68,41 +80,51 @@
 
     \subsection{Programming Language and Tools}
         The model was trained using PyTorch 1.1.0 machine learning
-        library \citep{pytorch2017paszke} on top of Python 3.6. Most
+        library on top of Python 3.6 \citep{pytorch2017paszke}. Most
         of the basic functions, for instance 2d convolution layer, 2d
-        maxpool layer, fully connected layer, bi-lstm, and many
-        activation functions and loss function were already
-        implemented as a library in PyTorch, thus will serve enough
-        for the purpose of this research.
+        maxpool layer, fully connected layer, bi-LSTM, and many
+        activation functions and loss functions and other mathematical
+        functions were already implemented as a library in PyTorch,
+        thus will serve enough for the purpose of this research.
             
     \subsection{Hardware}
         The model was trained on the freely available Google
         Colaboratory\footnote{Google Colaboratory available at
         \url{https://colab.research.google.com/}} which gives
-        randomized hardware specification, thus the exact hardware
-        used cannot be determined. The GPU was used to train the
-        model. Nevertheless, this only affects the time needed to
-        train the model and not the results.
+        randomized hardware specification based on the availability,
+        thus the exact hardware configuration used cannot be
+        determined. The GPU engine was used to train the model.
+        Nevertheless, this only affects the time needed to train the
+        model and not the results.
 
 \section{Training}
     \subsection{Training OOV model}
         Firstly, the pretrained embeddings acted as the datasets were
-        splitted up into train-val set with $80\%$ and $20\%$
-        randomized split respectively with batch size of 64. The word
-        $w_i \in V$ becomes the input of the model and the word
+        split up into train-val set with $80\%$ and $20\%$ randomized
+        split respectively with minibatch size of 64. The word $w_i
+        \in \mathcal{V}$ becomes the input of the model and the word
         embedding $e_i \in \mathcal{W}$ becomes the target. The input
-        word splitted into sequence of characters and starting token
-        and ending token were added at the beginning and at the end of
-        the word respectively. 
+        word split into sequence of characters and starting token
+        \textit{\textless s\textgreater} and ending token
+        \textit{\textless e\textgreater} were added at the beginning
+        and at the end of the word respectively. For every minibatch,
+        the longest word will be used as the maximum length. Every
+        word that was shorter than the longest word will be padded
+        with a padding token \textit{\textless p\textgreater}.
         % For the proposed model, padding token was added at the
         % beginning and at the end of the word to make single
         % character entries at the beginning and at the end of the
         % word to be able to be processed by the CNN. 
         The sequence of characters then transformed into character
         embeddings then processed by the model producing the predicted
-        word embedding. The model was trained with learning rate $lr =
-        0.01$ with no dropout as dropout does not work well just as in
-        \textsc{Mimick} \citep{mimicking2017Pinter}.
+        word embedding. The \textsc{Mimick} model was trained with
+        learning rate $lr = 0.01$ with no dropout as dropout does not
+        work well just as in \textsc{Mimick}
+        \citep{mimicking2017Pinter}. On the other hand, CNN model was
+        performing better with dropout when the model was pre-tested
+        using different parameters. In summary, the hyperparameters
+        setting is shown in table \ref{tab:hyperparameter}.
+
         \begin{table}[]
             \centering
             \caption{OOV Handling Model Parameters}
@@ -112,24 +134,25 @@
                 \textbf{Hyperparameter} & \multicolumn{1}{l}{\textbf{\textsc{Mimick}}} & \multicolumn{1}{l}{\textbf{CNN}} \\ \midrule
                 Learning Rate ($\eta$) & [0.01; 0.1] & 0.1 \\
                 Batch size & 64 & 64 \\
-                Epoch (word2vec) & 1000 & 1000 \\
+                Epoch (word2vec) & 100 & 100 \\
                 Epoch (polyglot-en) & 100 & 100 \\
-                Epoch (dict2vec) & 1000 & 1000 \\
+                Epoch (dict2vec) & 100 & 100 \\
                 Momentum & 0.5 & 0.5 \\
-                Dropout & [0; 0.2] & 0.2 \\
-                Num features & [100; 700] & 100 \\ \bottomrule
+                Dropout & 0 & 0.5 \\
+                Num features & [50; 100; 200] & [20; 50; 100] \\ \bottomrule
             \end{tabular}
         \end{table}
 
         For the proposed model, the character embeddings were
-        processed with CNN n-gram following
-        \cite{convolutional2014kim} architecture for word n-gram.
-        N-gram with window size $n = [2, 3, 4, 5, 6, 7]$ were used
-        with respective kernel size $n \times d$ to simulate n-grams.
-        Different N-gram sizes, for instance $n = [2, 3, 4]$ and $n =
-        [5, 6, 7]$. The results on the downstream tasks for the
-        different settings then compared with the whole model and with
-        the \textsc{Mimick} model.
+        processed with CNN n-grams following
+        \cite{convolutional2014kim} architecture for word n-grams.
+        N-grams with window size $n = [2, 3, 4, 5, 6, 7]$ were used
+        with respective kernel size $n \times b$ to simulate n-grams.
+        Different n-grams sizes, for instance $n = [2, 3, 4]$ and $n =
+        [5, 6, 7]$ can be used on top of the whole n-grams sizes. The
+        results on the downstream tasks for the different settings
+        then compared with the whole model and with the
+        \textsc{Mimick} model.
         
         After max-over-time pooled, the vector representation then
         passed into fully connected network with highway network to
@@ -137,10 +160,10 @@
         calculated using Mean Squared Error as mentioned on equation
         \ref{eq:errorf} then back-propagated to update the weights.
 
-        Similar datasets are used to train \textsc{Mimick}
-        \cite{mimicking2017Pinter} with parameters taken from the
-        original paper. After compared several parameters then
-        adjusted to see whether there is improvement or not. The
+        Similar datasets were used to train \textsc{Mimick} with
+        parameters taken from the original paper
+        \citep{mimicking2017Pinter}. After compared several parameters
+        then adjusted to see whether there is improvement or not. The
         summary of the hyperparameters are as shown in table
         \ref{tab:hyperparameter}.
 
@@ -163,19 +186,20 @@
     
 \section{Evaluating with Downstream Tasks}
     \subsection{Part-of-Speech Tagging}
-        For POStagging task, the readily brown corpus and its tagset
-        from NLTK\footnote{Available at \url{https://www.nltk.org/}}.
-        In this tasks, two kind of evaluation methods were done.
-        Firstly, all the word embeddings only inferred from the
-        trained OOV model and the OOV model trained together with the
-        POStagger. Secondly, only OOV from the pretrained embedding
-        are inferred by using the OOV model and then those embeddings
-        are used as input for the POStagger. For the latter method,
-        embeddings of the words are frozen to get a notion whether the
-        OOV model improves the results compared to replacing OOV with
-        unknown token or a random embedding. The OOV model then
-        changed with \textsc{Mimick} \citep{mimicking2017Pinter} to
-        compare the results with the previous state-of-the-art.
+        For POS-tagging task, the readily brown corpus and its tagset
+        from NLTK\footnote{Available at \url{https://www.nltk.org/}}
+        were used to test the performance of the model. In this tasks,
+        two kind of evaluation methods were done. Firstly, all the
+        word embeddings only inferred from the trained OOV model and
+        the OOV model trained together with the POS-tagger. Secondly,
+        only OOV from the pretrained embedding are inferred by using
+        the OOV model and then those embeddings are used as input for
+        the POS-tagger. For the latter method, embeddings of the words
+        are frozen to get a notion whether the OOV model improves the
+        results compared to replacing OOV with unknown token or a
+        random embedding. The OOV model then changed with
+        \textsc{Mimick} \citep{mimicking2017Pinter} to compare the
+        results with the previous state-of-the-art.
 
     \subsection{Word Similarity}
         Word similarity task is quite straight forward. Given pairs of
@@ -188,7 +212,7 @@
         The baseline embeddings used for this task, dict2vec
         \citep{dict2vect2017tissier}, was also tested using random OOV
         embedding by randomly giving OOV word random embedding and
-        choosing the maximum results of several tries. The results
-        then compared with if the OOV were predicted using the OOV
-        models trained with dict2vec pretrained embedding
-        \citep{dict2vect2017tissier}.
+        choosing the maximum results of several tries. On top of that,
+        other two pre-trained embedding used in this research were
+        also used for comparing results. The results then compared
+        with if the OOV were predicted using the OOV models trained.
