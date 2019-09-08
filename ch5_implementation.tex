@@ -15,8 +15,8 @@
             \textit{\textless p\textgreater} were added along with the
             random character embedding initialization.
 
-        \subsubsection{Pretrained Word Embedding}
-            In order to train the model, pretrained embedding is
+        \subsubsection{Pre-trained Word Embedding}
+            In order to train the model, pre-trained embedding is
             needed since the model will tries to predict embedding
             from known vocabulary $v \in \mathcal{V}$ with its known
             embedding $w \in \mathcal{W}$. For this purpose, word2vec
@@ -39,14 +39,14 @@
             thousands words with removal if the word contains "\_"
             (underscore) or "http" is used in this research.
             
-            Another pretrained embedding is
+            Another pre-trained embedding is
             polyglot\footnote{Pretrained embedding available at
             \url{https://polyglot.readthedocs.io/en/latest/index.html}}
              which contains multilingual embeddings
             \citep{polyglot2013alrfou}. For this research, only
             English embedding that contains around 100.000 words with
             60-dimensional vector representations will be used. This
-            pretrained embedding is also used in OOV handling model
+            pre-trained embedding is also used in OOV handling model
             \textsc{Mimick} which used as baseline model
             \citep{mimicking2017Pinter}.
 
@@ -99,7 +99,7 @@
 
 \section{Training}
     \subsection{Training OOV model}
-        Firstly, the pretrained embeddings acted as the datasets were
+        Firstly, the pre-trained embeddings acted as the datasets were
         split up into train-val set with $80\%$ and $20\%$ randomized
         split respectively with minibatch size of 64. The word $w_i
         \in \mathcal{V}$ becomes the input of the model and the word
@@ -131,7 +131,7 @@
             \label{tab:hyperparameter}
             \begin{tabular}{@{}lcc@{}}
                 \toprule
-                \textbf{Hyperparameter} & \multicolumn{1}{l}{\textbf{\textsc{Mimick}}} & \multicolumn{1}{l}{\textbf{CNN}} \\ \midrule
+                \textbf{Hyperparameter} & \multicolumn{1}{c}{\textbf{\textsc{Mimick}}} & \multicolumn{1}{c}{\textbf{CNN}} \\ \midrule
                 Learning Rate ($\eta$) & [0.01; 0.1] & 0.1 \\
                 Batch size & 64 & 64 \\
                 Epoch (word2vec) & 100 & 100 \\
@@ -189,25 +189,79 @@
         For POS-tagging task, the readily brown corpus and its tagset
         from NLTK\footnote{Available at \url{https://www.nltk.org/}}
         were used to test the performance of the model. In this tasks,
-        two kind of evaluation methods were done. Firstly, all the
-        word embeddings only inferred from the trained OOV model and
-        the OOV model trained together with the POS-tagger. Secondly,
-        only OOV from the pretrained embedding are inferred by using
-        the OOV model and then those embeddings are used as input for
-        the POS-tagger. For the latter method, embeddings of the words
-        are frozen to get a notion whether the OOV model improves the
-        results compared to replacing OOV with unknown token or a
-        random embedding. The OOV model then changed with
-        \textsc{Mimick} \citep{mimicking2017Pinter} to compare the
-        results with the previous state-of-the-art.
+        two kinds of evaluation methods were done. Before going into
+        the method, there are several steps to prepare the datasets
+        for training the POS-tagger. Firstly, the POStag dataset words
+        are collected as sets $\mathcal{S}$. This was done in order to
+        collect the vocabulary uniquely since in Python sets elements
+        are unique. Secondly, each elements in the sets $\mathcal{S}$
+        was scanned whether it is in-vocabulary or out-of-vocabulary.
+        If the element turns out to be OOV, this element, which is a
+        word, will be added into the vocabulary $\mathcal{V}$ and its
+        embedding, either a zero vector or a generated embedding from
+        the OOV model depending by the method used, will be added to
+        the original embedding $\mathcal{W}$. 
+        
+        The first method was to train the POS-tagger by using a
+        defined embedding. The original pre-trained embedding entries
+        $\mathcal{W}$ were concatenated with the OOV model predicted
+        embeddings $f(\text{OOV})$ so that each word $v \in
+        \mathcal{V}$ has vector representation. In short the new
+        embedding $\mathcal{\tilde{W}} = \mathcal{W} \cup
+        f(\text{OOV})$. The new pre-trained embedding
+        $\mathcal{\tilde{W}}$ will not be trained in this method by
+        setting the parameters fixed value.
+        
+        The second method was to train the OOV model together with the
+        POS-tagger. For this method, for each OOV entries added into
+        the vocabulary $\mathcal{V}$, a zero vector representing the
+        embedding of the OOV will be added to the embedding
+        $\mathcal{\tilde{W}}$ that later on replaced with the
+        generated embedding $f(\text{OOV})$ if the input word is OOV
+        as explained in the equation \ref{eq:embeddingmask} by masking
+        the entries. Thus the OOV model will still be trained if the
+        input turns out to be OOV while it is non-trainable if it is
+        in-vocabulary input. Both of the models were used here then
+        the accuracies were compared.
+
+        In this task, the sentence length was limited to 5 words. If
+        the sentence's length is less than 5 words then padding token
+        were added at the end of the sentence and if the sentence's
+        length is more than 5 words, the slice of the sentence were
+        randomly selected. The POS-tagger were trained with 100 epoch
+        with 6 different seeds or training seeds for the random number
+        generation. The learning rate used was $0.1$ with dropout for
+        CNN model $0.5$ and no dropout for \textsc{Mimick} since it
+        makes the model performs worse. The momentum used for the
+        training was $0.5$. In summary the parameters used are shown
+        in table \ref{tab:hyperparameterpostag}
+
+        \begin{table}[]
+            \centering
+            \caption{POS-Tagger Model Parameters}
+            \label{tab:hyperparameterpostag}
+            \begin{tabular}{@{}lcc@{}}
+                \toprule
+                \textbf{Hyperparameter} & \multicolumn{1}{c}{\textbf{\textsc{Mimick}}} & \multicolumn{1}{c}{\textbf{CNN}} \\ \midrule
+                Learning Rate ($\eta$) & 0.1 & 0.1 \\
+                Batch size & 64 & 64 \\
+                Epoch (word2vec) & 100 & 100 \\
+                Epoch (polyglot-en) & 100 & 100 \\
+                Epoch (dict2vec) & 100 & 100 \\
+                Momentum & 0.5 & 0.5 \\
+                Dropout & 0 & 0.5 \\ 
+                Training seed & \multicolumn{2}{c}{[64; 20; 128; 0; 5; 10]} \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
 
     \subsection{Word Similarity}
         Word similarity task is quite straight forward. Given pairs of
-        words, if the word is an OOV in the pretrained embedding, the
+        words, if the word is an OOV in the pre-trained embedding, the
         word embeddings were predicted from OOV models then the cosine
         similarity of the word embeddings are calculated and compared
         between two models, else the original embedding from the
-        pretrained embedding is used. 
+        pre-trained embedding is used. 
         
         The baseline embeddings used for this task, dict2vec
         \citep{dict2vect2017tissier}, was also tested using random OOV

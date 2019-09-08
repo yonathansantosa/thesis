@@ -145,27 +145,58 @@
         dimension $d$ with non-linear activation function $hardtanh$
         matching the maximum and minimum bound of the pretrained
         embedding $\mathcal{W}$ resulting a new embedding vector
-        $\tilde{e}$. The generated embedding vector $\tilde{e}$ then
-        passed into a highway network to decide whether some
-        information should be carried or should be forgotten to obtain
-        a new sets of embedding. Given the output of max-over-time
-        pooling $m$, The highway network is calculated by the
-        following equation, 
+        $\tilde{e}$. The fully connected layer consist of one hidden
+        layer and one output layer with batch normalization before
+        each layer to further sped up the training convergence
+        according to \cite{batchnorm:DBLP:journals/corr/IoffeS15}.
+        This normalization layer basically maintain that the
+        distribution of each minibatch remains similar so that
+        covariance shift is minimized in the training process
+        \citep{batchnorm:DBLP:journals/corr/IoffeS15}. This process
+        was done by applying transformation on each minibatch to a
+        certain mean and variance
+        \citep{batchnorm:DBLP:journals/corr/IoffeS15}. This mean and
+        variance are learnable parameters. Let minibatch $\mathcal{B}
+        = {x_1, x_2, \dots, x_m}$, following operation was applied,
         \begin{align}
-            \label{eq:highway}
-            t &= ReLU(f(\mathbf{W}m + b))\\
-            \mathbf{Z} &= t \odot g(\mathbf{W_{\mathbf{H}}}m + b_{\mathbf{H}}) + (1-t) \odot m
+            \label{eq:bn:mu}
+            \mu_{\mathcal{B}} &= \frac{1}{m} \sum_{i=1}^m x_i\\
+            \label{eq:bn:var}
+            \sigma^2_{\mathcal{B}} &= \frac{1}{m} \sum_{i=1}^m (x_i - \mu_{\mathcal{B}}^2\\
+            \label{eq:bn:norm}            
+            \tilde{x}_i &= \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma^2_{\mathcal{B}} + \epsilon}}\\
+            \label{eq:bn:transform}            
+            BN(x_i) &= \gamma\tilde{x_i} + \beta
         \end{align}
+        Equation \ref{eq:bn:mu} and equation \ref{eq:bn:var} tries to
+        find the mean and variance to normalize the minibatch by
+        equation \ref{eq:bn:norm}. After all of the data in the
+        minibatch $\mathcal{B}$ was normalized, the data then scaled
+        by parameter $\gamma$ and shifted by parameter $\beta$ as
+        shown in equation \ref{eq:bn:transform}. By making the
+        parameters $\gamma$ and $\beta$ learnable, the model will
+        adjust this process in the training process.
+
+        After all the process above was done, the generated embedding
+        vector $\tilde{e}$ was produced.
+        % then passed into a highway network to
+        % decide whether some information should be carried or should be
+        % forgotten to obtain a new sets of embedding. Given the output
+        % of max-over-time pooling $m$, The highway network is
+        % calculated by the following equation, 
+        % \begin{align}
+        %     \label{eq:highway}
+        %     t &= ReLU(f(\mathbf{W}m + b))\\
+        %     \mathbf{Z} &= t \odot g(\mathbf{W_{\mathbf{H}}}m + b_{\mathbf{H}}) + (1-t) \odot m
+        % \end{align}
         The complete process from input word, feature extraction,
         until predicting embedding is shown on figure \ref{fig:model}.
-        
         \begin{figure}
             \centering
             \includegraphics[width=.8\linewidth]{images/model2.pdf}
             \caption{OOV Inferencing Model}
             \label{fig:model}
         \end{figure}
-
         On figure \ref{fig:model}, starting and ending token is added
         at the beginning and the end of the word respectively.
         Furthermore, padding token is added if the input word is
@@ -174,12 +205,13 @@
         \vec{0}$ for any $k$. This is to ensure that part of input
         that got padded does not goes through maxpool layer since only
         grams that has highest value can goes through the next layer
-        and minimum value of ReLU is 0. The reason for this is so that
-        different length of words are able to be processed by the model.
+        and minimum value of ReLU is 0 thus the result of maxpooling
+        it will be 0. The reason for this is so that various length
+        of words are able to be processed by the model.
 
     \subsection{Error and Backpropagation}
         The predicted embedding $\tilde{e}$ from the model then
-        compared with the original embedding $e$ to learn new
+        compared with the original embedding $e$ to adjust all of the
         parameters for the neural network using mean squared error
         function,
         \begin{equation}
@@ -189,8 +221,9 @@
         By minimizing $Error$ it is similar by minimizing
         $\mathcal{L}$ shown in equation \ref{eq:lossfn}. The error
         then backpropagated to fine-tune the neural network
-        parameters, character embedding $\mathcal{G}$, and the kernel
-        $k \in K$.
+        parameters, character embedding $\mathcal{G}$, the kernel $k
+        \in K$, and the batch normalization parameters $\gamma and
+        \beta$.
         
 \section{Measuring Performance on Downstream Tasks}
     In natural language modeling (NLP), there are several tasks that
@@ -242,11 +275,12 @@
         Instead of calculating the whole tag classification, the
         frequent and infrequent classes are separated thus there are
         many chances that only frequent classes needs to be calculated
-        before trying to calculate the infrequent classes. The
-        complete process of POS-tagging process is shown in figure
-        \ref{fig:postag}. After training was done, the accuracy of the
-        POS-tagger based on different OOV handling model were
-        compared.
+        before trying to calculate the infrequent classes. After
+        calculating the loss, stochastic gradient descent was used to
+        optimize the parameters of the model. The complete process of
+        POS-tagging process is shown in figure \ref{fig:postag}. After
+        training was done, the accuracy of the POS-tagger based on
+        different OOV handling model were compared.
 
         \begin{figure}
             \centering
