@@ -20,3 +20,5 @@ drawings/
 images/postag2.pdf
 thesis.rtf
 .vscode/spellright.dict
+graphs/test.r
+graphs/oov_random.txt

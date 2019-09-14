@@ -19,7 +19,7 @@
             In order to train the model, pre-trained embedding is
             needed since the model will tries to predict embedding
             from known vocabulary $v \in \mathcal{V}$ with its known
-            embedding $w \in \mathcal{W}$. For this purpose, word2vec
+            embedding $e \in \mathcal{W}$. For this purpose, word2vec
             which trained on Google news dataset using skip-gram model
             containing 3 million words and phrases (name, hyperlink,
             connected words, etc.) was used
@@ -27,17 +27,17 @@
             300-dimensional vectors. Word2vec \footnote{Pretrained
             embedding available at 
             \url{https://code.google.com/archive/p/word2vec/}}
-            contains phrases that frequently appears, for instance the
-            word New and Jersey appears frequently side by side
-            because both of this words form name of a state in United
-            States of America. In the original vocabulary, this phrase
-            might be written as "New\_Jersey", thus for the purpose of
-            simplifying the input and the downstream tasks those
-            phrases did not included. On top of phrases, the original
-            vocabulary also includes hyperlinks which usually contains
-            "http". Such entries will also be removed. Only first 40
-            thousands words with removal if the word contains "\_"
-            (underscore) or "http" is used in this research.
+            contains words that frequently appears as a phrase, for
+            instance the word New and Jersey appears frequently side
+            by side because both of this words form name of a state in
+            United States of America. In the original vocabulary, this
+            phrase might be written as "New\_Jersey", thus for the
+            purpose of simplifying the input and the downstream tasks
+            those phrases did not included. On top of phrases, the
+            original vocabulary also includes hyperlinks which usually
+            contains "http". Such entries will also be removed. Only
+            first 40 thousands words with removal if the word contains
+            "\_" (underscore) or "http" is used in this research.
             
             Another pre-trained embedding is
             polyglot\footnote{Pretrained embedding available at
@@ -83,7 +83,7 @@
         library on top of Python 3.6 \citep{pytorch2017paszke}. Most
         of the basic functions, for instance 2d convolution layer, 2d
         maxpool layer, fully connected layer, bi-LSTM, and many
-        activation functions and loss functions and other mathematical
+        activation functions and loss functions, and other mathematical
         functions were already implemented as a library in PyTorch,
         thus will serve enough for the purpose of this research.
             
@@ -100,12 +100,12 @@
 \section{Training}
     \subsection{Training OOV model}
         Firstly, the pre-trained embeddings acted as the datasets were
-        split up into train-val set with $80\%$ and $20\%$ randomized
-        split respectively with minibatch size of 64. The word $w_i
-        \in \mathcal{V}$ becomes the input of the model and the word
-        embedding $e_i \in \mathcal{W}$ becomes the target. The input
-        word split into sequence of characters and starting token
-        \textit{\textless s\textgreater} and ending token
+        shuffled and split up into train-val set with $80\%$ and
+        $20\%$ quota respectively with minibatch size of 64. The word
+        $w_i \in \mathcal{V}$ becomes the input of the model and the
+        word embedding $e_i \in \mathcal{W}$ becomes the target. The
+        input word split into sequence of characters and starting
+        token \textit{\textless s\textgreater} and ending token
         \textit{\textless e\textgreater} were added at the beginning
         and at the end of the word respectively. For every minibatch,
         the longest word will be used as the maximum length. Every
@@ -118,8 +118,9 @@
         The sequence of characters then transformed into character
         embeddings then processed by the model producing the predicted
         word embedding. The \textsc{Mimick} model was trained with
-        learning rate $lr = 0.01$ with no dropout as dropout does not
-        work well just as in \textsc{Mimick}
+        learning rate $lr = 0.01$ for polyglot and $lr = 0.1$ for the
+        rest with no dropout as dropout does not work well just as in
+        the original implementation of \textsc{Mimick}
         \citep{mimicking2017Pinter}. On the other hand, CNN model was
         performing better with dropout when the model was pre-tested
         using different parameters. In summary, the hyperparameters
@@ -132,12 +133,11 @@
             \begin{tabular}{@{}lcc@{}}
                 \toprule
                 \textbf{Hyperparameter} & \multicolumn{1}{c}{\textbf{\textsc{Mimick}}} & \multicolumn{1}{c}{\textbf{CNN}} \\ \midrule
+                Train-Val split & \multicolumn{2}{c}{$80\%$; $20\%$}\\
+                Batch size & \multicolumn{2}{c}{64} \\
+                Epoch & \multicolumn{2}{c}{100} \\
+                Momentum & \multicolumn{2}{c}{0.5} \\
                 Learning Rate ($\eta$) & [0.01; 0.1] & 0.1 \\
-                Batch size & 64 & 64 \\
-                Epoch (word2vec) & 100 & 100 \\
-                Epoch (polyglot-en) & 100 & 100 \\
-                Epoch (dict2vec) & 100 & 100 \\
-                Momentum & 0.5 & 0.5 \\
                 Dropout & 0 & 0.5 \\
                 Num features & [50; 100; 200] & [20; 50; 100] \\ \bottomrule
             \end{tabular}
@@ -148,23 +148,29 @@
         \cite{convolutional2014kim} architecture for word n-grams.
         N-grams with window size $n = [2, 3, 4, 5, 6, 7]$ were used
         with respective kernel size $n \times b$ to simulate n-grams.
-        Different n-grams sizes, for instance $n = [2, 3, 4]$ and $n =
-        [5, 6, 7]$ can be used on top of the whole n-grams sizes. The
-        results on the downstream tasks for the different settings
-        then compared with the whole model and with the
+        Different sets of n-grams sizes, for instance $n = [2, 3, 4]$
+        and $n = [5, 6, 7]$ can be used instead of the whole n-grams
+        sizes. The results on the downstream tasks for the different
+        settings then compared with the whole model and with the
         \textsc{Mimick} model.
         
         After max-over-time pooled, the vector representation then
-        passed into fully connected network with highway network to
-        produce the predicted word embedding. The error then
-        calculated using Mean Squared Error as mentioned on equation
-        \ref{eq:errorf} then back-propagated to update the weights.
+        passed into two layers of fully connected network with batch
+        normalization layer for each layer to produce the predicted
+        word embedding. Batch normalization helps with the training
+        process by making all of the minibatch data to have similar
+        distribution \citep{batchnorm:DBLP:journals/corr/IoffeS15}.
+        The error then calculated using Mean Squared Error as
+        mentioned on equation \ref{eq:errorf} then back-propagated to
+        update the weights.
 
         Similar datasets were used to train \textsc{Mimick} with
         parameters taken from the original paper
-        \citep{mimicking2017Pinter}. After compared several parameters
-        then adjusted to see whether there is improvement or not. The
-        summary of the hyperparameters are as shown in table
+        \citep{mimicking2017Pinter}. To find the optimal parameters
+        such as learning rate, number of features/hidden neurons, and
+        number of epoch, several number of tests with different number
+        of parameters needed to be done. The summary of the
+        hyperparameters are as shown in table
         \ref{tab:hyperparameter}.
 
         % \begin{table}[]
@@ -198,25 +204,27 @@
         was scanned whether it is in-vocabulary or out-of-vocabulary.
         If the element turns out to be OOV, this element, which is a
         word, will be added into the vocabulary $\mathcal{V}$ and its
-        embedding, either a zero vector or a generated embedding from
-        the OOV model depending by the method used, will be added to
-        the original embedding $\mathcal{W}$. 
+        embedding, either a zero vector, a randomly initiated value,
+        or a generated embedding from the OOV model depending by the
+        method used, will be added to the original embedding
+        $\mathcal{W}$. The dataset were split up into 80\% for train set
+        and 20\%  for test set.
         
         The first method was to train the POS-tagger by using a
         defined embedding. The original pre-trained embedding entries
         $\mathcal{W}$ were concatenated with the OOV model predicted
         embeddings $f(\text{OOV})$ so that each word $v \in
         \mathcal{V}$ has vector representation. In short the new
-        embedding $\mathcal{\tilde{W}} = \mathcal{W} \cup
+        embedding $\mathcal{W}_{new} = \mathcal{W} \cup
         f(\text{OOV})$. The new pre-trained embedding
-        $\mathcal{\tilde{W}}$ will not be trained in this method by
-        setting the parameters fixed value.
+        $\mathcal{W}_{new}$ will not be trained in this method by
+        setting the parameters to be fixed values.
         
         The second method was to train the OOV model together with the
         POS-tagger. For this method, for each OOV entries added into
         the vocabulary $\mathcal{V}$, a zero vector representing the
         embedding of the OOV will be added to the embedding
-        $\mathcal{\tilde{W}}$ that later on replaced with the
+        $\mathcal{W}_{new}$ that later on replaced with the
         generated embedding $f(\text{OOV})$ if the input word is OOV
         as explained in the equation \ref{eq:embeddingmask} by masking
         the entries. Thus the OOV model will still be trained if the
@@ -225,16 +233,19 @@
         the accuracies were compared.
 
         In this task, the sentence length was limited to 5 words. If
-        the sentence's length is less than 5 words then padding token
-        were added at the end of the sentence and if the sentence's
-        length is more than 5 words, the slice of the sentence were
-        randomly selected. The POS-tagger were trained with 100 epoch
-        with 6 different seeds or training seeds for the random number
-        generation. The learning rate used was $0.1$ with dropout for
-        CNN model $0.5$ and no dropout for \textsc{Mimick} since it
-        makes the model performs worse. The momentum used for the
-        training was $0.5$. In summary the parameters used are shown
-        in table \ref{tab:hyperparameterpostag}
+        the sentence length is less than 5 words then padding token
+        were added at the end of the sentence to make the length
+        becomes 5 words and if the sentence's length is more than 5
+        words, the slice of the sentence were randomly selected. The
+        padding token \textit{\textless p\textgreater} is a zero
+        vector with dimension similar with the pre-trained embedding
+        $\mathcal{W}$. The POS-tagger were trained with 100 epoch with
+        6 different random seeds for the random number generation. The
+        learning rate used was $0.1$ with dropout for CNN model $0.5$
+        and no dropout for \textsc{Mimick} since it makes the model
+        performs worse. The momentum used for the training was $0.5$.
+        In summary the parameters used are shown in table
+        \ref{tab:hyperparameterpostag}
 
         \begin{table}[]
             \centering
@@ -243,14 +254,13 @@
             \begin{tabular}{@{}lcc@{}}
                 \toprule
                 \textbf{Hyperparameter} & \multicolumn{1}{c}{\textbf{\textsc{Mimick}}} & \multicolumn{1}{c}{\textbf{CNN}} \\ \midrule
-                Learning Rate ($\eta$) & 0.1 & 0.1 \\
-                Batch size & 64 & 64 \\
-                Epoch (word2vec) & 100 & 100 \\
-                Epoch (polyglot-en) & 100 & 100 \\
-                Epoch (dict2vec) & 100 & 100 \\
-                Momentum & 0.5 & 0.5 \\
+                Learning Rate ($\eta$) & \multicolumn{2}{c}{0.1} \\
+                Batch size & \multicolumn{2}{c}{64} \\
+                Epoch & \multicolumn{2}{c}{100} \\
+                Momentum & \multicolumn{2}{c}{0.5} \\
+                Training seed & \multicolumn{2}{c}{[64; 20; 128; 0; 5;
+                10]} \\
                 Dropout & 0 & 0.5 \\ 
-                Training seed & \multicolumn{2}{c}{[64; 20; 128; 0; 5; 10]} \\
                 \bottomrule
             \end{tabular}
         \end{table}

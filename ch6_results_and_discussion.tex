@@ -29,11 +29,10 @@
         the model and the nearest words appears in the vocabulary were
         calculated and shown on the table below. The input used are
         similar to the one used in testing \textsc{Mimick} on its
-        original paper, though it might be hard to see the correlation
-        between the input and the nearest neighbors since it is highly
-        dependant on the vocabulary or pretrained embedding and the
-        vocabulary size used for training, thus reliance on dictionary
-        and search engine were needed although it is not scientific.
+        original paper. The correlation between the in-vocabulary
+        words are also shown with the calculation from the pre-trained
+        embeddings to give comparison and to calculate how far of is
+        the predicted nearest neighbor and the target nearest neighbor.
 
         Both model CNN and \textsc{Mimick} results that were trained
         with word2vec are shown on Table
@@ -64,10 +63,11 @@
         trained with polyglot \citep{polyglot2013alrfou} only with
         different set of words for each input.
 
-        \begin{table}[H]
+        \begin{table}[!h]
           \begin{center}
             \caption{Nearest Neighbors Mimick (word2vec)}
             ~\\
+            \small
             \label{tab:nearest:lstm-word2vec}
             \begin{tabular}{c|l}
               \textbf{Word} & \textbf{Nearest Neighbors}\\
@@ -88,10 +88,11 @@
           \end{center}
         \end{table}
 
-        \begin{table}[H]
+        \begin{table}[!h]
           \begin{center}
             \caption{Nearest Neighbors CNN (word2vec)}
             ~\\
+            \small
             \label{tab:nearest:cnn-word2vec}
             \begin{tabular}{c|l}
               \textbf{Word} & \textbf{Nearest Neighbors}\\
@@ -114,10 +115,11 @@
 
         
         
-        \begin{table}[!ht]
+        \begin{table}[!h]
           \begin{center}
             \caption{Nearest Neighbors Mimick (polyglot)}
             ~\\
+            \small
             \label{tab:nearest:lstm-polyglot}
             \begin{tabular}{c|l}
               \textbf{Word} & \textbf{Nearest Neighbors}\\
@@ -138,10 +140,11 @@
           \end{center}
         \end{table}
 
-        \begin{table}[!ht]
+        \begin{table}[!hp]
           \begin{center}
             \caption{Nearest Neighbors CNN (polyglot)}
             ~\\
+            \small
             \label{tab:nearest:cnn-polyglot}
             \begin{tabular}{c|l}
               \textbf{Word} & \textbf{Nearest Neighbors}\\
@@ -162,60 +165,62 @@
           \end{center}
         \end{table}
 
-
-    \section{POStagging results}
+    \pagebreak[4]
+    \section{POS-tagging results}
+      % \begin{figure}[H]
+      %   \centering
+      %   \includegraphics[width=\linewidth]{images/postag_results.pdf}
+      %   \caption{POS-tagging results}
+      %   \label{fig:postag_results}
+      % \end{figure}
+      
+      The OOV embedding from both model on top of the pretrained
+      embedding were used as input for POS-tagging task. Firstly, the
+      OOV model were frozen, meaning that the embedding for OOV
+      entries were first predicted through the OOV model and added to
+      the pretrained word embedding. Then the collection of the
+      pretrained embedding and the predicted OOV embedding weights
+      were fixed so it would not changed in the training process. The
+      results of different number of features on different pretrained
+      embeddings is shown in figure
+      \ref{fig:postag_word2vec_freeze_results}, 
+      figure \ref{fig:postag_polyglot_freeze_results}, and figure
+      \ref{fig:postag_dict2vec_freeze_results}. CNN with number
+      of features 20 are able to outperform \textsc{Mimick} with
+      number of features of 50 and 100 for Word2vec and Polyglot
+      pretrained embeddings, while \textsc{Mimick} were performing
+      better for Dict2vec pretrained embeddings.
+      \begin{figure}[t]
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/freeze_word2vec.pdf}
+        \caption{POS-tagging results frozen embeddings}
+        \label{fig:postag_word2vec_freeze_results}
+      \end{figure}
       \begin{figure}[H]
         \centering
-        \includegraphics[width=\linewidth]{images/postag_results.pdf}
-        \caption{POStagging results}
-        \label{fig:postag_results}
+        \includegraphics[width=0.8\linewidth]{images/freeze_polyglot.pdf}
+        \caption{POS-tagging results frozen embeddings}
+        \label{fig:postag_polyglot_freeze_results}
       \end{figure}
-      The OOV embedding from both model on top of the pretrained
-      embedding were used as input for POStagging task. Firstly, the
-      OOV model were frozen, meaning that the OOV model output were
-      used as input as is by setting the weight to be frozen.
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/freeze_dict2vec.pdf}
+        \caption{POS-tagging results frozen embeddings}
+        \label{fig:postag_dict2vec_freeze_results}
+      \end{figure}
+      
       Secondly, the OOV model were also trained in conjunction with
-      the POStagger to improve accuracies of the POStagger. The
-      improvement on both models and both pretrained embedding by
-      allowing the OOV model to be trained during training the
-      POStagger can be seen on Figure \ref{fig:postag_results}.
-
-      Both frozen training and continued training for CNN model has
-      higher accuracies compared to \textsc{Mimick}. It shows that CNN
-      model are better to handle POStagging than \textsc{Mimick}.
+      the POS-tagger to improve accuracies of the POS-tagger as well
+      as to see whether further improvements in accuracies will be
+      achieved by training both the OOV model and the POS-tagger. The
+      results of these experiments were shown in figure ref ref ref.
+      
+      Thirdly, to simulate how such model will be used in the
+      downstream tasks application, both the pretrained embedding and
+      the OOV model will be trained and the results will be compared
+      to previously stated testing method.
 
     \section{Word Similarity}
-    % \begin{table}[h!]
-    %   \begin{center}
-    %     \caption{Word Similarity Task Results}
-    %     ~\\
-    %     \label{tab:table1}
-    %     \begin{tabular}{l|c|c|c|c|c|c|c|c|}
-    %       ~ & \multicolumn{4}{c|}{\textbf{word2vec}} & \multicolumn{2}{c|}{\textbf{polyglot}} & \multicolumn{2}{c|}{\textbf{dict2vec}}\\
-    %       \hline
-    %       \textbf{Dataset} & \textbf{OOV} & \textbf{invocab} &
-    %       \textbf{CNN} & \textbf{Mimick} &
-    %       \textbf{CNN} & \textbf{Mimick} &
-    %       \textbf{CNN} & \textbf{Mimick}\\
-    %       \hline
-    %       card & 989 & 317 & 71.39 & 85.65\\
-    %       mc30 & 4 & 35 & 714.29 & 731.64\\
-    %       men & 82 & 669 & 681.98 & 668.05\\
-    %       mturk287 & 95 & 404 & 605.97 & 542.96\\
-    %       mturk771 & 17 & 1096 & 656.73 & 654.57\\
-    %       rg65 & 2 & 46 & 663.70 & 714.45\\
-    %       rwstanford & 1488 & 1463 & 301.63 & 291.60\\
-    %       simlex & 17 & 1011 & 429.11 & 429.57\\
-    %       simverb & 90 & 737 & 308.92 & 310.88\\
-    %       verb143 & 4 & 113 & 485.09 & 483.57\\
-    %       wordsim & 13 & 424 & 647.94 & 648.74\\
-    %       yp130 & 5 & 142 & 483.99 & 461.94\\
-    %       \hline
-    %       \multicolumn{3}{c|}{average} & 504.22 &
-    %       501.97\\
-    %     \end{tabular}
-    %   \end{center}
-    % \end{table}
     \begin{table}[!ht]
       \begin{threeparttable} 
       \begin{center}
@@ -248,15 +253,15 @@
     \end{threeparttable} 
     \end{table}
 
-    On Table \ref{tab:wordsim:word2vec}, the model trained with
-    word2vec \citep{Distributed2013mikolov}. The predicted embedding
-    then used for calculating the spearman rank correlation. For
-    easier reading, all the results of word similarity task shown in
-    the table and the texts were multiplied by 1000. From 12 word
-    similarity datasets, CNN model has higher Spearman correlation
-    coefficient on 6 datasets with averaged Spearman correlation
-    coefficient of $504.23$ compared to \textsc{Mimick} that achieved
-    $501.97$.
+    On Table \ref{tab:wordsim:word2vec}, the OOV model trained with
+    Word2vec \citep{Distributed2013mikolov}. The predicted embedding
+    from the OOV model was used for calculating the spearman rank
+    correlation. For easier reading, all the results of word
+    similarity task shown in the table and the $\rho$ values were
+    multiplied by 1000. From 12 word similarity datasets, CNN model
+    has higher Spearman correlation coefficient on 6 datasets from 12
+    datasets with averaged Spearman correlation coefficient of
+    $504.23$ compared to \textsc{Mimick} that achieved $501.97$.
 
     \begin{table}[!ht]
       \begin{threeparttable} 
