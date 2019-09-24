@@ -30,7 +30,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAPHY STYLE
 \usepackage{natbib}
-% \bibliographystyle{plain} for [1], [2] etc.
+% \bibliographystyle{plain}
+%  for [1], [2] etc.
 \bibliographystyle{apalike}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -48,6 +49,8 @@
 \usepackage{titlesec}
 \usepackage{soul}
 \usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{ragged2e}
 % The left-hand-side should be 40mm.  The top and bottom margins should be
 % 25mm deep.  The right hand margin should be 20mm.
 \usepackage[a4paper,top=3.5cm,bottom=3.5cm,left=4cm,right=3cm,headsep=10pt]{geometry}
@@ -70,6 +73,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ANY OTHER DECLARATIONS HERE:
 \titleformat*{\section}{\Large\bfseries}
+\newcolumntype{C}{>{\Centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -140,7 +145,7 @@ Computer Science
 % \vfill
 \vskip 1.5cm
 Supervisors:\\
-Prof. Jehn Lehmann\\
+Prof. Jens Lehmann\\
 Dr. Giulio Napolitano
 \vfill
 \textsc{Institut f{\"u}r Informatik III}\\
@@ -155,7 +160,7 @@ Dr. Giulio Napolitano
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DECLARATIONS
 \chapter*{Declaration of Authorship}
-I, Student name, declare that this thesis, titled "OOV Handling by
+I, Yonathan Purbo Santosa, declare that this thesis, titled "OOV Handling by
 Learning Subword using CNN based N-grams", and the work presented in
 it are my own. I confirm that:
 
@@ -187,7 +192,22 @@ it are my own. I confirm that:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ACKNOWLEDGEMENT
 \chapter*{Acknowledgements}
-blah blah blah
+I have received lots of supports, advice, and assistance throughout
+this document writing. I would like to thank my supervisors Prof. Dr.
+Jens Lehmann and Dr. Giulio Napolitano for formulating this topic. I
+would also like to thank my Tutor Debanjan Chaudhuri for guiding with
+advice to finish this document. 
+\\~\\
+I would like to thank my family and friends both here in Germany and
+back home in Indonesia for giving me non-stop love, support, and
+advices throughout my study in Bonn University. You gave me great
+escape to rest my mind from my thesis.
+\\~\\
+In addition, would also like to thank Indonesia Endowment Fund for
+Education (LPDP) for giving me the opportunity to study abroad in
+Germany and covering my expenses and helping me to finish the Master
+program.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -225,14 +245,51 @@ blah blah blah
 \newpage
 \pdfbookmark[0]{Contents}{contents_bookmark}
 \tableofcontents
-\listoftables
-\phantomsection
-\addcontentsline{toc}{chapter}{List of Tables}
-\listoffigures
-\phantomsection
-\addcontentsline{toc}{chapter}{List of Figures}
+% \listoftables
+% \phantomsection
+% \addcontentsline{toc}{chapter}{List of Tables}
+% \listoffigures
+% \phantomsection
+% \addcontentsline{toc}{chapter}{List of Figures}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ABSTRACT
+\newpage
+\pagebreak
+\hspace{0pt}
+\vfill
+\begin{center}
+	\textbf{Abstract}
+\end{center}
+\par Word embedding is word representation that is able to represent
+word in a dense vector instead of sparse vector. Word embedding
+normally consist of set of vocabulary and set of vector representation
+for each entries in vocabulary. The purpose of word embedding is to
+make text data to be able to be processed with mathematical function.
+In the training process of collecting vocabulary and its vector
+representation, some words might not exists in the training corpus.
+Thus this word has no vector representation for downstream tasks. A
+model called \textsc{Mimick} were created to handle this problem by
+using bi-LSTM to predict embedding of words that are not in the
+vocabulary (out-of-vocabulary or OOV). The problem with this
+implementation is that only the last hidden states were used for
+predicting the embedding. In the bi-LSTM architecture exists cell gate
+that controls the information flow. When this gate decided to forget
+previous sequence, then previous information will not be carried on to
+the later sequence. Thus another method is proposed to tackle this
+problem. CNN that mimics n-grams is used to process sequence data. By
+doing so, intermediate sequence of a word has higher chance of carried
+on to predict the embedding of OOV then tested on downstream tasks
+such as POS-tagging and word similarity tasks thus should improve
+performance in downstream tasks.
+\\~\\
+\textbf{Keywords:} CNN, CNNgrams, OOV, OOV handling,
+out-of-vocabulary, out-of-vocabulary handling
+\vfill
+\hspace{0pt}
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAIN THESIS TEXT: arabic page numbering 1, 2, 3, ...

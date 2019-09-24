@@ -139,7 +139,7 @@
                 Momentum & \multicolumn{2}{c}{0.5} \\
                 Learning Rate ($\eta$) & [0.01; 0.1] & 0.1 \\
                 Dropout & 0 & 0.5 \\
-                Num features & [50; 100; 200] & [20; 50; 100] \\ \bottomrule
+                Num features & [50; 100; 200; 300] & [20; 50; 100] \\ \bottomrule
             \end{tabular}
         \end{table}
 
@@ -149,7 +149,7 @@
         N-grams with window size $n = [2, 3, 4, 5, 6, 7]$ were used
         with respective kernel size $n \times b$ to simulate n-grams.
         Different sets of n-grams sizes, for instance $n = [2, 3, 4]$
-        and $n = [5, 6, 7]$ can be used instead of the whole n-grams
+        or $n = [5, 6, 7]$ can be used instead of the whole n-grams
         sizes. The results on the downstream tasks for the different
         settings then compared with the whole model and with the
         \textsc{Mimick} model.
