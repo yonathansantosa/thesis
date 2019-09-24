@@ -1,20 +1,20 @@
 \chapter{Results and Discussion}
 \label{chap:results}
-    \section{OOV model}
+    \section{OOV handling model}
         After training the model was done, some OOV words were fed
-        into the model and the nearest in-vocabulary words were
+        into the model and 5 nearest in-vocabulary words were
         calculated for sanity check and shown on the table below. The
-        input used are similar to the one used in testing
+        input used were similar to the one used in testing
         \textsc{Mimick} on its original paper for Polyglot embedding
-        for English  only that the input that produces interesting
+        for English and few examples from the brown corpus that turned
+        out to be OOV, but only inputs that produced interesting
         results are shown. Both model CNN and \textsc{Mimick} results
         for nearest neighbor that were trained with Polyglot are shown
-        on Table \ref{tab:nearest:cnn-polyglot} and Table
-        \ref{tab:nearest:lstm-polyglot} respectively. On top of that,
-        some other handpicked words were added into the input data.
-        The number of features for \textsc{Mimick} and CNN was 100.
+        in Table \ref{tab:nearest:cnn-polyglot} and Table
+        \ref{tab:nearest:lstm-polyglot} respectively. The number of
+        features for \textsc{Mimick} and CNN was 100.
 
-        The first word is "hurtling", typographical error from the
+        The first word was "hurtling", typographical error from the
         word hurting. For this word, both model seems to be able to
         locate that the nearest neighbor is another verb with suffix
         \textit{-ing}. Interestingly for CNN, it relates this word
@@ -22,28 +22,30 @@
         second word is "expectedly". Both model were able to predict
         that the nearest neighbor is another word with suffix
         \textit{-ly}. The third input word is "Actively". For this
-        input, \textsc{Mimick} predicted that this word is a name,
-        thus the nearest neighbor is name while CNN predicted that
-        this is some word with suffix \textit{-ly} and capital letter
-        at the beginning. The next word is "corduroy", which a pattern
-        in textile. CNN model were able to predict that one of the
+        input, \textsc{Mimick} predicted that this word is a name
+        which the first word is capitalize, thus the nearest neighbor
+        is name. On the other hand, CNN predicted that this is some
+        word with suffix \textit{-ly} and capital letter at the
+        beginning. The next word is "corduroy", which is a pattern in
+        textile. CNN model were able to predict that one of the
         nearest neighbor is "garment". The next input is
         "question-and-answer". This input constructed from 3 words
-        connected with dash symbol. CNN model predicted that the
-        nearest neighbor were activities that subjects do like
-        "hostess" and "recruiter". The last input is a number "1657".
-        \textsc{Mimick} predicted that the nearest neighbor is
-        mathematical function in latex while CNN predicted this to be
-        an abbreviation.
+        connected with dash (-) symbol. CNN model predicted that the
+        nearest neighbor were activities that the subjects do, for
+        instance "hostess" and "recruiter". The last input is a number
+        "1657". \textsc{Mimick} predicted that the nearest neighbor is
+        mathematical function in latex for example "\textbackslash
+        exp", while CNN predicted the nearest neighbor to be an
+        abbreviation.
 
-        From these results, both model were able to predict the
-        nearest neighbor that might related to each other for some
-        cases, but this results are highly dependent on the pretrained
-        embedding that was used to train the OOV model. If both model
+        From those results, both model were able to predict the
+        nearest neighbor that might be related to each other for some
+        cases, but this results are highly dependent on the pre-trained
+        embedding that was used to train the OOV handling model. If both model
         were trained using Word2vec, then for input word "hurtling"
         and "corssing" produced nearest neighbor "turning", "putting",
         "squeezing", "pushing", "talking", and "pulling" in different
-        order.
+        order sorted from the closest to the furthest.
         
         % The first test word were an abbreviation "MCT" with length of
         % three characters and all-capitalize. Both model were able to
@@ -254,24 +256,25 @@
 
       In order to test the best number of features parameter for each
       OOV handling model, the model and the embedding were set to be
-      in evaluation mode, meaning that the parameters will not change
-      when training the POS-tagger model. The OOV embedding from both
-      model on top of the pretrained embedding were used as input for
-      POS-tagging task. Firstly, the embedding for OOV entries were
-      predicted through the OOV model and added to the pretrained word
-      embedding. Then the collection of the pretrained embedding and
-      the predicted OOV embedding weights were fixed so it would not
-      changed in the training process. The results of different number
-      of features on different pretrained embeddings is shown in
-      figure \ref{fig:postag_word2vec_freeze_results}, figure
+      in evaluation mode or frozen, meaning that the parameters will
+      not change when training the POS-tagger model. The OOV embedding
+      from both model on top of the pre-trained embedding were used as
+      input for POS-tagging task. Firstly, the embedding for OOV
+      entries were predicted through the OOV handling model and added to the
+      pre-trained word embedding. Then the collection of the
+      pre-trained embedding and the predicted OOV embedding weights
+      were fixed so it would not changed in the training process. The
+      results of different number of features on different pre-trained
+      embeddings are shown in figure
+      \ref{fig:postag_word2vec_freeze_results}, figure
       \ref{fig:postag_polyglot_freeze_results}, and figure
       \ref{fig:postag_dict2vec_freeze_results}. With this settings,
       only CNN with 20 number of features can outperforms the
       \textsc{Mimick} model in Word2vec word embedding while
       \textsc{Mimick} performs better in the other word embedding
       across different number of features used. Interestingly, this
-      setting for Dict2vec performs worse than randomly initialized OOV
-      embeddings.
+      setting for bot models perform worse than randomly initialized
+      OOV embeddings for Dict2vec pre-trained embedding.
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/freeze_word2vec.pdf}
@@ -291,21 +294,24 @@
         \label{fig:postag_dict2vec_freeze_results}
       \end{figure}
       
-      Secondly, the OOV model were also trained in conjunction with
-      the POS-tagger to improve accuracies of the POS-tagger as well
-      as to see whether further improvements in accuracies will be
-      achieved by training both the OOV model and the POS-tagger. Note
-      that the word embedding parameters were still untrainable in
-      this setting. The results of these experiments were shown in
-      figure \ref{fig:postag_word2vec_continuous_results}, figure
+      Secondly, the OOV handling model were also trained in
+      conjunction with the POS-tagger to improve accuracies of the
+      POS-tagger as well as to see whether further improvements in
+      accuracies will be achieved by training both the OOV handling
+      model and the POS-tagger. Note that the word embedding
+      parameters were still untrainable in this setting. The results
+      of these experiments were shown in figure
+      \ref{fig:postag_word2vec_continuous_results}, figure
       \ref{fig:postag_polyglot_continuous_results}, and figure
       \ref{fig:postag_dict2vec_continuous_results}. The accuracy was
-      increased for both OOV model as expected surpassing the randomly
-      initialized OOV embeddings and the previous setting across all
-      pretrained embeddings. Surprisingly, by allowing the OOV model
-      to be trained the accuracies of the POS-tagger model using CNN
-      as the OOV handling model were increased in all of the
-      pretrained embeddings used in this research.
+      increased for both OOV handling model as expected surpassing the
+      randomly initialized OOV embeddings and the previous setting
+      across all pre-trained embeddings. Surprisingly, by allowing the
+      OOV handling model to be trained the accuracies of the
+      POS-tagger model using CNN as the OOV handling model are
+      surpassing the accuracies from POS-tagger that were using
+      \textsc{Mimick} as the OOV handling model in all of the
+      pre-trained embeddings used in this research.
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/continuous_word2vec.pdf}
@@ -326,10 +332,10 @@
       \end{figure}
 
       Thirdly, to simulate how such model will be used in the
-      downstream tasks application, both the pretrained embedding and
-      the OOV model will be trained and the results will be compared
+      downstream tasks application, both the pre-trained embedding and
+      the OOV handling model will be trained and the results will be compared
       to previously stated testing method. The number of features with
-      the highest results from each OOV model for each word embedding
+      the highest results from each OOV handling model for each word embedding
       were used. The results are shown in figure
       \ref{fig:postag_train_embed_results}. For this setting, CNN
       model were able to outperform \textsc{Mimick} for Polyglot and
@@ -337,7 +343,7 @@
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/train_embed.pdf}
-        \caption{POS-tagging results for OOV model and pretrained embeddings training}
+        \caption{POS-tagging results for OOV handling model and pre-trained embeddings training}
         \label{fig:postag_train_embed_results}
       \end{figure}
       
@@ -348,6 +354,11 @@
       were used in \textsc{Mimick}.
 
     \section{Word Similarity}
+    For word similarity task, the cosine distance between each given
+    pairs from the dataset were calculated. Afterward, Spearman's rank
+    correlation coefficient between the predicted embedding cosine
+    distance and the score from the dataset were calculated.
+
     \begin{table}[!ht]
       \begin{threeparttable} 
       \begin{center}
@@ -379,15 +390,17 @@
       
     \end{threeparttable} 
     \end{table}
-    On Table \ref{tab:wordsim:word2vec}, the OOV model trained with
+    On Table \ref{tab:wordsim:word2vec}, the OOV handling model trained with
     Word2vec \citep{Distributed2013mikolov}. The predicted embedding
-    from the OOV model with highest accuracy from POS-tagging tasks
+    from the OOV handling model with highest accuracy from POS-tagging tasks
     were used for calculating the Spearman's rank correlation $\rho$.
     For easier reading, $\rho$ values were multiplied by 1000. From
     12 word similarity datasets, CNN model has higher Spearman's rank
     correlation coefficient on 5 datasets from 12 datasets with
     averaged Spearman's rank correlation coefficient of $488.84$ compared to
-    \textsc{Mimick} that achieved $492.05$.
+    \textsc{Mimick} that achieved $492.05$. The higher $\rho$ values
+    for each model and each dataset were marked with bold type setting
+    in the table.
 
     \begin{table}[!ht]
       \begin{threeparttable} 
@@ -420,11 +433,11 @@
     \end{threeparttable} 
     \end{table}
 
-    The same procedure for both models trained with polyglot
+    The same procedure was used for both models trained with polyglot
     \citep{polyglot2013alrfou}. From 12 word similarity datasets,
-    \textsc{Mimick} has 4 datasets that has higher Spearman
+    \textsc{Mimick} has 4 datasets that has higher Spearman's rank
     correlation coefficient than CNN model and 5 datasets that is
-    lower compared to CNN model while the other 3 has similar $\rho$
+    lower compared to CNN model while the other 2 has similar $\rho$
     value because of no OOV entries. In contrast with the model
     trained with word2vec, the model trained with polyglot
     \citep{polyglot2013alrfou} only achieved Spearman's rank
@@ -467,20 +480,20 @@
     \end{table}
 
     For baseline embedding Dict2vec \citep{dict2vect2017tissier}. The
-    original embedding added with random embedding for OOV handling
-    tried several times and the one with highest results were
-    selected. The results were then compared with CNN and
-    \textsc{Mimick} models. Dict2vec only able to achieve Spearman's
-    rank correlation coefficient of $519.22$. In contrast
+    original embedding added with randomly generated embedding for OOV
+    handling were tried five times and the one with highest results
+    for each dataset was selected. The results then compared with CNN
+    and \textsc{Mimick} models. Dict2vec only able to achieve
+    Spearman's rank correlation coefficient of $519.22$. In contrast to
     \textsc{Mimick} model and CNN model were able to achieve $550.55$
     and $551.96$ on average respectively as shown on Table
-    \ref{tab:wordsim:dict2vec}. This shows that both OOV models can
-    handle OOV better than initializing embedding randomly for OOV. On
-    top of that, for Dict2vec word embedding, CNN performs better than
-    \textsc{Mimick}.
+    \ref{tab:wordsim:dict2vec}. This shows that both OOV handling
+    models can handle OOV better than initializing embedding randomly
+    for OOV. On top of that, for Dict2vec word embedding, CNN performs
+    better than \textsc{Mimick}.
 
     In summary, for word similarity tasks over 12 datasets and 3
-    pretrained word embeddings CNN performs better on Polyglot and
+    pre-trained word embeddings CNN performs better on Polyglot and
     Dict2vec while \textsc{Mimick} performs better on word2vec in word
     similarities tasks. This further proved that CNN are better for
     handling OOV than \textsc{Mimick}.

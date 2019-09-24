@@ -5,11 +5,11 @@
 % footnote.}  The conclusion is in Chapter on page
 \section{Out-of-Vocabulary Model}
     \subsection{Sequence Feature Extraction}
-        OOV problem is handled from quasi-generative perspective as
+        OOV problem was handled from quasi-generative perspective as
         aforementioned in chapter \nameref{chap:intro} by using neural
         language model under assumption that there is a form that
         could generate embedding for the original embedding. Hence
-        that, the original vocabulary and its embedding is used for
+        that, the original vocabulary and its embedding were used for
         training the model to generate the embedding. In chapter
         \nameref{chap:intro}, reasons why \textsc{Mimick} could
         perform worse is because the OOV embedding is generated from
@@ -51,24 +51,26 @@
 
         \begin{figure}
             \begin{align*}
-                unrecognizable : &unre \vert nrec \vert reco \vert ecog \vert cogn \vert ogni \vert gniz \vert niza \vert izab \vert zabl \vert able\\
-                internationalities : &inte \vert nter \vert tern \vert erna \vert rnat \vert nati \vert atio \vert tion \vert iona \vert onal \vert \\
-                &nali \vert alit \vert liti \vert itie \vert ties\\
+                unrecognizable : &unre \vert nrec \vert reco \vert ecog \vert cogn \vert ogni \vert gniz \vert niza \vert izab \vert\\ 
+                &zabl \vert able\\
+                internationalities : &inte \vert nter \vert tern \vert erna \vert rnat \vert nati \vert atio \vert tion \vert iona \vert\\
+                &onal \vert nali \vert alit \vert liti \vert itie \vert ties\\
                 otorhinolaryngological : &otor \vert torh \vert orhi \vert rhin \vert hino \vert inol \vert nola \vert olar \vert lary \vert \\
-                &aryn \vert ryng \vert yngo \vert ngol \vert golo \vert olog \vert logi \vert ogic \vert gica \vert ical\\
-                hepaticocholangiogastrostomy : &hepa \vert epat \vert pati \vert atic \vert tico \vert icoc \vert coch \vert ocho \vert chol \vert hola \vert olan \vert\\
-                &lang \vert angi \vert ngio \vert giog \vert ioga \vert ogas \vert gast \vert astr \vert stro \vert\\
+                &aryn \vert ryng \vert yngo \vert ngol \vert golo \vert olog \vert logi \vert ogic \vert gica \vert\\
+                &ical\\
+                hepaticocholangiogastrostomy : &hepa \vert epat \vert pati \vert atic \vert tico \vert icoc \vert coch \vert ocho \vert chol \vert hola \vert\\
+                & olan \vert lang \vert angi \vert ngio \vert giog \vert ioga \vert ogas \vert gast \vert astr \vert stro \vert\\
                 &tros \vert rost \vert osto \vert stom \vert tomy
             \end{align*}
             \caption{4-grams examples}
             \label{fig:4grams}
         \end{figure}
 
-        For all subsequence to be processed, we need a method that
-        accounts for the whole sequence yet still able to divides the
-        whole sequence into subsequences. Consequently, n-grams is
-        chosen because this method splits word into sequence of
-        characters depends on the chosen window size as shown on
+        For all subsequence to be processed, a method that accounts
+        for the whole sequence yet still able to divides the whole
+        sequence into subsequences is needed. Consequently, n-grams
+        was chosen because this method splits word into sequence of
+        characters depending on the chosen window size as shown on
         figure \ref{fig:4grams}. Before processing the n-grams, the
         word first split into sequence of characters and then each
         character is transformed into embedding and processed with CNN
@@ -89,7 +91,7 @@
             \mathcal{L} = \Vert f(w_i) - e_i \Vert^{2}_2
         \end{equation}
         This approach is similar to \textsc{Mimick}
-        \cite{mimicking2017Pinter} approach. The text input is
+        \cite{mimicking2017Pinter} approach. The text input was
         represented as a sequence of character $[c_1, c_2, \dots,
         c_m]$ for $c_i \in \mathcal{C}$. Those sequence then
         transformed as sequence of vectors $g_i$ with $b$ dimension by
@@ -97,7 +99,7 @@
         \vert \times b}$. For simplicity, sequence of $[g_1, g_2,
         \dots, g_m]$ will be called $\{g\}^m$. $\{g\}^m$ becomes
         2-dimensional matrix that has size of $m \times b$. In
-        summary, given word $w$ will be transformed using embedding
+        summary, given word $w$ was transformed using embedding
         generation function $h$ into $\{g\}^m$ as shown on equation
         \ref{eq:word2charemb}.
 
@@ -114,17 +116,17 @@
         character embedding. This operation is represented with $*$
         symbol as stated in equation \ref{eq:conv_d:2}. This operation
         produced another vector $\hat{l}$ that represents the value of
-        each grams, then non-linearity is applied to this vector by
+        each grams, then non-linearity was applied to this vector by
         using ReLU activation,
         \begin{equation}
             \label{eq:relu}
             ReLU(x) = max(0,x)
         \end{equation}
 
-        Several kernel is used to learn several features for producing
-        embeddings. Each of these kernel will be responsible to find
-        grams that are affecting the results, thus the vector
-        $\hat{l_i}$ that are results of convolution $\{g\}^m * k_i$
+        Several kernel was used to learn several features for
+        producing embeddings. Each of these kernel was responsible to
+        find grams that were affecting the results, thus the vector
+        $\hat{l_i}$ that is results of convolution $\{g\}^m * k_i$
         will be maxpooled to produce one number. In details, from
         given sequence of character embedding $\{g\}^m$, only gram
         that produces the highest value when convoluted by using
@@ -139,17 +141,17 @@
         n-grams can be trained together only then concatenated later.
 
     \subsection{Embedding Generation}
-        After the features are able to be extracted, those features
+        After the features were able to be extracted, those features
         then concatenated and fed into fully connected layer with
         output size matching the pretrained embedding $\mathcal{W}$
-        dimension $d$ with non-linear activation function $hardtanh$
+        dimension $d$ with non-linear activation function $Hardtanh$
         matching the maximum and minimum bound of the pretrained
         embedding $\mathcal{W}$ resulting a new embedding vector
-        $\tilde{e}$. The fully connected layer consist of one hidden
+        $\tilde{e}$. The fully connected layer consists of one hidden
         layer and one output layer with batch normalization before
         each layer to further sped up the training convergence
         according to \cite{batchnorm:DBLP:journals/corr/IoffeS15}.
-        This normalization layer basically maintain that the
+        This normalization layer basically maintains that the
         distribution of each minibatch remains similar so that
         covariance shift is minimized in the training process
         \citep{batchnorm:DBLP:journals/corr/IoffeS15}. This process
@@ -157,12 +159,12 @@
         certain mean and variance
         \citep{batchnorm:DBLP:journals/corr/IoffeS15}. This mean and
         variance are learnable parameters. Let minibatch $\mathcal{B}
-        = {x_1, x_2, \dots, x_m}$, following operation was applied,
+        = {x_1, x_2, \dots, x_m}$, following operations were applied,
         \begin{align}
             \label{eq:bn:mu}
             \mu_{\mathcal{B}} &= \frac{1}{m} \sum_{i=1}^m x_i\\
             \label{eq:bn:var}
-            \sigma^2_{\mathcal{B}} &= \frac{1}{m} \sum_{i=1}^m (x_i - \mu_{\mathcal{B}}^2\\
+            \sigma^2_{\mathcal{B}} &= \frac{1}{m} \sum_{i=1}^m \left(x_i - \mu_{\mathcal{B}}^2\right)\\
             \label{eq:bn:norm}            
             \tilde{x}_i &= \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma^2_{\mathcal{B}} + \epsilon}}\\
             \label{eq:bn:transform}            
@@ -171,7 +173,7 @@
         Equation \ref{eq:bn:mu} and equation \ref{eq:bn:var} tries to
         find the mean and variance to normalize the minibatch by
         equation \ref{eq:bn:norm}. After all of the data in the
-        minibatch $\mathcal{B}$ was normalized, the data then scaled
+        minibatch $\mathcal{B}$ were normalized, the data then scaled
         by parameter $\gamma$ and shifted by parameter $\beta$ as
         shown in equation \ref{eq:bn:transform}. By making the
         parameters $\gamma$ and $\beta$ learnable, the model will
@@ -193,21 +195,21 @@
         until predicting embedding is shown on figure \ref{fig:model}.
         \begin{figure}
             \centering
-            \includegraphics[width=.8\linewidth]{images/model2.pdf}
+            \includegraphics[width=.8\linewidth]{images/model_batchnorm.pdf}
             \caption{OOV Inferencing Model}
             \label{fig:model}
         \end{figure}
-        On figure \ref{fig:model}, starting and ending token is added
-        at the beginning and the end of the word respectively.
-        Furthermore, padding token is added if the input word is
+        On figure \ref{fig:model}, starting and ending token were
+        added at the beginning and the end of the word respectively.
+        Furthermore, padding token was added if the input word was
         shorter than the longest input size in the minibatch. The
         padding token is a zero vector $\vec{0}$ and $\vec{0} * k =
         \vec{0}$ for any $k$. This is to ensure that part of input
         that got padded does not goes through maxpool layer since only
         grams that has highest value can goes through the next layer
         and minimum value of ReLU is 0 thus the result of maxpooling
-        it will be 0. The reason for this is so that various length
-        of words are able to be processed by the model.
+        it will be 0. The reason for this is so that various length of
+        words are able to be processed by the model.
 
     \subsection{Error and Backpropagation}
         The predicted embedding $\tilde{e}$ from the model then
@@ -218,12 +220,12 @@
             \label{eq:errorf}
             Error = \frac{1}{2} \Vert e - \tilde{e} \Vert ^{2}_2
         \end{equation}
-        By minimizing $Error$ it is similar by minimizing
+        By minimizing $Error$, it is similar to minimizing
         $\mathcal{L}$ shown in equation \ref{eq:lossfn}. The error
         then backpropagated to fine-tune the neural network
         parameters, character embedding $\mathcal{G}$, the kernel $k
-        \in K$, and the batch normalization parameters $\gamma and
-        \beta$.
+        \in K$, and the batch normalization parameters $\gamma$ and
+        $\beta$.
         
 \section{Measuring Performance on Downstream Tasks}
     In natural language modeling (NLP), there are several tasks that
@@ -235,20 +237,20 @@
     \subsection{Part-of-Speech Tagging}
         Part-of-speech tagging or POS-tagging is a task of classifying
         usage of words in sentence or corpus based on the grammatical
-        usage of the word \{CITE\}, for example: verb, noun, adverb,
-        etc. Given sentence $S = \{w \in \mathcal{V} \vert ((w_1,
-        t_1), (w_2, t_2)\\, \dots, (w_n, t_n)\}$ with its POS-tag
-        $t_i$, each word $w_i$ that exist in the vocabulary $w_i \in
-        \mathcal{V}$ and $w_i \in S$ is transformed into embedding
-        $e_i$. For the OOV, every sequence of the characters building
-        a word transformed into sequence of character embedding
-        $\{g\}_{i}^m$ using model represented in equation
-        \ref{eq:word2charemb} then the embedding $\tilde{e}_i$ is
-        predicted using the OOV handling model, else the original
-        embedding is used if the word exist inside the vocabulary
-        $\mathcal{V}$. This was done by masking the output of the OOV
-        handling model and the original embedding in the following
-        way,
+        usage of the word \citep{robustpostag2018horsmann}, for
+        example: verb, noun, adverb, etc. Given sentence $S = \{w \in
+        \mathcal{V} \vert ((w_1, t_1), (w_2, t_2), \dots, (w_n,
+        t_n)\}$ with its POS-tag $t_i$, each word $w_i$ that exist in
+        the vocabulary $w_i \in \mathcal{V}$ and $w_i \in S$ was
+        transformed into embedding $e_i$. For the OOV, every sequence
+        of the characters building a word transformed into sequence of
+        character embedding $\{g\}_{i}^m$ using model represented in
+        equation \ref{eq:word2charemb} then the embedding
+        $\tilde{e}_i$ was predicted using the OOV handling model, else
+        the original embedding was used if the word exist inside the
+        vocabulary $\mathcal{V}$. This was done by masking the output
+        of the OOV handling model and the original embedding in the
+        following way,
         \begin{align}
             \label{eq:embeddingmask}
             embedding &= mask \odot e_i + (1-mask) \odot \tilde{e}_i\\
@@ -273,8 +275,8 @@
         to classify the POS-tag $t$. To ease up computation time,
         adaptive LogSoftmax is used \citep{grave2018efficientsoftmax}.
         Instead of calculating the whole tag classification, the
-        frequent and infrequent classes are separated thus there are
-        many chances that only frequent classes needs to be calculated
+        frequent and infrequent classes were separated thus there were
+        many chances that only frequent classes needed to be calculated
         before trying to calculate the infrequent classes. After
         calculating the loss, stochastic gradient descent was used to
         optimize the parameters of the model. The complete process of
@@ -309,7 +311,7 @@
             CosineSimilarity(e_1, e_2) = \frac{e_1 \cdot e_2}{\Vert e_1 \Vert \Vert e_2 \Vert}
         \end{equation}
 
-        After all of the cosine distance for all pairs are calculated,
+        After all of the cosine distance for all pairs were calculated,
         Spearman rank's correlation from the dataset and the generated
         embedding are calculated by using equation \ref{eq:spearman}
         and by using equation \ref{eq:spearmantied} when no tied ranks

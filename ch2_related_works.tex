@@ -10,11 +10,11 @@ availability of different language models to be trained. Previously,
 specific language features were hand crafted by experts of specific
 language \citep{polyglot2013alrfou}. This makes applying a language
 model that are trained using commonly available language features
-harder, hence the creation of Polyglot word embedding. This embedding
-was trained on Wikipedia article and has no OOV handling if there
-exist word that does not used in Wikipedia. This pretrained embedding
-is also used in the baseline model \textsc{Mimick} for generating OOV
-embedding in many languages.
+harder, hence the creation of Polyglot word embedding
+\citep{polyglot2013alrfou}. This embedding was trained using Wikipedia
+article and has no OOV handling if there exist word that does not used
+in Wikipedia. This pretrained embedding is also used in the baseline
+model \textsc{Mimick} for generating OOV embedding in many languages.
 
 Word2vec is another word embedding that is trained using skip-gram
 model \citep{efficient2013mikolov}. The available language choice for
@@ -22,12 +22,12 @@ this pretrained embedding is English. A word $w(t)$ used as an input
 and its context word, for example context word with windows of 4 are
 $w(t-2), w(t-1), w(t+1),$ and $w(t+2)$, used as the target. The model
 tried to project the input $w(t)$ to the output to predict the context
-words \citep{efficient2013mikolov}. This model is highly dependent on
-the corpus completeness. More examples and vocabulary a corpus has,
-the better the representation of the embeddings since more information
-will be able to be learned. Word2vec model has no OOV handling,
-meaning either random vector or unknown \textit{\textless
-UNK\textgreater} embedding will be used for it.
+words \citep{efficient2013mikolov}. Similar with Polyglot, this model
+is highly dependent on the corpus completeness. More examples and
+vocabulary a corpus has, the better the representation of the
+embeddings since more information will be able to be learned. Word2vec
+model has no OOV handling, meaning either random vector or unknown
+\textit{\textless UNK\textgreater} embedding will be used for it.
 
 Dict2vec is yet another embedding that is trained by looking up
 definitions of words from Cambridge dictionary
@@ -40,56 +40,43 @@ inside a corpus making it harder for the model to find connection
 sets of strong and weak pairs of words, then move both pairs closer
 and further respectively based on the pairs. The model then evaluated
 using several word similarity tasks to show improvements over vanilla
-implementation of word2vec and fasttext \citep{tissier2017dict2vec}. 
+implementation of word2vec and fasttext \citep{tissier2017dict2vec}.
+Similar with previous word embedding, Dict2vec also has no OOV
+handling method and since the vocabularies were only inferred from
+Cambridge dictionary, there is no typographical error.
 
 As aforementioned above, those word embedding has no way of handling
 OOV words rather than assigning some unknown token \textit{\textless
 UNK\textgreater} or let the downstream tasks model to train from the
-random generated embeddings. This case fueled \textsc{Mimick}, an OOV
-handling model to be created \citep{mimicking2017Pinter}.
-\textsc{Mimick} uses bidirectional Long-Short Term Memory (bi-LSTM) to
-process characters of an OOV word to produce embeddings. The OOV
-embedding generation process is taken from quasi-generative
-perspective, meaning that the original embedding assumed to has some
-form that could generate the embeddings \citep{mimicking2017Pinter}. 
-
-\cite{character2015kim} created a language model for several
-languages. This model used character n-grams by using character
-embeddings and processed with CNN like an image. The results from
-these process then passed through a highway network. A highway network
-controls whether the information from the input would also be carried
-to the next process or to be changed with something else. The output
-of the highway network then passed through LSTM to predict the next
-word. In those research, the results of the model for OOV nearest
-neighbor trained with or without highway network were compared. The
-results was that the one trained without highway network has closer
-distance to a word that has smallest edits while the one that trained
-with the highway network has closer distance to a word that has
-similar orthographic \citep{character2015kim}.
+randomly generated embeddings. This case fueled \textsc{Mimick}, an
+OOV handling model to be created \citep{mimicking2017Pinter}. This
+model were able to tackle this problem successfully by using
+uses bidirectional Long-Short Term Memory (bi-LSTM) to process
+characters of an OOV word to produce embeddings. The OOV embedding
+generation process is taken from quasi-generative perspective, meaning
+that the original embedding assumed to has some form that could
+generate the embeddings \citep{mimicking2017Pinter}. By doing so, the
+OOV embeddings are able to be predicted without the needs of knowing
+lexicon or model used for creating the word embedding. To prove that
+such OOV handling model can perform better than randomly generated
+embeddings or unique embedding for unknown token \textit{\textless
+UNK\textgreater}, several downstream tasks were used to evaluate such
+as Part-of-Speech-Tagging (POS-tagging) or word similarity task that
+will be explained further below.
 
 Part-of-Speech-Tagging (POS-tagging) is a process of determining
-grammatical category called a tag of given word in a certain sentence.
-In English, exist words that has ambiguous grammatical category, such
-as word "tag" can be either noun or verb depends on the usage of it
-\citep{apractical1992cutting}. To tackle this problem, many
-researchers proposed to use mathematical models or statistical models
-namely hidden Markov model \citep{apractical1992cutting}, n-grams
-\citep{tnt2000Brants}, and neural network model
+grammatical category called a \textit{tag} of given word in a certain
+sentence. In English, exist words that has ambiguous grammatical
+category, such as word "tag" can be either noun or verb depends on the
+usage of it \citep{apractical1992cutting}. To tackle this problem,
+many researchers proposed to use mathematical models or statistical
+models namely hidden Markov model \citep{apractical1992cutting},
+n-grams \citep{tnt2000Brants}, and neural network model
 \citep{finding2015ling}. In this research, the neural network model
 will be implemented to serve as the downstream task. This model is a
 bi-LSTM that took sequence of word embeddings representing a sentence
 or parts of sentence then categorize each word embedding for its tag
 based on the usage in that sentence.
-
-As aforementioned above, some word embedding model such as Word2vec,
-Polyglot, and Dict2vec has no OOV handling, thus creating a model to
-predict such word becomes a research interest. One of the model that
-tries to tackle this problem successfully by using bi-LSTM to predict
-embedding given sequence of characters from a word from a pretrained
-embedding named \textsc{Mimick} \citep{mimicking2017Pinter}. As a
-result, OOV embeddings are able to be predicted without the needs of
-knowing lexicon or model used for creating the word embedding. The
-results then tested to do downstream task namely POS-tagging.
 
 In spite of the performance of \textsc{Mimick}, there are evidence
 that CNN that used for sequence modeling can outperform LSTM and RNN
@@ -110,3 +97,29 @@ calculated by convoluting sets of characters embedding with the kernel
 size of $n \times d$ for $n$ is the number of grams and $d$ is the
 dimension of the embeddings. This CNN n-grams then can be used to
 create a neural language model \citep{character2015kim}.
+
+\cite{character2015kim} created a language model for several
+languages. This model used character n-grams by using character
+embeddings and processed with CNN like an image. The results from
+these process then passed through a highway network. A highway network
+controls whether the information from the input would also be carried
+to the next process or to be changed with something else. The output
+of the highway network then passed through LSTM to predict the next
+word. In those research, the results of the model for OOV nearest
+neighbor trained with or without highway network were compared. The
+results was that the one trained without highway network has closer
+distance to a word that has smallest edits while the one that trained
+with the highway network has closer distance to a word that has
+similar orthographic \citep{character2015kim}.
+
+\cite{batchnorm:DBLP:journals/corr/IoffeS15} proposed a model to
+compensate slower training time caused by internal covariate shift.
+This phenomenon happened because of the distribution of values changes
+between layers in neural network, making training model that saturates
+to a nonlinearity activation function harder
+\citep{batchnorm:DBLP:journals/corr/IoffeS15}. By using a method
+called Batch Normalization, each layer's inputs were normalized to
+match distribution of certain mean and variance. As a result, larger
+learning rates can be used and smaller training epoch was needed to
+achieve a certain error values compared to one without Batch
+Normalization \citep{batchnorm:DBLP:journals/corr/IoffeS15}.

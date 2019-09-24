@@ -9,17 +9,18 @@
     the response. This model is a simplification of organism nervous
     system. Originally it was a single layer of input and a single
     layer of output. The cells within input layer and output layer is
-    called neuron. Those neuron are responsible for the numerical
+    called neuron. Those neurons are responsible for the numerical
     representation of the input and the output. Given an input vector
     $\mathbf{x_i}$ with $n$-dimension from a dataset $D =
     \{(\mathbf{x_1}, y_1), (\mathbf{x_2}, y_2), \dots, (\mathbf{x_i},
     y_i)\}$, the model tries to predict a target $y_i$ correctly given
     a set of weights $\mathbf{w}$. The weights act as stimuli
     intensity value, thus different weight values will produces
-    different responses given the same amount of input stimulus. The
-    output $o_i$ is calculated by using the dot product between
-    $\mathbf{x_i}$ and $\mathbf{w}$ as shown on equation
-    \ref{eq:perceptron_out}. 
+    different responses given the same amount of input stimulus and so
+    is different responses given different input stimulus with
+    different weight values. The output $o_i$ is calculated by using
+    the dot product between $\mathbf{x_i}$ and $\mathbf{w}$ as shown
+    on equation \ref{eq:perceptron_out}. 
     \begin{align}
         \label{eq:perceptron_out}
         o_i &= \mathbf{x_i} \cdot \mathbf{w} \\
@@ -37,11 +38,12 @@
             0 & \text{otherwise}
         \end{cases}
     \end{equation}
-    The input information fed through the model in chain with no
-    feedback thus the name feedforward \citep{Goodfellow-et-al-2016}.
-    When the output are fed back into the model, the model becomes
-    recurrent network and it will be explained in the next section.
-    The perceptron model is depicted in figure \ref{fig:perceptron}.
+    This model is called perceptron and it is depicted in figure
+    \ref{fig:perceptron}. The input information fed through the model
+    in chain with no feedback thus the name feedforward
+    \citep{Goodfellow-et-al-2016}. When the output are fed back into
+    the model, the model becomes recurrent network and it will be
+    explained in the next section.
 
     \begin{figure}
         \centering
@@ -50,16 +52,16 @@
         \label{fig:perceptron}
     \end{figure}
     
-    The results then compared with the original output $y_i$ in the
+    The results then compared with the target output $y_i$ in the
     dataset to learn the correct parameter weight $\mathbf{w}$ and
     bias $b$ by using backpropagation algorithm. The algorithm defines
-    a cost function and calculate the gradient of the current cost,
-    then the gradient information is processed by another algorithm
-    called stochastic gradient descent to try to find the optimal
-    parameters that produced the minimum cost. If $\mathbf{\hat{y}} =
-    f(\mathbf{x}, \mathbf{W}) = \mathbf{x} \cdot \mathbf{W}$ and the
-    cost $z = J(\mathbf{y})$, the simple calculation of the gradient
-    can be calculated as follows,
+    a cost function and calculate the gradient based on the current
+    cost, then the gradient information is processed by another
+    algorithm called stochastic gradient descent to try to find the
+    optimal parameters that produced the minimum cost. If
+    $\mathbf{\hat{y}} = f(\mathbf{x}, \mathbf{W}) = \mathbf{x} \cdot
+    \mathbf{W}$ and the cost $z = J(\mathbf{y})$, the simple
+    calculation of the gradient can be calculated as follows,
     \begin{align}
         \label{eq:gradient1}
         \frac{\partial z}{\partial x_i} &= \sum_j \frac{\partial z}{\partial y_j} \frac{\partial y_j}{\partial x_i}\\
@@ -97,7 +99,8 @@
     hidden layer. On top of that, more non-linear activation function
     were introduced. Some of those are sigmoid, tanh, rectified linear
     unit (ReLU), and softmax described in equation \ref{eq:sigmoid}
-    until \ref{eq:softmax}.
+    until \ref{eq:softmax}. This nonlinearity makes the model easier
+    to train since those functions are differentiable.
 
     \begin{align}
         \label{eq:sigmoid}
@@ -123,7 +126,7 @@
         \caption{Unfolded Recurrent Neural Network}
         \label{fig:unfolded_rnn}
     \end{figure}
-    As aforementioned before, recurrent neural network (RNN) is a
+    As previously mentioned, recurrent neural network (RNN) is a
     neural network model that has feedback to its own neuron depicted
     in figure \ref{fig:rnn}. This model used for processing sequential
     data \citep{Goodfellow-et-al-2016}. The idea is given sequence of
@@ -241,7 +244,7 @@
         \label{fig:mimick}
     \end{figure}
 
-    As aforementioned in the previous section, cell gate $C_t$
+    As already indicated in the previous section, cell gate $C_t$
     controls which hidden neuron in hidden states at time $t$ will
     pass through to the next sequence. \textsc{Mimick} uses only the
     last hidden state of the bi-LSTM thus increases the chance of the
@@ -250,8 +253,8 @@
     some important sequence to trigger the cell gate $C_t$ to drop
     previous information. Although bi-LSTM could serve the purpose to
     include the early sequence, the intermediate important sequence
-    that is appears in the middle of two important sequences might
-    be dropped because of the cell gate $C_t$ decided to drop previous
+    that is appears in the middle of two important sequences might be
+    dropped because of the cell gate $C_t$ decided to drop previous
     sequence. This problem fueled another approach to be introduced,
     namely using convolutional neural network as the feature extractor
     for the character sequence.
@@ -270,7 +273,7 @@
     the kernel, that is taking values from both function and
     elementwise multiplied was done and then summed to get the total
     overlaps between both function at time $t$. In general, the kernel
-    has only limited size that has non zero values while the rest is
+    has only limited size that has non-zero values while the rest is
     zero. Thus the convolution operation is done locally by processing
     parts of the data several times. To obtain the entirety processed
     data, the kernel needed to be shifted in all direction depending
