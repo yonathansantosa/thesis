@@ -57,15 +57,15 @@
 \flushbottom
 % Pages should be numbered consecutively thorugh the main text.  Page numbers
 % should be located centrally at the top of the page.
-\usepackage{fancyhdr}
-\fancypagestyle{plain}{
-	\fancyhf{}
-	% Add "DRAFT: <today's date>" to header (comment out the following to remove)
-	\lhead{\textit{DRAFT: \today}}
-	%
-	\chead{\thepage}
-	\renewcommand{\headrulewidth}{0pt}
-}
+% \usepackage{fancyhdr}
+% \fancypagestyle{plain}{
+% 	\fancyhf{}
+% 	% Add "DRAFT: <today's date>" to header (comment out the following to remove)
+% 	\lhead{\textit{DRAFT: \today}}
+% 	%
+% 	\chead{\thepage}
+% 	\renewcommand{\headrulewidth}{0pt}
+% }
 \pagestyle{plain}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -80,19 +80,19 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HYPERREF
-\usepackage[colorlinks,pagebackref,pdfusetitle,urlcolor=blue,citecolor=blue,linkcolor=blue,bookmarksnumbered,plainpages=false]{hyperref}
+% \usepackage[colorlinks,pagebackref,pdfusetitle,urlcolor=blue,citecolor=blue,linkcolor=blue,bookmarksnumbered,plainpages=false]{hyperref}
 % \usepackage{hyperref}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{multirow}
 % For print version, use this instead:
-%\usepackage[pdfusetitle,bookmarksnumbered,plainpages=false]{hyperref}
-%\usepackage{backref}
-%\renewcommand{\backrefpagesname}{Cited on}
+\usepackage[pdfusetitle,bookmarksnumbered,plainpages=false]{hyperref}
+\usepackage{backref}
+\renewcommand{\backrefpagesname}{Cited on}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \usepackage{fancyhdr}
  
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multirow}
 % \pagestyle{fancy}
 % \fancyhf{}
 % \rhead{Overleaf}
@@ -162,7 +162,7 @@ Dr. Giulio Napolitano
 \chapter*{Declaration of Authorship}
 I, Yonathan Purbo Santosa, declare that this thesis, titled "OOV Handling by
 Learning Subword using CNN based N-grams", and the work presented in
-it are my own. I confirm that:
+it is my own. I confirm that:
 
 \begin{itemize}
 	\item This work was done wholly or mainly while in candidature for
@@ -192,14 +192,13 @@ it are my own. I confirm that:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ACKNOWLEDGEMENT
 \chapter*{Acknowledgements}
-I have received lots of supports, advice, and assistance throughout
+I have received a myriad of support, advice, and assistance throughout
 this document writing. I would like to thank my supervisors Prof. Dr.
 Jens Lehmann and Dr. Giulio Napolitano for formulating this topic. I
 would also like to thank my Tutor Debanjan Chaudhuri for guiding with
-advice to finish this document. 
-\\~\\
+advice to finish this document. \\~\\
 I would like to thank my family and friends both here in Germany and
-back home in Indonesia for giving me non-stop love, support, and
+back home in Indonesia for giving me ceaseless love, support, and
 advices throughout my study in Bonn University. You gave me great
 escape to rest my mind from my thesis.
 \\~\\
@@ -264,25 +263,25 @@ program.
 \end{center}
 \par Word embedding is word representation that is able to represent
 word in a dense vector instead of sparse vector. Word embedding
-normally consist of set of vocabulary and set of vector representation
-for each entries in vocabulary. The purpose of word embedding is to
-make text data to be able to be processed with mathematical function.
-In the training process of collecting vocabulary and its vector
-representation, some words might not exists in the training corpus.
-Thus this word has no vector representation for downstream tasks. A
-model called \textsc{Mimick} were created to handle this problem by
-using bi-LSTM to predict embedding of words that are not in the
-vocabulary (out-of-vocabulary or OOV). The problem with this
-implementation is that only the last hidden states were used for
-predicting the embedding. In the bi-LSTM architecture exists cell gate
-that controls the information flow. When this gate decided to forget
-previous sequence, then previous information will not be carried on to
-the later sequence. Thus another method is proposed to tackle this
-problem. CNN that mimics n-grams is used to process sequence data. By
-doing so, intermediate sequence of a word has higher chance of carried
-on to predict the embedding of OOV then tested on downstream tasks
-such as POS-tagging and word similarity tasks thus should improve
-performance in downstream tasks.
+normally consists of set of vocabulary and set of vector
+representation for each entry in vocabulary. The purpose of word
+embedding is to make text data able to be processed with mathematical
+function. In the training process of collecting vocabulary and its
+vector representation, some words might not exist in the training
+corpus. Thus, this word has no vector representation for downstream
+tasks. A model called \textsc{Mimick} was created to handle this
+problem by using bi-LSTM to predict embedding of words that are
+unavailable in the vocabulary (out-of-vocabulary or OOV). The problem
+with this implementation is that only the last hidden states were used
+for predicting the embedding. In the bi-LSTM architecture exists cell
+gate that controls the information flow. When this gate decided to
+forget previous sequence, then previous information will not be
+carried on to the latter sequence. Thus, another method is proposed to
+tackle this problem. CNN that mimics n-grams is used to process
+sequence data. By doing so, intermediate sequence of a word has higher
+chance of the information being carried on to predict the embedding of
+OOV then tested on downstream tasks such as POS-tagging and word
+similarity tasks that should improve performance in downstream tasks.
 \\~\\
 \textbf{Keywords:} CNN, CNNgrams, OOV, OOV handling,
 out-of-vocabulary, out-of-vocabulary handling
@@ -329,19 +328,20 @@ out-of-vocabulary, out-of-vocabulary handling
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % START APPENDICES
-\appendix
+% \appendix
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %-----------------------------------------------------
 % Appendix: Code
 %-----------------------------------------------------
-\chapter{Code}
+\chapter*{Appendix}
+\section*{Code}
 \label{app:code}
-
-\begin{verbatim}
-10 PRINT "HELLO WORLD"
-\end{verbatim}
+The implementation can be seen in \url{https://github.com/yonathansantosa/oov_handling}
+% \begin{verbatim}
+% 10 PRINT "HELLO WORLD"
+% \end{verbatim}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -50,13 +50,13 @@ OOV words rather than assigning some unknown token \textit{\textless
 UNK\textgreater} or let the downstream tasks model to train from the
 randomly generated embeddings. This case fueled \textsc{Mimick}, an
 OOV handling model to be created \citep{mimicking2017Pinter}. This
-model were able to tackle this problem successfully by using
-uses bidirectional Long-Short Term Memory (bi-LSTM) to process
-characters of an OOV word to produce embeddings. The OOV embedding
-generation process is taken from quasi-generative perspective, meaning
-that the original embedding assumed to has some form that could
-generate the embeddings \citep{mimicking2017Pinter}. By doing so, the
-OOV embeddings are able to be predicted without the needs of knowing
+model were able to tackle this problem successfully by using uses
+bidirectional Long-Short Term Memory (bi-LSTM) to process characters
+of an OOV word to produce embeddings. The OOV embedding generation
+process is taken from quasi-generative perspective, meaning that the
+original embedding assumed to has some form that could generate the
+embeddings \citep{mimicking2017Pinter}. By doing so, the OOV
+embeddings are able to be predicted without the needs of knowing
 lexicon or model used for creating the word embedding. To prove that
 such OOV handling model can perform better than randomly generated
 embeddings or unique embedding for unknown token \textit{\textless

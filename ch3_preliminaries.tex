@@ -28,7 +28,7 @@
     \end{align}
     After calculating the output $o_i$ and another parameter bias $b$ is
     added, the result passed to activation function $f(o_i)$ to produce
-    the perceptron output as shown on equation
+    the output as shown on equation
     \ref{eq:perceptron_act}.
     \begin{equation}
         \label{eq:perceptron_act}
@@ -41,9 +41,9 @@
     This model is called perceptron and it is depicted in figure
     \ref{fig:perceptron}. The input information fed through the model
     in chain with no feedback thus the name feedforward
-    \citep{Goodfellow-et-al-2016}. When the output are fed back into
+    \citep{Goodfellow-et-al-2016}. When the outputs are fed back into
     the model, the model becomes recurrent network and it will be
-    explained in the next section.
+    explained in the next subchapter.
 
     \begin{figure}
         \centering
@@ -271,7 +271,7 @@
 
     In general, convolution is operation of two function, the data and
     the kernel, that is taking values from both function and
-    elementwise multiplied was done and then summed to get the total
+    element wise multiplied was done and then summed to get the total
     overlaps between both function at time $t$. In general, the kernel
     has only limited size that has non-zero values while the rest is
     zero. Thus the convolution operation is done locally by processing
@@ -377,7 +377,7 @@
     \end{equation*}
     Previous method can give good estimation, but because language is
     creative and new sentences generated every time, everything that
-    exist on the internet is not enough to produce good estimate
+    exists on the internet is not enough to produce good estimate
     \citep{speech2009Jurafsky:2009:SLP:1214993}. On top of that, if
     the joint probability of the sequence would be calculated, there
     will be many estimations where each estimation is not exact
@@ -434,7 +434,7 @@
     example, preceding word in the history $h$ is used for estimating
     the next word $w$ in bigram model and two preceding words in the
     history $h$ is used in trigram model. In general, the window used
-    for n-grams are configurable to the needs of the expected results.
+    for n-grams is configurable to the needs of the expected results.
     
     Another application of n-grams is that the sequence of character
     is used instead of sequence of words to estimate the probability.

@@ -8,12 +8,12 @@
         OOV problem was handled from quasi-generative perspective as
         aforementioned in chapter \nameref{chap:intro} by using neural
         language model under assumption that there is a form that
-        could generate embedding for the original embedding. Hence
-        that, the original vocabulary and its embedding were used for
+        could generate embedding for the original embedding. Hence,
+        the original vocabulary and its embedding were used for
         training the model to generate the embedding. In chapter
-        \nameref{chap:intro}, reasons why \textsc{Mimick} could
+        \nameref{chap:intro}, the reasons why \textsc{Mimick} could
         perform worse is because the OOV embedding is generated from
-        the last hidden states of the bi-LSTM and the hidden states is
+        the last hidden states of the bi-LSTM and the hidden states are
         controlled by cell gates $C_t$ making the information that is
         carried on is the most recent information. If at certain time
         step $t$ the cell gates decided to forget past information,
@@ -292,7 +292,7 @@
         \end{figure}
  
     \subsection{Word Similarity Tasks}
-        Word similarity tasks is basically task to evaluate the
+        Word similarity task is basically a task to evaluate the
         similarities between two words based on human given scores. In
         practice, several human subjects were given pairs of words and
         asked to score its similarities. Those scores then will be

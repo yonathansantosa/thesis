@@ -4,10 +4,10 @@
 % This is the introduction to the thesis.\footnote{And this is a
 % footnote.}  The conclusion is in Chapter on page.
 \section{Motivation} 
-    Word embeddings is a method for word representation mainly used in
-    natural language processing domain. Text data represented
+    Word embedding is a method for word representation mainly used in
+    natural language processing domain. However, text data represented
     differently in machine unlike images and sounds data. Generally
-    image represented as two-dimensional to four-dimensional (given
+    image is represented as two-dimensional to four-dimensional (given
     channels and alpha value) matrix with finite number of cell
     elements containing numerical value to represent color intensity
     on each location \citep{imageprocessing2018tyagi}. For example RGB
@@ -19,47 +19,47 @@
     representing air pressure in the ear canal (for instance one
     channel for the left ear and one for the other)
     \citep{sound1995rocchesso}. Both images and sounds can be easily
-    represented as mathematic models either using analog or digital
+    represented as mathematical models either using analog or digital
     signals but not with text data \citep{wordembedding2017yang}.
-    Hence word embedding was introduced to give ability for
+    Hence word embedding was introduced to give ability in
     representing text as a mathematical model namely a vector.
     
     Text data consists of sequence of characters that is represented
-    by codes that is standardize, as an example ASCII. In ASCII each
+    by codes that is standardized, for example ASCII. In ASCII each
     character is represented by a number from $0$ to $127$ that later
     on extended until $255$. Combinations of these number then
     translated by computer to represent a character. Originally, in
     natural language processing text data can only be modeled using
     one-hot vector. This vector is a one-dimensional vector that has
-    $d$-dimension given \textit{d} words that are known or used. Each
+    $d$-dimension, given \textit{d} words that are known or used. Each
     word is represented by one dimension and depends on the used word
     entries in the sentence, the correspondent dimension's value is
     $1$ and the rest is $0$ hence the name one-hot vector. The one-hot
     vector then stacked with another one-hot vectors to represent
-    order of usage in a sentence. Similar representation also used for
-    representing characters. The problem with one-hot vector is that
-    it does not have any information that infers connection between
-    one to the other. It only encodes that certain word is used in a
-    certain sentence in a certain sequence. Instead of sparse
-    representation for each word, dense vector representations that
-    maps semantic and syntactic information between words given
-    one-hot vectors in a Euclidean space is introduced
-    \citep{wordembedding2017yang, Distributed2013mikolov}. Hopefully,
-    this positional information then can be used to infer
-    interconnection between words, whether its similarities or usage
-    of the word in a sentence \citep{distributional1954harris}. To
-    obtain word embeddings, a model is created to extract features of
-    a word from a corpus and map its location in Euclidean space based
-    on the features found \citep{Distributed2013mikolov,
-    polyglot2013alrfou, dict2vect2017tissier}. These word embeddings
-    then can be used to do many downstream tasks, such as POS-tagging,
-    named entity recognition (NER), and sentiment analysis
-    \citep{finding2015ling, neural2016lample}. 
-    
+    order of use in a sentence. Similar representation is also used to
+    represent characters. The problem with one-hot vector is that it
+    does not have any information that infers connection between one
+    to another. It only encodes that certain word is used in a certain
+    sentence in a certain sequence. Instead of sparse representation
+    for each word, dense vector representations that maps semantic and
+    syntactic information between words given one-hot vectors in a
+    Euclidean space is introduced \citep{wordembedding2017yang,
+    Distributed2013mikolov}. Hopefully, this positional information
+    can be used to infer interconnection between words, whether its
+    similarities or usage of the word in a sentence
+    \citep{distributional1954harris}. To obtain word embeddings, a
+    model is created to extract features of a word from a corpus and
+    map its location in Euclidean space based on the features found
+    \citep{Distributed2013mikolov, polyglot2013alrfou,
+    dict2vect2017tissier}. These word embeddings then can be used to
+    do many downstream tasks, such as POS-tagging, named entity
+    recognition (NER), and sentiment analysis \citep{finding2015ling,
+    neural2016lample}. 
+
     In general, large corpus with many words and examples of word
     usage is preferred because the size of the vocabularies will be
     higher and more words connection can be inferred from the corpus
-    \citep{size2018kutuzov}. On top of that, multiple usage of a
+    \citep{size2018kutuzov}. On top of that, multiple use of a
     vocabulary might also be used as a training data as an examples of
     cases of vocabulary usage in a sentence. However, it is not
     possible to have enough corpus since the language itself is
@@ -69,15 +69,15 @@
     anybody willingly write text over these platforms
     \citep{Liu2010SentimentAA} and some of these words may not be
     present in the corpus hence not included in the vocabulary even
-    though there exist another word that has the exact same meaning to
+    though there is another word that has the exact similar meaning to
     those words thus it should more or less has close distance to the
     standard or original word \citep{mapping2012eisenstein}. In
-    addition with the increased number of smartphone which uses touch
-    screen, increased number in typographical error is to be expected
-    \citep{ghosh2017correction}. All this words that are non-existent
+    addition with the increasing number of smartphones which uses
+    touch screen, increase of number in typographical error is to be
+    expected \citep{ghosh2017correction}. All these non-existent words
     in the corpus because of inability to collect such corpus or
     simply because of emergence of new slang or typographical error
-    making the embedding of such word is unknown are called as
+    making the embedding of such word is unknown and it is called as
     \textit{out-of-vocabulary} (OOV) words. One may use simple
     approach by assigning unique random embedding for every OOV or by
     replacing OOV with an unknown \textit{\textless UNK\textgreater}
