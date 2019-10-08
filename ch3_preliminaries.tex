@@ -6,7 +6,7 @@
     are a mathematical model that inspired from how neuron works in
     biological body \citep{Goodfellow-et-al-2016}. The model takes
     numerical input as the stimulus and produces numerical output as
-    the response. This model is a simplification of organism nervous
+    the response. This model is a simplification of animal nervous
     system. Originally it was a single layer of input and a single
     layer of output. The cells within input layer and output layer is
     called neuron. Those neurons are responsible for the numerical
@@ -143,28 +143,27 @@
     feedforward neural network that processes fixed size inputs, the
     parameters for each input feature will be separated for each
     sequence. In comparison with feedforward neural network, RNN will
-    use the same parameters to process all the input sequence. 
+    use the same parameters to process all of the input sequence. 
 
     The problem with RNN is that when given a really long sequence,
     either the gradient calculation will vanish since if weight is
-    near zero and is multiplied several times sequentially over time
-    and the gradient exploded if the weight is larger than one and it
-    will be multiplied several times \citep{Goodfellow-et-al-2016}. Those
-    problems making processing long sequence on RNN unfavorable. Hence
-    another method called long-short term memory (LSTM) was
+    near zero and it is multiplied several times sequentially over
+    time and the gradient exploded if the weight is larger than one
+    and it is multiplied several times \citep{Goodfellow-et-al-2016}.
+    Those problems making processing long sequence on RNN unfavorable.
+    Hence another method called long-short term memory (LSTM) was
     introduced. LSTM was created with idea in mind that some paths
-    exist to give gradient ability to flow for long sequence. This was
-    achieved by introducing self-loops inside the hidden layer that
-    has time-scale mechanism that can change dynamically based on the
-    input \citep{Goodfellow-et-al-2016}. New components called cell
-    gate $C_t$, forget gate $f_t$, and input gate $i_t$ are introduced
-    to let the recurrent network split the graph of the hidden unit
-    thus gradient can be flowed longer by depending only from the
-    output $o_t$ or from both output and hidden states $o_t$ and $h_t$
-    respectively. The cell gate interacts with input $i_t$ and previous
-    hidden state $h_{t-1}$ to decide the current hidden state $h_t$.
-    The calculation process of LSTM for each time step $t=1$ to
-    $t=\tau$ is as follows,
+    exist to give gradient ability to flow for long sequence
+    \citep{Goodfellow-et-al-2016}. This was achieved by introducing
+    self-loops inside the hidden layer that has time-scale mechanism
+    that can change dynamically based on the input and previous state
+    \citep{Goodfellow-et-al-2016}. New components called cell gate
+    $C_t$, forget gate $f_t$, and input gate $i_t$ are introduced to
+    let the recurrent network split the graph of the hidden unit thus
+    gradient can be flowed longer by depending only from the output
+    $o_t$ or from both output and hidden states $o_t$ and $h_t$
+    respectively. The calculation process of LSTM for each time step
+    $t=1$ to $t=\tau$ is as follows,
     \begin{align}
         \label{eq:lstm:f_t}
         f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
@@ -181,11 +180,15 @@
         \label{eq:lstm:y_t}
         \hat{y_t} &= softmax(o_t)
     \end{align}
-    Cell gate $C_t$ controls the hidden state as described in equation
-    \ref{eq:lstm:h_t}. If $C_t = 0$, the hidden state $h_t = 0$,
-    meaning the previous information of a certain features is dropped
-    for the gated hidden states. The LSTM hidden cell's architecture
-    is depicted in figure \ref{fig:lstm}.
+    The forget gate $f_t$ and the input gate $i_t$ interacts with
+    input $x_t$, previous hidden state $h_{t-1}$, and previous cell
+    gate $C_{t-1}$ to control the current cell gate $C_t$. This cell
+    gate $C_t$ will be used to control the information flow from
+    previous hidden state $h_{t-1}$ to the current hidden state $h_t$
+    as shown in equation \ref{eq:lstm:h_t}. If $C_t = 0$, the hidden
+    state $h_t$ will be $0$, meaning the previous information of a
+    certain features is dropped for the gated hidden states. The LSTM
+    hidden cell's architecture is depicted in figure \ref{fig:lstm}.
 
     On top of the normal sequence, the reverse sequence can also be
     calculated starting at time step $t=\tau$ to $t = 1$ then the
@@ -244,20 +247,25 @@
         \label{fig:mimick}
     \end{figure}
 
-    As already indicated in the previous section, cell gate $C_t$
+    As already indicated in the previous subchapter, cell gate $C_t$
     controls which hidden neuron in hidden states at time $t$ will
     pass through to the next sequence. \textsc{Mimick} uses only the
     last hidden state of the bi-LSTM thus increases the chance of the
     early important sequence to be dropped when cell gate $C_t$
     decided to drop the information at certain point when there exist
-    some important sequence to trigger the cell gate $C_t$ to drop
-    previous information. Although bi-LSTM could serve the purpose to
-    include the early sequence, the intermediate important sequence
-    that is appears in the middle of two important sequences might be
+    some input vector $\hat{x}_t$ or hidden state $\hat{h}_{t-1}$ that
+    could trigger the cell gate $C_t$ to drop previous information
+    entirely. Although bi-LSTM could serve the purpose to include the
+    early sequence, there might exist intermediate sequence that
+    appears in the middle of two important sequences that could be
     dropped because of the cell gate $C_t$ decided to drop previous
-    sequence. This problem fueled another approach to be introduced,
-    namely using convolutional neural network as the feature extractor
-    for the character sequence.
+    sequence for both forward and reverse LSTM. The solution to this
+    is to increase the number of hidden states size to reduce such
+    chance. 
+    
+    This problem fueled another approach to be introduced, namely
+    using convolutional neural network (CNN) as the feature extractor
+    for the character sequence. 
 
 \section{Convolutional Neural Network}
     Convolutional neural network (CNN) is a model that is used to

@@ -46,23 +46,24 @@ handling method and since the vocabularies were only inferred from
 Cambridge dictionary, there is no typographical error.
 
 As aforementioned above, those word embedding has no way of handling
-OOV words rather than assigning some unknown token \textit{\textless
-UNK\textgreater} or let the downstream tasks model to train from the
-randomly generated embeddings. This case fueled \textsc{Mimick}, an
-OOV handling model to be created \citep{mimicking2017Pinter}. This
-model were able to tackle this problem successfully by using uses
-bidirectional Long-Short Term Memory (bi-LSTM) to process characters
-of an OOV word to produce embeddings. The OOV embedding generation
-process is taken from quasi-generative perspective, meaning that the
-original embedding assumed to has some form that could generate the
-embeddings \citep{mimicking2017Pinter}. By doing so, the OOV
-embeddings are able to be predicted without the needs of knowing
-lexicon or model used for creating the word embedding. To prove that
-such OOV handling model can perform better than randomly generated
-embeddings or unique embedding for unknown token \textit{\textless
-UNK\textgreater}, several downstream tasks were used to evaluate such
-as Part-of-Speech-Tagging (POS-tagging) or word similarity task that
-will be explained further below.
+OOV words rather than assigning some unknown token ``\textit{\textless
+UNK\textgreater}'' or let the downstream tasks model to train from the
+randomly generated embeddings each time an OOV emerges. This case
+fueled \textsc{Mimick}, an OOV handling model to be created
+\citep{mimicking2017Pinter}. This model were able to tackle this
+problem successfully by using uses bidirectional long-short term
+memory (bi-LSTM) to process embedding of characters of an OOV word to
+produce the word embeddings. The OOV embedding generation process is
+taken from quasi-generative perspective, meaning that the original
+embedding assumed to has some form that could generate the embeddings
+\citep{mimicking2017Pinter}. By doing so, the OOV embeddings are able
+to be predicted without the needs of knowing lexicon or model used for
+creating the word embedding. To prove that such OOV handling model can
+perform better than randomly generated embeddings or unique embedding
+for unknown token ``\textit{\textless UNK\textgreater}'', several
+downstream tasks were used to evaluate such as Part-of-Speech-Tagging
+(POS-tagging) and word similarity task that will be explained further
+below.
 
 Part-of-Speech-Tagging (POS-tagging) is a process of determining
 grammatical category called a \textit{tag} of given word in a certain

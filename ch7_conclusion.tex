@@ -3,7 +3,7 @@
 
 Given some training examples of pretrained word embedding, machine
 learning could be used to generate embedding for
-\textit{out-of-vocabulary} embedding which does not exist in the
+\textit{out-of-vocabulary} embedding which unavailable in the
 pretrained word embedding vocabulary collection. This method however,
 needs time and resources to be trained to generate a good
 approximation of the \textit{out-of-vocabulary} embedding.
@@ -14,8 +14,9 @@ tasks, one can assign randomly generated embedding for each
 \textit{out-of-vocabulary} or by assigning single token with one
 vector representation replacing all \textit{out-of-vocabulary}
 entries. This approach has its advantages such as cheaper computation
-to generate embedding and acceptable results for POS-tagging tasks,
-the training on the downstream tasks might need more time or more
+to generate embedding and has relatively high accuracies at around
+$90\%$ for POS-tagging tasks. However, the training on the downstream
+tasks using randomly generated embedding might need more time or more
 sophisticated architecture to be able to keep up with the one that
 uses OOV handling model such as \textsc{Mimick} or the proposed model
 from this research. As evidence, with similar setup as the OOV
@@ -23,12 +24,12 @@ handling model the randomly generated embedding for
 \textit{out-of-vocabulary} has lower accuracy for POS-tagging tasks.
 The randomly generated embedding for \textit{out-of-vocabulary}
 entries method could produce POS-tagging results for three different
-pretrained embedding averaged around 90\% and by using OOV handling
-model the accuracy increased to be around 93\%.
+pretrained embedding averaged around $90\%$ and by using OOV handling
+model the accuracy increased to be around $93\%$.
 
 \section{CNN against LSTM for Extracting Text Features}
 As shown by the results of the downstream tasks, CNN model generally
-outperforms LSTM implemented in \textsc{Mimick}. As mentioned before,
+outperforms bi-LSTM implemented in \textsc{Mimick}. As mentioned before,
 \textsc{Mimick} uses the last state of the hidden state from the
 bi-LSTM architecture. This renders the intermediate sequence that
 could be important for predicting the embedding lost when the cell
@@ -43,18 +44,23 @@ higher accuracy and Spearman's rank correlation values.
 In POS-tagging tasks, CNN model accuracy is around 1\% higher than
 \textsc{Mimick}. On top of the CNN architecture, some batch
 normalization were added to make the training converge faster. The
-only disadvantages of the CNN model is that it has more parameters
-to learn, meaning higher complexity and slower training time. The
-advantages of the CNN model is that it can be implemented in a
-parallel computing systems while LSTM needs the previous time-steps to
-calculate current time-steps.
+only disadvantages of the CNN model is that it has more parameters to
+learn, meaning higher complexity and slower training time. On top of
+that, \textsc{Mimick} seems to perform better \textit{out-of-the-box}
+compared to CNN. The advantages of the CNN model is that it perform
+better than \textsc{Mimick} when the OOV handling model is included in
+the training.
 
 \subsection{Word Similarity Task}
 Word similarity task was used to evaluate the distance between two
 words according to human subject. In this task, the word generated
 embedding expected to have similar degree of similarities between two
 embeddings from two words. In this task, the CNN model were able to
-achieve higher $\rho$ value than \textsc{Mimick}.
+achieve higher $\rho$ value than \textsc{Mimick}. Even though this
+task is highly dependent on the embedding used for predicting the
+embedding of given word since every embedding is trained on different
+corpus that is trained with different purposes, CNN still able to
+performs better.
 
 \section{Future Works}
 Both models \textsc{Mimick} and CNN were able to produce embeddings

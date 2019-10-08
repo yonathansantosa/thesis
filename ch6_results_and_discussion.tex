@@ -25,9 +25,9 @@
         input, \textsc{Mimick} predicted that this word is a name
         which the first word is capitalize, thus the nearest neighbor
         is name. On the other hand, CNN predicted that this is some
-        word with suffix \textit{-ly} and capital letter at the
-        beginning. The next word is "corduroy", which is a pattern in
-        textile. CNN model were able to predict that one of the
+        word with suffix \textit{-ly} and capital letter is used at
+        the beginning. The next word is "corduroy", which is a pattern
+        in textile. CNN model were able to predict that one of the
         nearest neighbor is "garment". The next input is
         "question-and-answer". This input constructed from 3 words
         connected with dash (-) symbol. CNN model predicted that the
@@ -349,9 +349,12 @@
       
       Given the results from various settings, in general CNN were
       able to achieve higher accuracies for Brown tag-set dataset.
-      This proof that CNN are able to learn OOV handling better for
-      downstream task, namely POS-tagging compared to bi-LSTM that
-      were used in \textsc{Mimick}.
+      Even though \textsc{Mimick} is better at predicting OOV
+      embeddings for downstream tasks right \textit{out-of-the-box},
+      CNN still outperform \textsc{Mimick} when the OOV handling model
+      was also included in the training. This proof that CNN are able
+      to learn OOV handling better for  POS-tagging compared to
+      bi-LSTM that were used in \textsc{Mimick}.
 
     \section{Word Similarity}
     For word similarity task, the cosine distance between each given
