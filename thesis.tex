@@ -261,11 +261,11 @@ program.
 \begin{center}
 	\textbf{Abstract}
 \end{center}
-\par Word embedding is word representation that is able to represent
-word in a dense vector instead of sparse vector. Word embedding
-normally consists of set of vocabulary and set of vector
+\par Word embedding is numerical representation that is able to
+represent word in a dense vector instead of sparse vector. Word
+embedding normally consists of a set of vocabulary and a set of vector
 representation for each entry in vocabulary. The purpose of word
-embedding is to make text data able to be processed with mathematical
+embedding is to enable text data to be processed with mathematical
 function. In the training process of collecting vocabulary and its
 vector representation, some words might not exist in the training
 corpus. Thus, this word has no vector representation for downstream
@@ -277,12 +277,12 @@ for predicting the embedding. In the bi-LSTM architecture exists cell
 gate that controls the information flow. When this gate decided to
 forget previous sequence, then previous information will not be
 carried on to the latter sequence. Thus, another method is proposed to
-tackle this problem. CNN that mimics n-grams is used to process
-sequence data. By doing so, intermediate sequence of a word has higher
-chance of the information being carried on to predict the embedding of
-OOV then tested on downstream tasks such as POS-tagging and word
-similarity tasks that should improve performance in downstream tasks.
-\\~\\
+tackle this problem. CNN that mimics n-grams was used to process
+sequence data. By doing so, intermediate sequence of a word has a
+higher chance being carried on to predict the embedding of OOV then
+tested on downstream tasks such as POS-tagging and word similarity
+tasks which should improve performance in downstream tasks
+consequently. \\~\\
 \textbf{Keywords:} CNN, CNNgrams, OOV, OOV handling,
 out-of-vocabulary, out-of-vocabulary handling
 \vfill

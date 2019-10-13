@@ -1,8 +1,8 @@
-\chapter{Conclusion}
+\chapter{Conclusion and Future Works}
 \label{chap:conc}
 
 Given some training examples of pretrained word embedding, machine
-learning could be used to generate embedding for
+learning can be used to generate embedding for
 \textit{out-of-vocabulary} embedding which unavailable in the
 pretrained word embedding vocabulary collection. This method however,
 needs time and resources to be trained to generate a good
@@ -59,18 +59,19 @@ embeddings from two words. In this task, the CNN model were able to
 achieve higher $\rho$ value than \textsc{Mimick}. Even though this
 task is highly dependent on the embedding used for predicting the
 embedding of given word since every embedding is trained on different
-corpus that is trained with different purposes, CNN still able to
-performs better.
+corpus and trained with different purposes. Despite of that, CNN still
+able to performs better than \textsc{Mimick}.
 
 \section{Future Works}
 Both models \textsc{Mimick} and CNN were able to produce embeddings
-for \textit{out-of-vocabulary} words, but both model were not really
-able to define a function that could generate word embedding mimicking
-existing pretrained embedding since updating pretrained embedding with
-new dataset will requires retraining the embedding. Instead of
-retraining the embedding, finding function or model that are able to
-mimick the pretrained embedding will save computation time at least
-until the language itself is changing into something completely
-different making the word embedding becomes obsolete. On top of that,
-if the function generating the in-vocabulary embedding, this could
-save space since pretrained embedding storage size could be large.
+for \textit{out-of-vocabulary} words, but both model are not really
+able to fully define a function that could generate word embedding
+mimicking existing pretrained embedding since updating pretrained
+embedding with new dataset will requires retraining the embedding.
+Instead of retraining the embedding, finding function or model that
+are able to mimick the pretrained embedding will save computation time
+at least until the language itself is changing into something that is
+completely different making the word embedding becomes obsolete. On
+top of that, if the function can generate the in-vocabulary embedding,
+it can save storage capacity since in general pretrained embedding
+storage size is large.

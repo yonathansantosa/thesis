@@ -3,33 +3,31 @@
 
 \section{Feedforward Neural Network}
     Feedforward neural network or also known as multilayer perceptron
-    are a mathematical model that inspired from how neuron works in
-    biological body \citep{Goodfellow-et-al-2016}. The model takes
-    numerical input as the stimulus and produces numerical output as
-    the response. This model is a simplification of animal nervous
-    system. Originally it was a single layer of input and a single
+    (MLP) are a mathematical model that is inspired from how neuron
+    works in biological body \citep{Goodfellow-et-al-2016}. The model
+    takes numerical input as a stimulus and produces numerical output
+    as a response. This model is a simplification of animal nervous
+    system. Originally, it was a single layer of input and a single
     layer of output. The cells within input layer and output layer is
     called neuron. Those neurons are responsible for the numerical
     representation of the input and the output. Given an input vector
     $\mathbf{x_i}$ with $n$-dimension from a dataset $D =
     \{(\mathbf{x_1}, y_1), (\mathbf{x_2}, y_2), \dots, (\mathbf{x_i},
     y_i)\}$, the model tries to predict a target $y_i$ correctly given
-    a set of weights $\mathbf{w}$. The weights act as stimuli
+    a set of weights $\mathbf{w}$. The weights act as stimulus
     intensity value, thus different weight values will produces
-    different responses given the same amount of input stimulus and so
-    is different responses given different input stimulus with
-    different weight values. The output $o_i$ is calculated by using
-    the dot product between $\mathbf{x_i}$ and $\mathbf{w}$ as shown
-    on equation \ref{eq:perceptron_out}. 
+    different responses given similar input stimulus and so is
+    different responses given different input stimulus with similar
+    weight values. The output $o_i$ is calculated by using the dot
+    product between $\mathbf{x_i}$ and $\mathbf{w}$ as follows, 
     \begin{align}
         \label{eq:perceptron_out}
         o_i &= \mathbf{x_i} \cdot \mathbf{w} \\
         o_i &= \sum_{j=1}^n (x_{ij} \times w_j)
     \end{align}
-    After calculating the output $o_i$ and another parameter bias $b$ is
-    added, the result passed to activation function $f(o_i)$ to produce
-    the output as shown on equation
-    \ref{eq:perceptron_act}.
+    After calculating the output $o_i$ and another parameter bias $b$
+    is added, the result is passed to activation function $f(o_i)$ to
+    produce the model output $\hat{y_i}$ as follows,
     \begin{equation}
         \label{eq:perceptron_act}
         f(o_i) = \hat{y_i} =
@@ -39,7 +37,7 @@
         \end{cases}
     \end{equation}
     This model is called perceptron and it is depicted in figure
-    \ref{fig:perceptron}. The input information fed through the model
+    \ref{fig:perceptron}. The input information is fed through the model
     in chain with no feedback thus the name feedforward
     \citep{Goodfellow-et-al-2016}. When the outputs are fed back into
     the model, the model becomes recurrent network and it will be
@@ -58,7 +56,7 @@
     a cost function and calculate the gradient based on the current
     cost, then the gradient information is processed by another
     algorithm called stochastic gradient descent to try to find the
-    optimal parameters that produced the minimum cost. If
+    optimal parameters that are producing the minimum cost. If
     $\mathbf{\hat{y}} = f(\mathbf{x}, \mathbf{W}) = \mathbf{x} \cdot
     \mathbf{W}$ and the cost $z = J(\mathbf{y})$, the simple
     calculation of the gradient can be calculated as follows,
@@ -68,9 +66,8 @@
         \label{eq:gradient2}        
         &= \sum_j \frac{\partial z}{\partial y_j} \sum_k w_k
     \end{align}
-    The correction on parameter $\mathbf{W}$ can be calculated by
-    following calculation with some learning parameter $\eta$ as shown
-    on equation \ref{eq:sgd}.
+    The correction on parameter $\mathbf{W}$ can be calculated with
+    some learning parameter $\eta$ as shown on equation \ref{eq:sgd}.
     \begin{align}
         \label{eq:sgd}
         \hat{w_i} = -\frac{\partial z}{\partial x_i} \times \eta \times w_i
