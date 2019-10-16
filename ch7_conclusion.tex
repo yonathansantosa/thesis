@@ -13,18 +13,18 @@ For \textit{out-of-vocabulary} embedding to be used in the downstream
 tasks, one can assign randomly generated embedding for each
 \textit{out-of-vocabulary} or by assigning single token with one
 vector representation replacing all \textit{out-of-vocabulary}
-entries. This approach has its advantages such as cheaper computation
+entries. This approach has its advantages such as cheaper computation time
 to generate embedding and has relatively high accuracies at around
-$90\%$ for POS-tagging tasks. However, the training on the downstream
-tasks using randomly generated embedding might need more time or more
-sophisticated architecture to be able to keep up with the one that
+$91\%$ for POS-tagging task. However, the training on the downstream
+tasks using randomly generated embedding might need more epoch or more
+sophisticated architecture to be able to achieve similar accuracy with the one that
 uses OOV handling model such as \textsc{Mimick} or the proposed model
 from this research. As evidence, with similar setup as the OOV
 handling model the randomly generated embedding for
 \textit{out-of-vocabulary} has lower accuracy for POS-tagging tasks.
 The randomly generated embedding for \textit{out-of-vocabulary}
 entries method could produce POS-tagging results for three different
-pretrained embedding averaged around $90\%$ and by using OOV handling
+pretrained embedding averaged around $91\%$ and by using OOV handling
 model the accuracy increased to be around $93\%$.
 
 \section{CNN against LSTM for Extracting Text Features}
@@ -37,12 +37,12 @@ gate decided to drop previous information. By using CNN to extract
 text features, the intermediate sequence that appears somewhere in the
 middle of a word can still be inferred. With some generalization, the
 CNN features also able to use one kernel for several sequence that has
-certain similarities in terms of sequence of embeddings hence the
+certain similarities in terms of sequence of embeddings, hence the
 higher accuracy and Spearman's rank correlation values.
 
 \subsection{POS-tagging}
-In POS-tagging tasks, CNN model accuracy is around 1\% higher than
-\textsc{Mimick}. On top of the CNN architecture, some batch
+In POS-tagging tasks, CNN model accuracy was averaged around 0.2\% higher than
+\textsc{Mimick} across all settings. On top of the CNN architecture, some batch
 normalization were added to make the training converge faster. The
 only disadvantages of the CNN model is that it has more parameters to
 learn, meaning higher complexity and slower training time. On top of

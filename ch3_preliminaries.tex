@@ -3,7 +3,7 @@
 
 \section{Feedforward Neural Network}
     Feedforward neural network or also known as multilayer perceptron
-    (MLP) are a mathematical model that is inspired from how neuron
+    (MLP) are a mathematical model that is inspired by how neuron
     works in biological body \citep{Goodfellow-et-al-2016}. The model
     takes numerical input as a stimulus and produces numerical output
     as a response. This model is a simplification of animal nervous
@@ -13,10 +13,10 @@
     representation of the input and the output. Given an input vector
     $\mathbf{x_i}$ with $n$-dimension from a dataset $D =
     \{(\mathbf{x_1}, y_1), (\mathbf{x_2}, y_2), \dots, (\mathbf{x_i},
-    y_i)\}$, the model tries to predict a target $y_i$ correctly given
-    a set of weights $\mathbf{w}$. The weights act as stimulus
-    intensity value, thus different weight values will produces
-    different responses given similar input stimulus and so is
+    y_i)\}$, the model tries to predict a target $y_i$ correctly, given
+    a set of weights $\mathbf{w}$. The weights act as stimuli
+    intensity value, thus different weight values will produce
+    different responses given similar input stimulus and so are the
     different responses given different input stimulus with similar
     weight values. The output $o_i$ is calculated by using the dot
     product between $\mathbf{x_i}$ and $\mathbf{w}$ as follows, 
@@ -25,8 +25,8 @@
         o_i &= \mathbf{x_i} \cdot \mathbf{w} \\
         o_i &= \sum_{j=1}^n (x_{ij} \times w_j)
     \end{align}
-    After calculating the output $o_i$ and another parameter bias $b$
-    is added, the result is passed to activation function $f(o_i)$ to
+    After calculating the output $o_i$ and adding another parameter bias $b$, 
+    the result is passed to activation function $f(o_i)$ to
     produce the model output $\hat{y_i}$ as follows,
     \begin{equation}
         \label{eq:perceptron_act}
@@ -50,7 +50,7 @@
         \label{fig:perceptron}
     \end{figure}
     
-    The results then compared with the target output $y_i$ in the
+    The results are compared with the target output $y_i$ in the
     dataset to learn the correct parameter weight $\mathbf{w}$ and
     bias $b$ by using backpropagation algorithm. The algorithm defines
     a cost function and calculate the gradient based on the current
@@ -66,24 +66,24 @@
         \label{eq:gradient2}        
         &= \sum_j \frac{\partial z}{\partial y_j} \sum_k w_k
     \end{align}
-    The correction on parameter $\mathbf{W}$ can be calculated with
-    some learning parameter $\eta$ as shown on equation \ref{eq:sgd}.
+    The correction on parameter $\mathbf{W}$ is calculated with
+    a learning parameter $\eta$ as shown on equation \ref{eq:sgd}.
     \begin{align}
         \label{eq:sgd}
-        \hat{w_i} = -\frac{\partial z}{\partial x_i} \times \eta \times w_i
+        \hat{w_i} = w_i -\frac{\partial z}{\partial x_i} \times \eta 
     \end{align}
     Notice that the gradient in equation \ref{eq:sgd} is multiplied by
-    $-1$ because the gradient points uphill and to find the minimum
-    cost, the parameters needs to traverse downhill on the cost
+    $-1$ because the gradient points uphill and in order to find the minimum
+    cost the parameters need to traverse downhill on the cost
     function. The learning parameter $\eta$ act as penalization factor
     for the gradient to avoid jumping over the optimal solution.
     Generally, $\eta$ is set to be near zero.
     
-    On the development of perceptron, it is clear that model
-    consisting of single layer of input and single layer of output
-    does not enough to solve XOR problem
-    \citep{Goodfellow-et-al-2016}, since what perceptron does is
-    separating the space with a hyperplane, or in XOR problem a
+    On the development of perceptron, it is clear that a model
+    which consists of a single layer of input and a single layer of output
+    is not enough to solve XOR problem
+    \citep{Goodfellow-et-al-2016}, because the perceptron only separates 
+    the space with a hyperplane, or in XOR problem a
     hyperline as shown on figure \ref{fig:xor}. 
     \begin{figure}
         \centering
@@ -91,11 +91,11 @@
         \caption{XOR Problem}
         \label{fig:xor}
     \end{figure}
-    Thus multilayer perceptron were introduced. This model consist of
-    single layer of input, single layer of output, and one or more
+    Thus multilayer perceptron was introduced. This model consists of
+    a single layer of input, a single layer of output, and one or more
     hidden layer. On top of that, more non-linear activation function
     were introduced. Some of those are sigmoid, tanh, rectified linear
-    unit (ReLU), and softmax described in equation \ref{eq:sigmoid}
+    unit (ReLU), and softmax which are described in equation \ref{eq:sigmoid}
     until \ref{eq:softmax}. This nonlinearity makes the model easier
     to train since those functions are differentiable.
 
@@ -125,38 +125,38 @@
     \end{figure}
     As previously mentioned, recurrent neural network (RNN) is a
     neural network model that has feedback to its own neuron depicted
-    in figure \ref{fig:rnn}. This model used for processing sequential
-    data \citep{Goodfellow-et-al-2016}. The idea is given sequence of
+    in figure \ref{fig:rnn}. This model is used for processing sequential
+    data \citep{Goodfellow-et-al-2016}. For the given sequence of
     input with length of $t$, $\mathbf{x}_i^{(t)} = x_i^{(1)}, x_i^{(2)},
     \dots, x_i^{(\tau)}$, the input is processed with shared parameter to
     give $t$-lengths output as depicted in figure
     \ref{fig:unfolded_rnn}. Common usage of RNN is for processing
     sentence. For example, given two sentences "I went to Paris in
-    2004" and "In 2004 I went to Paris". If we query the model to
-    extract information from both sentences and ask when did the
+    2004" and "In 2004 I went to Paris". If the model is tasked to
+    extract information from both sentences and asked when did the
     narrator went to Paris, 2004 would be the relevant information
-    regardless when it is appears in a sentence
-    \citep{Goodfellow-et-al-2016}. If such task is trained using a
+    regardless of when it appears in a sentence
+    \citep{Goodfellow-et-al-2016}. If such task is trained by using a
     feedforward neural network that processes fixed size inputs, the
     parameters for each input feature will be separated for each
     sequence. In comparison with feedforward neural network, RNN will
     use the same parameters to process all of the input sequence. 
 
     The problem with RNN is that when given a really long sequence,
-    either the gradient calculation will vanish since if weight is
+    either the gradient calculation will vanish since if the weight is
     near zero and it is multiplied several times sequentially over
-    time and the gradient exploded if the weight is larger than one
+    time or the gradient exploded if the weight is larger than one
     and it is multiplied several times \citep{Goodfellow-et-al-2016}.
     Those problems making processing long sequence on RNN unfavorable.
     Hence another method called long-short term memory (LSTM) was
     introduced. LSTM was created with idea in mind that some paths
-    exist to give gradient ability to flow for long sequence
+    exist to give gradient ability to flow for a long sequence
     \citep{Goodfellow-et-al-2016}. This was achieved by introducing
-    self-loops inside the hidden layer that has time-scale mechanism
+    self-loops inside the hidden unit that has time-scale mechanism
     that can change dynamically based on the input and previous state
     \citep{Goodfellow-et-al-2016}. New components called cell gate
     $C_t$, forget gate $f_t$, and input gate $i_t$ are introduced to
-    let the recurrent network split the graph of the hidden unit thus
+    let the recurrent network split the graph of the hidden unit thus the
     gradient can be flowed longer by depending only from the output
     $o_t$ or from both output and hidden states $o_t$ and $h_t$
     respectively. The calculation process of LSTM for each time step
@@ -181,10 +181,10 @@
     input $x_t$, previous hidden state $h_{t-1}$, and previous cell
     gate $C_{t-1}$ to control the current cell gate $C_t$. This cell
     gate $C_t$ will be used to control the information flow from
-    previous hidden state $h_{t-1}$ to the current hidden state $h_t$
+    the previous hidden state $h_{t-1}$ to the current hidden state $h_t$
     as shown in equation \ref{eq:lstm:h_t}. If $C_t = 0$, the hidden
-    state $h_t$ will be $0$, meaning the previous information of a
-    certain features is dropped for the gated hidden states. The LSTM
+    state $h_t$ will be $0$, meaning that the previous information of a
+    certain feature is dropped for the gated hidden states. The LSTM
     hidden cell's architecture is depicted in figure \ref{fig:lstm}.
 
     On top of the normal sequence, the reverse sequence can also be
@@ -211,16 +211,16 @@
     Firstly, pre-trained embedding which contains word $w_i$ and its
     embedding $e_i$ is used as input and target respectively.
     Afterward, the character embedding $g_i \in \mathbf{G}$ for each
-    character $c_i \in \mathbf{C}$ was defined. Each word $w_i$ as
-    input first broken down into sequence of characters, $w_i = [c_1,
+    character $c_i \in \mathbf{C}$ was defined. Each word $w_i$ was
+    broken down into sequence of characters, $w_i = [c_1,
     c_2, \dots, c_n]$, then each character was transformed into its
     embedding, producing sequence of character embeddings $[g_1, g_2,
     \dots, g_n]$. Those character embeddings then fed into bi-LSTM as
-    a sequence to extract the features of the word input. The last
+    a sequence to extract the features of the word input. Afterwards, the last
     hidden states of both forward $\mathbf{h}_f$ and backward
-    $\mathbf{h}_b$ then concatenated and fed into a fully connected
+    $\mathbf{h}_b$ was concatenated and fed into a fully connected
     layer with parameters $\mathbf{T}_h$, $\mathbf{b}_H$,
-    $\mathbf{b}_T$ and $\mathbf{O}_T$ and nonlinear function $g$ to
+    $\mathbf{b}_T$, $\mathbf{O}_T$ and nonlinear function $g$ to
     predict the embedding of the input word as described by equation
     \ref{eq:mimick}.
     \begin{equation}
@@ -229,7 +229,7 @@
         \mathbf{h}_b] + \mathbf{b}_h) + b_T
     \end{equation}
     The objective of the training is to get the predicted embedding
-    $f(w_i)$ as close as the pre-trained word embeddings $e_i$. This
+    $f(w_i)$ as close as possible to the pre-trained word embeddings $e_i$. This
     was done by minimizing the squared Euclidean error,
     \begin{equation}
         \label{eq:mimickloss}
@@ -250,7 +250,7 @@
     last hidden state of the bi-LSTM thus increases the chance of the
     early important sequence to be dropped when cell gate $C_t$
     decided to drop the information at certain point when there exist
-    some input vector $\hat{x}_t$ or hidden state $\hat{h}_{t-1}$ that
+    some input vector $\hat{x}_t$ or previous hidden state $\hat{h}_{t-1}$ that
     could trigger the cell gate $C_t$ to drop previous information
     entirely. Although bi-LSTM could serve the purpose to include the
     early sequence, there might exist intermediate sequence that
@@ -270,15 +270,15 @@
     For a time series data that has a regular time interval, CNN can
     process this as a one-dimensional grid data and for an image data
     CNN can process this as a two-dimensional grid or 3-dimensional
-    grid given the number of channel presents on the image data. This
+    grid given the number of channel exists on the image data. This
     model concept was first introduced for handwriting recognition
     \citep{generalization1989lecun}.
 
-    In general, convolution is operation of two function, the data and
-    the kernel, that is taking values from both function and
-    element wise multiplied was done and then summed to get the total
+    In general, convolution is operation of two functions, the data and
+    the kernel, that is by doing element wise multiplication from both function and
+    and then summed to get the total
     overlaps between both function at time $t$. In general, the kernel
-    has only limited size that has non-zero values while the rest is
+    only has limited size that is non-zero while the rest is
     zero. Thus the convolution operation is done locally by processing
     parts of the data several times. To obtain the entirety processed
     data, the kernel needed to be shifted in all direction depending
@@ -292,7 +292,7 @@
         \label{eq:conv:2}
         h(t) &= \int_{-\infty}^\infty f(u)g(t-u) du
     \end{align}
-    In discrete type signal, the calculation processes becomes as
+    In discrete type signal, the calculation process becomes as
     shown in equation \ref{eq:conv_d:2}.
     \begin{align}
         \label{eq:conv_d:1}
@@ -326,18 +326,18 @@
         \label{fig:convolution}
     \end{figure}
     
-    Another intermediate layer that can also be used in CNN called
+    Another intermediate layer that can also be used in CNN is called
     maxpooling layer. Maxpooling is a process of finding a maximum
     value inside a given window from a given grid. In CNN, maxpooling
     is used for finding within the input data that gives the highest
-    response with a given kernel. Then the process of convolution and
-    maxpooling is repeated until desired architecture is produced. The
-    process of one patch of an input image is depicted in figure
+    response from a given kernel. Then the process of convolution and
+    maxpooling is repeated until desired output size is produced. The
+    process of maxpooling one patch of an input image is depicted in figure
     \ref{fig:maxpool}. Maxpooling process act as a gate for the
     highest response to receive backward connection for correcting the
     kernel. This is so that only parts of the image that has highest
     response will also corresponds to the correction of the kernel
-    while the others treated as less useful. 
+    while the others treated as less useful for a certain feature. 
 
     \begin{figure}
         \centering
@@ -375,11 +375,11 @@
     $w$ can be used to retrieve the probability
     \citep{speech2009Jurafsky:2009:SLP:1214993}. Mathematically it can
     be written as follow,
-    \begin{equation*}
+    \begin{equation}
         \label{eq:countingprob}
         P(\text{on} \vert \text{Please do not sit}) = 
         \frac{C(\text{Please do not sit on})}{C(\text{Please do not sit})}
-    \end{equation*}
+    \end{equation}
     Previous method can give good estimation, but because language is
     creative and new sentences generated every time, everything that
     exists on the internet is not enough to produce good estimate
@@ -404,8 +404,8 @@
     by counting the occurrence as shown in equation
     \ref{eq:countingprob} for the whole history.
     
-    Instead of previous calculation, better way to calculate the word
-    $W$ given history $h$ is needed because as stated above, language
+    Instead of previous calculation, better way to calculate the probability of the word
+    $w$ given history $h$ is needed because as stated above, language
     is creative making calculating exact probability impossible and
     there will be too many estimation if there is long sequence that
     precedes the target word. Hence n-grams has been introduced to
@@ -436,9 +436,9 @@
 
     There are multiple n-grams model that are differentiated by the number
     of sequence used to estimate probability of the next word $w$. For
-    example, preceding word in the history $h$ is used for estimating
+    example, one preceding word in the history $h$ is used for estimating
     the next word $w$ in bigram model and two preceding words in the
-    history $h$ is used in trigram model. In general, the window used
+    history $h$ is used in trigram model. In general, the window that is chosen
     for n-grams is configurable to the needs of the expected results.
     
     Another application of n-grams is that the sequence of character

@@ -94,57 +94,63 @@
     vocabularies and its embedding, the model would generate embedding
     for OOV words. Previous \textit{state-of-the-art} used
     bi-directional long-short term memory (bi-LSTM) to infer OOV
-    embeddings called \textsc{Mimick} \citep{mimicking2017Pinter}. For
+    embeddings which called \textsc{Mimick} \citep{mimicking2017Pinter}. For
     this model to infer OOV embedding, character embedding was first
     randomly initialized with a set of characters as its vocabulary.
     The character embedding was used to transform sequence of
     characters in a word into sequence of embedding. The sequence of
     the character embeddings was forwarded into bi-LSTM then to fully
-    connected layer. In language model, bi-LSTM generally works by
+    connected layer. In a language model, bi-LSTM generally works by
     separating sub-word by remembering and forgetting previous
-    sequence from both direction. The last hidden state of the bi-LSTM
-    was used to infer its embedding. By architecture of LSTM, the
-    gates inside the hidden neuron might drop previous information if
-    the input triggers the cell gate to do so. Hence a problem might
-    arise when there are more than two important sub-words or
-    subsequences and they are not in sequence, meaning that there
-    exist at least one character that could trigger the cell gate to
-    drop previous information between two sub-words that is considered
-    to be important by the model. Because of that, the information on
-    the last hidden state is incomplete since the previous information
-    will be dampened or completely dropped by LSTM hidden neuron
-    interiors if the next subsequence of the word is considered to be
-    important. This problem will be explained further in chapter
-    \ref{chap:method}. From the explanation above, proposal of a new
-    method to handle OOV is created.
+    sequence from both direction. 
+    
+    In the implementation of \textsc{Mimick}, the last hidden state of
+    the bi-LSTM was used to predict its embedding. By the architecture of
+    LSTM, the gates inside the hidden neuron might drop the previous
+    information if the input triggers the cell gate to do so. Hence a
+    problem might arise when there are more than two important
+    sub-words or subsequences which are not in sequence, meaning
+    that there exist at least one character that could trigger the
+    cell gate to drop previous information between two sub-words that
+    considered to be important by the model. Because of that, the
+    information in the last hidden state is incomplete since the
+    previous information will be dampened or completely dropped by
+    LSTM hidden neuron interiors if the next subsequence of the word
+    is considered to be important. This problem will be explained
+    further in chapter \ref{chap:method}. From the explanation above,
+    proposal of a new method to handle OOV is created.
 
 \section{Objectives}
     For OOV to be inferred, a model that is able to generate embedding
     for the correspondence word has to be created. In \textsc{Mimick},
     the whole sequence was processed by a bi-LSTM. By the problem
     mentioned earlier, instead of taking the whole words as a sequence
-    and considering its importance based on time and occurrence using
-    bi-LSTM, n-grams will be used to pick which grams (set of
-    sequence) that are considered to be important. In theory, this
-    method should gives better results in downstream tasks since the
+    and considering its importance based on time and occurrence by
+    using bi-LSTM, n-grams will be used to pick which grams (set of
+    sequence) that are considered to be important. In theory this
+    method should give better results in downstream tasks since the
     information that is processed is complete and only left for the
-    model to pick which n-grams features are more important. The only
-    problem is that for the model to pick which grams that should be
-    used in the model is impossible to do since there are many word
-    combinations making the model needs to accept huge number of
-    inputs. Instead of handpicking the features of n-grams,
+    model to pick which n-grams features are more important. What is
+    left is for the model is to pick which grams that should be used
+    in the model which is impossible to do since there are many word
+    combinations which makes the model needs to accept a huge number
+    of inputs. Instead of handpicking the features of n-grams,
     convolutional neural network (CNN) can be used to learn the
-    existing features and pick which features needs to be considered
-    by using character embedding and treat the character sequence
-    embedding as two-dimensional matrix. CNN has kernels that define
-    which feature is needed. On top of that, features that are closely
-    similar to the needed feature will still be able to produce high
-    response. Those features picked then will be processed to predict
-    the word embedding for the input word using feedforward network.
+    existing features and pick which features need to be considered
+    important by using character embedding and treat the character
+    sequence embedding as two-dimensional matrix. CNN has kernels that
+    define which feature is needed by training the model. On top of
+    that, the features that are closely similar to the needed feature
+    will still be able to produce high response. The features that are picked
+    will then be processed to predict the word embedding for the input
+    word by using feedforward network.
 
 \section{Contributions}
     \begin{enumerate}
-        \item A new OOV handling model
+        \item A new OOV handling model that used CNN for subword learning
+        \item Evaluation on OOV handling by using random embedding or 
+        unknown token ``\textless UNK\textgreater'' against machine learning
+        method for OOV handling
         \item Analysis of the baseline model and the proposed model
         regarding on the OOV and the in-vocabulary embeddings
         \item Evaluation on different settings for baseline model and
@@ -154,7 +160,7 @@
 \section{Thesis Structure}
     The remainder of this document is structured as follows. In the
     \nameref{chap:relatedwork} chapter, the previous works that are in
-    relatives with the research done in this documents are mentioned,
+    relatives with the research done in these documents are mentioned,
     especially the baseline used in this research. In the following,
     \nameref{chap:preliminaries} chapter, base theories for
     feedforward neural network, recurrent neural network, and n-grams
@@ -164,9 +170,9 @@
     chapter, the method of the solution proposal to the problem and
     the testing method for the results analysis are explained. In the
     \nameref{chap:implementation} chapter, the method of solution
-    proposed to the problem are described in technical way to show how
+    proposed to the problem are described in a technical way to show how
     it is implemented and tested. In the \nameref{chap:results}
-    chapter, the results are shown and discussed with the relation to
+    chapter, the results are shown and discussed to the relation to
     the previous \textit{state-of-the-art}. Lastly,
     \nameref{chap:conc} chapter talks about the conclusion that are
     able to be pulled from this research.

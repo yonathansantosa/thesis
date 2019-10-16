@@ -33,11 +33,11 @@
             United States of America. In the original vocabulary, this
             phrase might be written as "New\_Jersey", thus for the
             purpose of simplifying the input and the downstream tasks,
-            this kind of phrases was not included. On top of phrases,
+            these kind of phrases were not included. On top of phrases,
             the original vocabulary also includes hyperlinks which
             usually contains "http". Such entries will also be
             removed. Only first 40 thousands words with removal if the
-            word contains "\_" (underscore) or "http" was used in this
+            word contains "\_" (underscore) or "http" were used in this
             research.
 
             Another pre-trained embedding is
@@ -48,7 +48,7 @@
             English embedding that contains around 100.000 words with
             60-dimensional vector representations will be used. This
             pre-trained embedding was also used in OOV handling model
-            \textsc{Mimick} which used as baseline model
+            \textsc{Mimick} which was used as baseline model
             \citep{mimicking2017Pinter}.
 
             Dict2vec\footnote{Pretrained embedding available at
@@ -58,14 +58,14 @@
             words location in Euclidean space was determined by the
             appearance of another words in the definition that is
             defined by the Cambridge dictionary. Originally, this
-            embedding was tested using word similarity tasks with
+            embedding was tested by using word similarity tasks with
             removal for OOV words.
 
         \subsubsection{Word Similarity Dataset}
             Several word similarity datasets were used in order to
-            increase the pair examples since for the datasets that are
+            increase the word pair examples since for the datasets that were
             collected, the highest number of pairs is just above 3000
-            pairs. The datasets used for word similarity tasks are
+            pairs. The datasets used for word similarity tasks were
             Card-660 \citep{card660:pilehvar-etal:2018}, MC-30
             \citep{mc30:strongContextualHypothesis}, MEN-TR-3k
             \citep{mentr3k:bruni-etal-2012-distributional}, MTurk-287
@@ -93,7 +93,7 @@
         Colaboratory\footnote{Google Colaboratory available at
         \url{https://colab.research.google.com/}} which gives
         randomized hardware specification based on the availability,
-        thus the exact hardware configuration used cannot be
+        thus the exact hardware configuration that was used cannot be
         determined. The GPU engine was used to train the model.
         Nevertheless, this only affects the time needed to train the
         model and not the results.
@@ -120,7 +120,7 @@
         embeddings then processed by the model producing the predicted
         word embedding. The \textsc{Mimick} model was trained with
         learning rate $\eta = 0.01$ for polyglot and $\eta = 0.1$ for the
-        rest with no dropout as dropout does not work well just as in
+        rest with no dropout as dropout did not work well just as in
         the original implementation of \textsc{Mimick}
         \citep{mimicking2017Pinter}. On the other hand, CNN model was
         performing better with dropout when the model was pre-tested
@@ -153,17 +153,18 @@
         or $n = [5, 6, 7]$ can be used instead of the whole n-grams
         sizes, but it has worse results in the pre-testing phase. Thus
         those settings were not used. The results on the downstream
-        tasks for the different settings would compared with the whole
-        model and with the \textsc{Mimick} model.
+        tasks for the different settings for the CNN-grams and \textsc{Mimick} model
+        model would be compared.
 
-        After max-over-time pooled, the vector representation was
+        After max-over-time pooled was done to the convolution results, 
+        the vector representation was
         passed into two layers of fully connected network with batch
-        normalization layer for each layer to produce the predicted
+        normalization layer for each layer to predict the 
         word embedding. Batch normalization helps with the training
         process by making all of the minibatch data to have similar
         distribution for each layer
         \citep{batchnorm:DBLP:journals/corr/IoffeS15}. After the
-        embedding was predicted, the error was calculated using Mean
+        embedding was predicted, the error was calculated by using Mean
         Squared Error as mentioned on equation \ref{eq:errorf} and the
         derivative was calculated then back-propagated to update the
         model parameters.
@@ -174,7 +175,7 @@
         such as learning rate, number of features/hidden neurons, and
         number of epoch, several number of tests with different number
         of parameters needed to be done as preliminaries. The summary
-        of the hyperparameters that are picked after the preliminary
+        of the hyperparameters that were picked after the preliminary
         tests are shown in table \ref{tab:hyperparameter}.
 
         % \begin{table}[]
@@ -199,9 +200,9 @@
         For POS-tagging task, the readily brown corpus and its tagset
         from NLTK\footnote{Available at \url{https://www.nltk.org/}}
         were used to test the performance of the model as well as the
-        previous \textit{state-of-the-art}. In this task, two kinds of
+        previous \textit{state-of-the-art}. In this task, three kinds of
         evaluation methods were done and will be explained below.
-        Before going into the method, there are several steps to
+        Before going into the method, there were several steps to
         prepare the datasets for training the POS-tagger. Firstly, the
         POS-tag dataset words were collected as sets $\mathcal{S}$.
         This was done in order to collect the vocabulary uniquely
@@ -212,7 +213,7 @@
         the vocabulary $\mathcal{V}$ and its embedding, either a zero
         vector, a randomly initiated value, or a generated embedding
         from the OOV model depending by the method used for testing,
-        will be added to the original embedding $\mathcal{W}$. The
+        would be added to the original embedding $\mathcal{W}$. The
         dataset were split up into 80\% for train set and 20\% for
         test set.
 
@@ -223,33 +224,33 @@
         that each word $v \in \mathcal{V}$ has vector representation.
         In short, the new embedding $\mathcal{W}_{new} = \mathcal{W}
         \cup f(\text{OOV})$. The new pre-trained embedding
-        $\mathcal{W}_{new}$ will not be trained in this method by
+        $\mathcal{W}_{new}$ would not be trained in this method by
         setting the parameters to be fixed values.
 
         The second method was to train the OOV model together with the
-        POS-tagger. For this method, for each OOV entries added into
-        the vocabulary $\mathcal{V}$, a zero vector representing the
+        POS-tagger. For this method, each OOV entries were added into
+        the vocabulary $\mathcal{V}$ and a zero vector representing the
         embedding of the OOV would be added to the embedding
         $\mathcal{W}_{new}$ that later on replaced with the generated
-        embedding $f(\text{OOV})$ if the input word is OOV as
+        embedding $f(\text{OOV})$ from the OOV handling model if the input word is an OOV as
         explained in the equation \ref{eq:embeddingmask} by masking
         the entries. Thus the OOV model would still be able to be
-        trained if the input turns out to be OOV while it is
-        non-trainable if it is in-vocabulary input. This method was
+        trained if the input turns out to be OOV while it was
+        non-trainable if it was in-vocabulary input. This method was
         used by both models then the results were compared.
 
-        Lastly, it is similar to the second method but the pre-trained
+        Lastly, it was similar to the second method but the pre-trained
         embedding was set to be a trainable parameters. Using similar
         method of masking, the gradient would flow separately depending
-        on the embedding used, whether it is from the pre-trained
-        embedding or from the embedding generated by the OOV model.
+        on the embedding used, whether it was from the pre-trained
+        embedding or from the embedding generated by the OOV handling model.
 
         On top of different methods used in this task, the sentence
         length was limited to 5 words. If the sentence length was less
         than 5 words then padding tokens were added at the end of the
         sentence to make the length becomes 5 words and if the
         sentence's length was more than 5 words, the slice of the
-        sentence were randomly selected. Note that this padding token
+        sentence was randomly selected. Note that this padding token
         is different than the padding token of the character
         embedding. The padding token ''\textit{\textless
         p\textgreater}'' is a zero vector with dimension similar with
@@ -291,6 +292,3 @@
         \citep{dict2vect2017tissier}, was also tested using random OOV
         embedding by randomly giving OOV word random embedding and
         choosing the maximum results from five tries for each dataset.
-        On top of that, other two pre-trained embedding used in this
-        research were also used for comparing the results between the
-        two models.

@@ -11,14 +11,15 @@
         could generate embedding for the original embedding. Hence,
         the original vocabulary and its embedding were used for
         training the model to generate the embedding. As mentioned in
-        chapter \nameref{chap:intro}, the reasons why \textsc{Mimick}
+        chapter \nameref{chap:intro} and chapter \nameref{chap:preliminaries}, 
+        the reasons why \textsc{Mimick}
         could perform worse is because the OOV embedding is generated
         from the last hidden states of the bi-LSTM and the hidden
         states are controlled by cell gates $C_t$ making the
-        information that is carried on is the most recent information.
+        information that is passed on is the most recent information.
         If at certain time step $t$ the cell gates decided to forget
         past information, then the early information might not be
-        coded into the hidden state. On top of that, there are
+        coded into the last hidden state. On top of that, there are
         evidences that recurrent architecture could perform worse than
         CNN for sequence modelling \citep{empirical2018shaujie}. 
         
@@ -31,12 +32,12 @@
         early and later sequences information is held by the last
         hidden state for each reverse LSTM and forward LSTM
         respectively. Another problem might arise when we need to
-        divide sequence into more than three subsequence as shown on
+        divide the sequence into more than three subsequence as shown in
         figure \ref{fig:subsequence}. Hence another approach is needed
         since intermediate subsequence might get deleted even by using
         bi-LSTM. Another method that might be able to solve this
-        problem for \textsc{Mimick} is by increasing hidden size and
-        hope that it will be able to compensate the sequence that is
+        problem for \textsc{Mimick} is by increasing the hidden size and
+        hoping that it will be able to compensate the sequence that is
         dropped by the cell gate in the other hidden cell.
         \begin{figure}
             \begin{align*}
@@ -78,7 +79,7 @@
         Afterwards, those sequences of character embeddings were fed
         into learning algorithm. This idea is similar to how human
         tries to recognize an unseen word by reading subword that is
-        understandable beforehand when no explanation or context were
+        understandable beforehand when no explanation or context was
         given. In other words, given a set of vocabulary $\mathcal{V}$
         with size $\vert\mathcal{V}\vert$ and pretrained embeddings
         $\mathcal{W}^{\vert\mathcal{V}\vert \times d}$ for each word
@@ -122,7 +123,7 @@
             ReLU(x) = max(0,x)
         \end{equation}
 
-        Several kernel were used to learn several features for
+        Several kernels were used to learn several features for
         producing embedding. Each of these kernel was responsible to
         find grams that were affecting the results, thus the vector
         $\hat{l_i}$ that is results of convolution $\{g\}^m * k_i$
@@ -134,7 +135,7 @@
         $j$ number of similar features from the input. Since, there
         are $\vert K \vert$ number of filter, $\vert K \vert + j$
         number of grams would be considered to be important for
-        calculating results. Furthermore, by using several window
+        calculating the result. Furthermore, by using several window
         sizes for n-grams (bigram, trigram, etc.) by changing the size
         of the kernel more features will be able to be learned. For
         instance bigram has a kernel with size $b \times 2$, trigram
@@ -144,7 +145,7 @@
 
     \subsection{Embedding Generation}
         After the features were able to be extracted, those features
-        then concatenated and fed into fully connected layer with
+        was concatenated and fed into fully connected layer with
         output size matching the pre-trained embedding $\mathcal{W}$
         with $d$-dimension by using non-linear activation function
         $Hardtanh$ matching the maximum and minimum bound of the
@@ -179,7 +180,7 @@
         by parameter $\gamma$ and shifted by parameter $\beta$ as
         shown in equation \ref{eq:bn:transform}. By making the
         parameters $\gamma$ and $\beta$ learnable, the model will
-        adjust this process in the training process.
+        adjust these parameters in the training process.
 
         After all the process above was done, the generated embedding
         vector $\tilde{e}$ was produced.
@@ -202,22 +203,22 @@
             \label{fig:model}
         \end{figure}
         On figure \ref{fig:model}, starting and ending token were
-        added at the beginning and the end of the word respectively.
+        added at the beginning and at the end of the word respectively.
         Furthermore, padding token was added if the input word was
         shorter than the longest input size in the minibatch. The
         padding token is a zero vector $\vec{0}$ and $\vec{0} * k =
         \vec{0}$ for any $k$. This is to ensure that part of input
         that got padded did not go through maxpool layer since only
-        grams that has highest value could go through the next layer
+        grams that has the highest value could go through the next layer
         and the result of $ReLU(0) = 0$, thus the result of maxpooling
         would not come from the padding token. The reason for this is
         so that various length of words were able to be processed by
         the model.
 
     \subsection{Error and Backpropagation}
-        After the embedding $\tilde{e}$ were predicted, it was
+        After the embedding $\tilde{e}$ was predicted, it was
         compared to the original embedding $e$ to adjust all of the
-        parameters for the neural network using mean squared error
+        parameters for the neural network by using mean squared error
         function,
         \begin{equation}
             \label{eq:errorf}
@@ -234,26 +235,27 @@
     In natural language modeling (NLP), there are several tasks that
     make use of word embedding. Hence that, the generated embeddings
     from the model can be evaluated by using those downstream tasks.
-    The results from the downstream tasks were compared with the
+    Then the results from the downstream tasks were compared with the
     state-of-the-art OOV handling model \textsc{Mimick}
     \citep{mimicking2017Pinter}.
     
     \subsection{Part-of-Speech Tagging}
         Part-of-speech tagging or POS-tagging is a task of classifying
-        usage of words in sentence or corpus based on the grammatical
+        word usage in a sentence or a corpus based on the grammatical
         usage of the word \citep{robustpostag2018horsmann}, for
         example: verb, noun, adverb, etc. Given sentence $S = \{w \in
         \mathcal{V} \vert [(w_1, t_1), (w_2, t_2), \dots, (w_n,
         t_n)]\}$ with its POS-tag $t_i$, each word $w_i$ that exist in
         the vocabulary $w_i \in \mathcal{V}$ and $w_i \in S$ was
-        transformed into embedding $e_i$. For the OOV, every sequence
+        transformed into embedding $e_i$ by using the pre-trained embedding. 
+        For the OOV, every sequence
         of the characters building a word transformed into sequence of
-        character embedding $\{g\}_{i}^m$ using model represented in
+        character embedding $\{g\}_{i}^m$ using the function represented in
         equation \ref{eq:word2charemb} then the embedding
-        $\tilde{e}_i$ was predicted using the OOV handling model, else
-        the original embedding was used if the word exist inside the
-        vocabulary $\mathcal{V}$. This was done by masking the output
-        of the OOV handling model and the original embedding in the
+        $\tilde{e}_i$ was predicted by using the OOV handling model. 
+        To separate embedding generation process for the in-vocabulary and the OOV,
+        the output
+        of the OOV handling model and the original embedding were masked in the
         following way,
         \begin{align}
             \label{eq:embeddingmask}
@@ -265,7 +267,7 @@
             \end{cases}
         \end{align}        
         By doing so, the gradient would not flow into the OOV model if
-        the word exist in $\mathcal{V}$ and will flow if the word is
+        the word exist in $\mathcal{V}$ and would flow if the word is
         unavailable in $\mathcal{V}$ and the embedding was generated
         by the OOV model.
 
@@ -277,10 +279,10 @@
             LogSoftmax(x_i) = log \Bigg(\frac{exp(x_i)}{\sum_j exp(x_j)}\Bigg)
         \end{equation}
         to classify the POS-tag $t$. To ease up computation time,
-        adaptive LogSoftmax is used \citep{grave2018efficientsoftmax}.
+        adaptive LogSoftmax was used \citep{grave2018efficientsoftmax}.
         Instead of calculating the whole tag classification, the
         frequent and infrequent classes were separated, thus there were
-        many chances that only frequent classes needed to be calculated
+        many chances that only the frequent classes needed to be calculated
         before trying to calculate the infrequent classes. After
         calculating the loss, stochastic gradient descent was used to
         optimize the parameters of the model. The complete process of
@@ -309,16 +311,17 @@
         embedding $\tilde{e}_1$ and $\tilde{e}_2$ based on the
         generated embedding from OOV model for $w_1$ and $w_2$ were
         calculated respectively using the following equation,
-
         \begin{equation}
             \label{eq:cosinesim}
             CosineSimilarity(e_1, e_2) = \frac{e_1 \cdot e_2}{\Vert e_1 \Vert \Vert e_2 \Vert}
         \end{equation}
+        The OOV handling model was used if the word entry was an OOV and 
+        the original embedding was used if the word entry was in-vocabulary.
 
         After all of the cosine distance for all pairs were calculated,
         Spearman rank's correlation from the dataset and the generated
         embedding were calculated by using equation \ref{eq:spearman}
-        and by using equation \ref{eq:spearmantied} when no tied ranks
+        and by using equation \ref{eq:spearmantied} when no tied rank
         exists. The results of both \textsc{Mimick} and the proposed
         model from several word similarity datasets then averaged and
         compared.

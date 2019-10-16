@@ -3,16 +3,16 @@
 
 % This is the introduction to the thesis.\footnote{And this is a
 % footnote.}  The conclusion is in Chapter on page
-Polyglot is one of word embedding that is focused on multilingual
+Polyglot is one of word embeddings that is focused on multilingual
 application \citep{polyglot2013alrfou}. A total of one hundred and
 seventeen languages word embeddings were generated to give
 availability of different language models to be trained. Previously,
 specific language features were hand crafted by experts of specific
 language \citep{polyglot2013alrfou}. This makes applying a language
-model that are trained using commonly available language features
+model that are trained with commonly available language features
 harder, hence the creation of Polyglot word embedding
 \citep{polyglot2013alrfou}. This embedding was trained using Wikipedia
-article and has no OOV handling if there exist word that does not used
+article and has no OOV handling if there exist a word that is not used
 in Wikipedia. This pre-trained embedding was also used in the baseline
 model \textsc{Mimick} for generating OOV embedding in many languages.
 
@@ -20,12 +20,12 @@ Word2vec is another word embedding that was trained using skip-gram
 model \citep{efficient2013mikolov}. The available language choice for
 this pre-trained embedding is English. A word $w(t)$ used as an input
 and its context word, for example context word with windows of 4 are
-$w(t-2), w(t-1), w(t+1),$ and $w(t+2)$, used as the target. The model
+$w(t-2), w(t-1), w(t+1),$ and $w(t+2)$ are used as the target. The model
 tried to project the input $w(t)$ to the output to predict the context
 words \citep{efficient2013mikolov}. Similar with Polyglot, this model
 is highly dependent on the corpus completeness. The more examples and
 vocabularies a corpus has, the better the representation of the
-embeddings since more information will be able to be retrieved.
+embeddings will be since more information will be able to be retrieved.
 Word2vec model has no OOV handling either, meaning either random
 vector or unknown ``\textit{\textless UNK\textgreater}'' embedding
 will be used for it.
@@ -33,13 +33,13 @@ will be used for it.
 Dict2vec is yet another embedding that was trained by looking up
 definitions of words from Cambridge dictionary
 \citep{tissier2017dict2vec}. This embedding was created because the
-previous method is trained with unsupervised manner, meaning that
+previous method is trained with an unsupervised manner, which means that
 there is no supervision between pairs of words. There might exists
-pair of words that are highly related but do not appear enough
-inside a corpus making it harder for the model to find connection
-\citep{tissier2017dict2vec}. Thus, this model is trained by creating
+a pair of words that are highly related but do not appear enough
+inside a corpus which makes it harder for the model to find a connection
+\citep{tissier2017dict2vec}. Thus, this model was trained by creating
 sets of strong and weak pairs of words, then move both pairs closer
-and further respectively based on the pairs. The model was evaluated
+and further respectively based on the pairs. The model was evaluated by
 using several word similarity tasks to show improvements over vanilla
 implementation of word2vec and fasttext \citep{tissier2017dict2vec}.
 Similar with previous word embedding, Dict2vec also has no OOV
@@ -47,35 +47,35 @@ handling method and since the vocabularies were only inferred from
 Cambridge dictionary, there is no typographical error.
 
 As aforementioned above, those word embedding has no way of handling
-OOV words other than assigning some unknown token ``\textit{\textless
-UNK\textgreater}'' or let the downstream tasks model to train from the
-randomly generated embeddings each time an OOV emerges. This case
-fueled \textsc{Mimick}, an OOV handling model to be created
-\citep{mimicking2017Pinter}. This model were able to tackle this
-problem successfully by using bi-directional long-short term memory
-(bi-LSTM) to process embedding of characters of an OOV word to produce
-the word embeddings. The OOV embedding generation process was taken
-from quasi-generative perspective, meaning that the original embedding
-assumed to has some form that could generate the embeddings
-\citep{mimicking2017Pinter}. By doing so, the OOV embeddings are able
-to be predicted without the needs of knowing lexicon or model used for
-creating the word embedding. To prove that such OOV handling model can
-perform better than randomly generated embeddings or unique embedding
-for unknown token ``\textit{\textless UNK\textgreater}'', several
-downstream tasks were used to evaluate such as Part-of-Speech-Tagging
-(POS-tagging) and word similarity task that will be explained further
-below.
+OOV words other than by assigning some unknown token
+``\textit{\textless UNK\textgreater}'' or by letting the downstream
+tasks model to train from the randomly generated embeddings each time
+an OOV emerges. This case fueled \textsc{Mimick}, an OOV handling
+model to be created \citep{mimicking2017Pinter}. This model was able
+to tackle this problem successfully by using bi-directional long-short
+term memory (bi-LSTM) to process embedding of characters of an OOV
+word to produce the word embeddings. The OOV embedding generation
+process was taken from quasi-generative perspective, which means that
+the original embedding was assumed to has some form that could
+generate the embeddings \citep{mimicking2017Pinter}. By doing so, the
+OOV embeddings were able to be predicted without the needs of knowing
+lexicon or model used for creating the word embedding. To prove that
+such OOV handling model could perform better than randomly generated
+embeddings or unique embedding for unknown token ``\textit{\textless
+UNK\textgreater}'', several downstream tasks were used to evaluate the
+model, such as Part-of-Speech-Tagging (POS-tagging) and word
+similarity task that will be explained further below.
 
 Part-of-Speech-Tagging (POS-tagging) is a process of determining
-grammatical category called a \textit{tag} of given word in a certain
-sentence. In English, exist words that has ambiguous grammatical
-category, such as word ``tag'' can be either noun or verb depending on
+grammatical category called a \textit{tag} of a given word in a certain
+sentence. In English, there are words that has ambiguous grammatical
+category, such as word ``tag'' can either be noun or verb depending on
 the usage of it \citep{apractical1992cutting}. To tackle this problem,
-many researchers proposed to use mathematical models or statistical
+many researchers proposed to use of mathematical models or statistical
 models namely hidden Markov model \citep{apractical1992cutting},
 n-grams \citep{tnt2000Brants}, and neural network model
 \citep{finding2015ling}. In this research, the neural network model
-would be implemented to serve as the downstream task. This model is a
+would be implemented to serve as the downstream task. This model was a
 bi-LSTM that took sequence of word embeddings to represent a sentence
 or parts of sentence then each word embedding were categorized for its
 tag based on the usage in that sentence.
@@ -87,11 +87,11 @@ faster than LSTM, RNN, and GRU based on the number of iteration
 despite of the sequence length \citep{empirical2018shaujie}. The model
 called temporal convolution network (TCN) is basically a multilayer
 CNN with different dilation to factor the collection of input
-dimension for each layer. The model was evaluated using several
+dimension for each layer. The model was evaluated by using several
 sequence modelling tasks.
 
 For training an OOV model, some kind of feature extraction method
-needs to be used. One of feature extraction method called n-grams
+needs to be used. One of feature extraction method called n-grams is
 often used to capture word features. N-grams can be applied in both
 character grams in a word or word grams in a sentence. With character
 embedding and convolution neural network (CNN), n-grams can be
@@ -116,7 +116,7 @@ with similar orthographic \citep{character2015kim}.
 
 \cite{batchnorm:DBLP:journals/corr/IoffeS15} proposed a model to
 compensate slower training time caused by internal covariate shift.
-This phenomenon happened because of the distribution of values changes
+This phenomenon happened because the distribution of values changes
 between layers in neural network, making training model that saturates
 to a nonlinearity activation function harder
 \citep{batchnorm:DBLP:journals/corr/IoffeS15}. By using a method
