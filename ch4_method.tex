@@ -243,20 +243,21 @@
         Part-of-speech tagging or POS-tagging is a task of classifying
         word usage in a sentence or a corpus based on the grammatical
         usage of the word \citep{robustpostag2018horsmann}, for
-        example: verb, noun, adverb, etc. Given sentence $S = \{w \in
+        example: verb, noun, adverb, etc. The POS-tagger model is
+        similar to the one that was proposed by
+        \cite{finding2015ling}. Given sentence $S = \{w \in
         \mathcal{V} \vert [(w_1, t_1), (w_2, t_2), \dots, (w_n,
         t_n)]\}$ with its POS-tag $t_i$, each word $w_i$ that exist in
         the vocabulary $w_i \in \mathcal{V}$ and $w_i \in S$ was
-        transformed into embedding $e_i$ by using the pre-trained embedding. 
-        For the OOV, every sequence
-        of the characters building a word transformed into sequence of
-        character embedding $\{g\}_{i}^m$ using the function represented in
+        transformed into embedding $e_i$ by using the pre-trained
+        embedding. For the OOV, every sequence of the characters
+        building a word transformed into sequence of character
+        embedding $\{g\}_{i}^m$ using the function represented in
         equation \ref{eq:word2charemb} then the embedding
-        $\tilde{e}_i$ was predicted by using the OOV handling model. 
-        To separate embedding generation process for the in-vocabulary and the OOV,
-        the output
-        of the OOV handling model and the original embedding were masked in the
-        following way,
+        $\tilde{e}_i$ was predicted by using the OOV handling model.
+        To separate embedding generation process for the in-vocabulary
+        and the OOV, the output of the OOV handling model and the
+        original embedding were masked in the following way,
         \begin{align}
             \label{eq:embeddingmask}
             embedding &= mask \odot e_i + (1-mask) \odot \tilde{e}_i\\

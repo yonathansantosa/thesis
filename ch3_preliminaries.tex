@@ -67,7 +67,7 @@
         &= \sum_j \frac{\partial z}{\partial y_j} \sum_k w_k
     \end{align}
     The correction on parameter $\mathbf{W}$ is calculated with
-    a learning parameter $\eta$ as shown on equation \ref{eq:sgd}.
+    a learning parameter $\eta$ as shown in the following equation,
     \begin{align}
         \label{eq:sgd}
         \hat{w_i} = w_i -\frac{\partial z}{\partial x_i} \times \eta 
@@ -318,7 +318,6 @@
     produce some prediction of classification or regression. The
     convolution process of one patch of an input image is depicted in
     figure \ref{fig:convolution}.
-    
     \begin{figure}
         \centering
         \includegraphics[width=.6\linewidth]{images/convolution.pdf}
@@ -338,10 +337,9 @@
     kernel. This is so that only parts of the image that has highest
     response will also corresponds to the correction of the kernel
     while the others treated as less useful for a certain feature. 
-
     \begin{figure}
         \centering
-        \includegraphics[width=.4\linewidth]{images/maxpool.pdf}
+        \includegraphics[width=.35\linewidth]{images/maxpool.pdf}
         \caption{Maxpooling process of input image with window size $2\times2$}
         \label{fig:maxpool}
     \end{figure}
@@ -351,7 +349,6 @@
     an example, CNN with two convolution and maxpool architecture is
     depicted in figure \ref{fig:cnn}. In most cases, after doing
     convolution, non-linear activation function are applied.
-    
     \begin{figure}
         \centering
         \includegraphics[width=.8\linewidth]{images/cnn.pdf}
@@ -361,7 +358,7 @@
 
 \section{N-grams}
     N-grams is a method that is mostly used for word prediction
-    \citep{speech2009Jurafsky:2009:SLP:1214993}. Given a sentence,
+    \citep{speech2009Jurafsky}. Given a sentence,
     \begin{center}
         \texttt{Please do not sit ...}
     \end{center}
@@ -373,7 +370,7 @@
     question is the following word $w$ will be "\textit{on}". To solve
     this task, counting the appearance of history $h$ followed by word
     $w$ can be used to retrieve the probability
-    \citep{speech2009Jurafsky:2009:SLP:1214993}. Mathematically it can
+    \citep{speech2009Jurafsky}. Mathematically it can
     be written as follow,
     \begin{equation}
         \label{eq:countingprob}
@@ -383,13 +380,13 @@
     Previous method can give good estimation, but because language is
     creative and new sentences generated every time, everything that
     exists on the internet is not enough to produce good estimate
-    \citep{speech2009Jurafsky:2009:SLP:1214993}. On top of that, if
+    \citep{speech2009Jurafsky}. On top of that, if
     the joint probability of the sequence would be calculated, there
     will be many estimations where each estimation is not exact
     because there is no way for the probability to be calculated given
     long sequence of preceding words because as stated above,
     language is creative
-    \citep{speech2009Jurafsky:2009:SLP:1214993}. Given sequence of
+    \citep{speech2009Jurafsky}. Given sequence of
     words $(w_1, w_2, \dots, w_n)$, the joint probability of these
     sequence can be calculated by using chain rule as follows,
     \begin{align}
@@ -411,7 +408,7 @@
     precedes the target word. Hence n-grams has been introduced to
     approximate the probability of word $w$ from last few sequence of
     the history $h$ instead of a whole
-    \citep{speech2009Jurafsky:2009:SLP:1214993}. For instance, only
+    \citep{speech2009Jurafsky}. For instance, only
     two preceding sequences will be taken into calculation.
     In other words, instead of following probability calculation,
     \begin{equation}

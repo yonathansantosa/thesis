@@ -12,6 +12,44 @@
         \ref{tab:nearest:lstm-polyglot} respectively. The number of
         features for \textsc{Mimick} and CNN was 100.
 
+        \begin{table}[H]
+          \begin{center}
+            \caption{Nearest Neighbors Mimick (Polyglot)}
+            ~\\
+            \footnotesize
+            \label{tab:nearest:lstm-polyglot}
+            \begin{tabular}{l|l}
+              \textbf{OOV Word} & \textbf{Nearest Neighbors}\\
+              \hline
+              hurtling & inflating compromising concealing grasping channeling\\
+              expectedly & materially substantively sensibly energetically ethically\\
+              Actively & Harrold Wasson Wheatcroft Dever Covey\\
+              corduroy & heartbeat kink delicacy diaper damper\\
+              question-and-answer & barometer bottleneck ventilator slowdown spurt\\
+              1657 & \textbackslash exp \textbackslash frac\{n \textbackslash frac\{\# sqrt x\^{}\{\\
+            \end{tabular}
+          \end{center}
+        \end{table}
+
+        \begin{table}[H]
+          \begin{center}
+            \caption{Nearest Neighbors CNN (Polyglot)}
+            ~\\
+            \footnotesize
+            \label{tab:nearest:cnn-polyglot}
+            \begin{tabular}{l|l}
+              \textbf{OOV Word} & \textbf{Nearest Neighbors}\\
+              \hline
+              hurtling & pulling whipping catching shaking burning\\
+              expectedly & frequently legitimately painfully inappropriately purposefully\\
+              Actively & Easily Potentially Entirely Merely Displaying\\
+              corduroy & basket garment wedge medium nutrient\\
+              question-and-answer & hostess dentist recruiter carer pastime\\
+              1657 & GER BO INT SEP AGP\\
+            \end{tabular}
+          \end{center}
+        \end{table}
+
         The first word was "hurtling", typographical error from the
         word hurting. For this word, both model seemed to be able to
         locate that the nearest neighbor was another verb with suffix
@@ -70,43 +108,7 @@
         % trained with polyglot \citep{polyglot2013alrfou} only with
         % different set of words for each input.
 
-        \begin{table}[H]
-          \begin{center}
-            \caption{Nearest Neighbors Mimick (Polyglot)}
-            ~\\
-            \footnotesize
-            \label{tab:nearest:lstm-polyglot}
-            \begin{tabular}{l|l}
-              \textbf{OOV Word} & \textbf{Nearest Neighbors}\\
-              \hline
-              hurtling & inflating compromising concealing grasping channeling\\
-              expectedly & materially substantively sensibly energetically ethically\\
-              Actively & Harrold Wasson Wheatcroft Dever Covey\\
-              corduroy & heartbeat kink delicacy diaper damper\\
-              question-and-answer & barometer bottleneck ventilator slowdown spurt\\
-              1657 & \textbackslash exp \textbackslash frac\{n \textbackslash frac\{\# sqrt x\^{}\{\\
-            \end{tabular}
-          \end{center}
-        \end{table}
-
-        \begin{table}[H]
-          \begin{center}
-            \caption{Nearest Neighbors CNN (Polyglot)}
-            ~\\
-            \footnotesize
-            \label{tab:nearest:cnn-polyglot}
-            \begin{tabular}{l|l}
-              \textbf{OOV Word} & \textbf{Nearest Neighbors}\\
-              \hline
-              hurtling & pulling whipping catching shaking burning\\
-              expectedly & frequently legitimately painfully inappropriately purposefully\\
-              Actively & Easily Potentially Entirely Merely Displaying\\
-              corduroy & basket garment wedge medium nutrient\\
-              question-and-answer & hostess dentist recruiter carer pastime\\
-              1657 & GER BO INT SEP AGP\\
-            \end{tabular}
-          \end{center}
-        \end{table}
+        
 
         % \begin{table}[H]
         %   \begin{center}
@@ -238,64 +240,70 @@
         % \end{table}
 
     \section{POS-tagging results}
+      \subsection{Randomly Generated OOV Embedding as Baseline}
       Before the OOV handling model was used, random embedding for OOV
       entries were used to lay the baseline of the OOV handling method
       for POS-tagging. The OOV entries were added into the vocabulary
       list and their embedding were randomly initialized. Afterwards,
-      This collection of embedding was trained in conjunction with the
-      POS-tagger model. The results are shown in figure
-      \ref{fig:postag_random_results}.
+      This collection of embedding was used for training the
+      POS-tagger model. The new was set to be trainable as mentioned
+      in the previous chapter. The results for three different
+      pre-trained embedding that was used in the POS-tagger are shown
+      in figure \ref{fig:postag_random_results}.
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/random_graph.pdf}
-        \caption{POS-tagging results with random OOV embedding}
+        \caption{POS-tagging results with trainable random OOV embedding and pre-trained embedding}
         \label{fig:postag_random_results}
       \end{figure}
 
+      \subsection{Non-trainable OOV Handling Model}
       In order to test the best number of features for each
       OOV handling model, the model and the embedding were set to be
       in evaluation mode or frozen, meaning that the parameters would
       not change when training the POS-tagger model. The OOV embedding
       from both model on top of the pre-trained embedding was used as
-      input for POS-tagging task. Firstly, the embedding for OOV
-      entries were predicted through the OOV handling model and added
-      to the pre-trained word embedding. Then the collection of the
-      pre-trained embedding and the predicted OOV embedding weights
-      were fixed so it would not be changed in the training process.
-      The results of different number of features on different
-      pre-trained embeddings are shown in figure
-      \ref{fig:postag_word2vec_freeze_results}, figure
-      \ref{fig:postag_polyglot_freeze_results}, and figure
-      \ref{fig:postag_dict2vec_freeze_results}. With this settings,
-      only CNN with 20 number of features can outperforms the
-      \textsc{Mimick} model in Word2vec word embedding while
-      \textsc{Mimick} performs better in the other word embedding
-      across different number of features that was used. Interestingly, this
-      setting for both models perform worse than randomly initialized
-      OOV embeddings for Dict2vec pre-trained embedding.
-      \begin{figure}[H]
+      input for POS-tagging task. 
+      \begin{figure}[h]
         \centering
         \includegraphics[width=0.8\linewidth]{images/freeze_word2vec.pdf}
-        \caption{POS-tagging results frozen embeddings (Word2vec)}
+        \caption{POS-tagging results with frozen embeddings and OOV handling model (Word2vec)}
         \label{fig:postag_word2vec_freeze_results}
       \end{figure}
-      \begin{figure}[H]
+      \begin{figure}[h]
         \centering
         \includegraphics[width=0.8\linewidth]{images/freeze_polyglot.pdf}
-        \caption{POS-tagging results frozen embeddings (Polyglot)}
+        \caption{POS-tagging results with frozen embeddings and OOV handling model (Polyglot)}
         \label{fig:postag_polyglot_freeze_results}
       \end{figure}
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/freeze_dict2vec.pdf}
-        \caption{POS-tagging results frozen embeddings (Dict2vec)}
+        \caption{POS-tagging results with frozen embeddings and OOV handling model (Dict2vec)}
         \label{fig:postag_dict2vec_freeze_results}
       \end{figure}
+      Firstly, the embedding for OOV entries were predicted through
+      the OOV handling model and added to the pre-trained word
+      embedding. Then the collection of the pre-trained embedding and
+      the predicted OOV embedding weights were fixed so it would not
+      be changed in the training process. The results of different
+      number of features on different pre-trained embeddings are shown
+      in figure \ref{fig:postag_word2vec_freeze_results}, figure
+      \ref{fig:postag_polyglot_freeze_results}, and figure
+      \ref{fig:postag_dict2vec_freeze_results}. With this settings,
+      only CNN with 20 number of features can outperforms the
+      \textsc{Mimick} model in Word2vec word embedding while
+      \textsc{Mimick} performs better in the other word embedding
+      across different number of features that was used.
+      Interestingly, this setting for both models perform worse than
+      randomly initialized OOV embeddings for Dict2vec pre-trained
+      embedding.
       
+      \subsection{Trainable OOV Handling Model}
       Secondly, the OOV handling model was also trained in conjunction
       with the POS-tagger to improve accuracies of the POS-tagger as
-      well as to see whether further improvement in accuracy can
-      be achieved by training both the OOV handling model and the
+      well as to see whether further improvement in accuracy can be
+      achieved by training both the OOV handling model and the
       POS-tagger. Note that the word embedding parameters was still
       untrainable in this setting. The results of these experiments
       are shown in figure
@@ -310,25 +318,26 @@
       surpassing the accuracies from POS-tagger that used
       \textsc{Mimick} as the OOV handling model in all of the
       pre-trained embeddings used in this research.
-      \begin{figure}[H]
+      \begin{figure}[h]
         \centering
         \includegraphics[width=0.8\linewidth]{images/continuous_word2vec.pdf}
-        \caption{POS-tagging results continuous embeddings (Word2vec)}
+        \caption{POS-tagging results with frozen embedding and trainable OOV handling model (Word2vec)}
         \label{fig:postag_word2vec_continuous_results}
       \end{figure}
-      \begin{figure}[H]
+      \begin{figure}[h]
         \centering
         \includegraphics[width=0.8\linewidth]{images/continuous_polyglot.pdf}
-        \caption{POS-tagging results continuous embeddings (Polyglot)}
+        \caption{POS-tagging results with frozen embedding and trainable OOV handling model (Polyglot)}
         \label{fig:postag_polyglot_continuous_results}
       \end{figure}
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/continuous_dict2vec.pdf}
-        \caption{POS-tagging results continuous embeddings (Dict2vec)}
+        \caption{POS-tagging results with frozen embedding and trainable OOV handling model (Dict2vec)}
         \label{fig:postag_dict2vec_continuous_results}
       \end{figure}
 
+      \subsection{OOV Handling Model and Pre-Trained Embedding Joint Training}
       Thirdly, to simulate how such model will be used in the
       downstream tasks application, both the pre-trained embedding and
       the OOV handling model would be trained and the results were
@@ -343,11 +352,10 @@
       \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\linewidth]{images/train_embed.pdf}
-        \caption{POS-tagging results for OOV handling model and pre-trained embeddings training}
+        \caption{POS-tagging results with trainable pre-trained embeddings and OOV handling model}
         \label{fig:postag_train_embed_results}
       \end{figure}
-      
-      Given the results from various settings, in general CNN was
+      \par Given the results from various settings, in general CNN was
       able to achieve higher accuracies for Brown tag-set dataset.
       Even though \textsc{Mimick} is better at predicting OOV
       embeddings for downstream tasks right \textit{out-of-the-box},
@@ -501,3 +509,48 @@
     Dict2vec while \textsc{Mimick} performs better on word2vec in word
     similarities tasks. This further proved that CNN are better for
     handling OOV than \textsc{Mimick}.
+
+  \section{Discussion}
+    Based on the results shown above, both OOV handling model were
+    able to predict the nearest neighbor in the vocabulary for some
+    OOV. This shows that OOV handling model can be trained to predict
+    embedding of an OOV. Sadly, it did not always working for some
+    cases. Even though it was not producing good results for the
+    nearest neighbor, this model was able to improve downstream tasks
+    such as POS-tagging and word similarity compared to randomly
+    initialized OOV embedding for OOV handling.
+
+    As shown in the POS-tagger results, the model with OOV handling
+    could improve the accuracy over the model with randomly
+    initialized OOV handling even though the pre-trained embedding and
+    the randomly initialized embedding were trained in regards to the
+    POS-tagger loss. Further improvements could be achieved when both
+    the OOV handling model and the pre-trained embedding were also
+    trained together with the POS-tagger. 
+
+    Subsequently, both OOV handling model achieved different results
+    for POS-tagging task. \textsc{Mimick} was performing well when
+    both the pre-trained embedding and the OOV handling model were set
+    to be non-trainable. This case is true for Polyglot and Dict2vec
+    embedding while it is not for Word2Vec. On the other hand, CNN
+    N-grams was performing well when both the pre-trained embedding
+    and the OOV handling model were trained with the POS-tagger model,
+    especially for the one that was trained with Polyglot and
+    Dict2vec. Those results shows that while \textsc{Mimick} can be
+    used if the pre-trained embedding is not meant to be trained
+    while CNN can be used if the pre-trained embedding is meant to be
+    included in the training graph. If the pre-trained embedding is
+    not trained, then \textsc{Mimick} has the advantageous of higher
+    accuracy for POS-tagging task and cheaper computation for
+    predicting the OOV embedding. In contrast, when the pre-trained is
+    suppose to be trained in conjunction with the OOV handling model,
+    CNN could achieve higher accuracy compared to \textsc{Mimick}.
+
+    Despite the fact that \textsc{Mimick} can outperform CNN when the
+    pre-trained embedding and the OOV handling model is not included
+    in the training process, this case does not hold for word
+    similarity task where there is also no trainable parts of the
+    calculation. Both OOV handling model were only used for predicting
+    the OOV embedding to calculate the cosine distance between word
+    pairs. Although compared to randomized OOV embedding, both model
+    still performed better for Dict2vec pre-trained embedding.

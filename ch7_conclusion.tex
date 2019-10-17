@@ -11,35 +11,45 @@ approximation of the \textit{out-of-vocabulary} embedding.
 \section{OOV Handling Model against Randomly Initialized OOV Embedding}
 For \textit{out-of-vocabulary} embedding to be used in the downstream
 tasks, one can assign randomly generated embedding for each
-\textit{out-of-vocabulary} or by assigning single token with one
-vector representation replacing all \textit{out-of-vocabulary}
-entries. This approach has its advantages such as cheaper computation time
-to generate embedding and has relatively high accuracies at around
-$91\%$ for POS-tagging task. However, the training on the downstream
-tasks using randomly generated embedding might need more epoch or more
-sophisticated architecture to be able to achieve similar accuracy with the one that
+\textit{out-of-vocabulary} or by assigning single unknown token
+``\textit{\textless UNK\textgreater}'' with one vector representation
+replacing all \textit{out-of-vocabulary} entries. This approach has
+its advantages such as cheaper computation time to generate embedding
+and has relatively high accuracies at around $91\%$ for POS-tagging
+task. However, the training on the downstream tasks using randomly
+generated embedding might need more epoch or more sophisticated
+architecture to be able to achieve similar accuracy with the one that
 uses OOV handling model such as \textsc{Mimick} or the proposed model
 from this research. As evidence, with similar setup as the OOV
 handling model the randomly generated embedding for
-\textit{out-of-vocabulary} has lower accuracy for POS-tagging tasks.
-The randomly generated embedding for \textit{out-of-vocabulary}
-entries method could produce POS-tagging results for three different
-pretrained embedding averaged around $91\%$ and by using OOV handling
-model the accuracy increased to be around $93\%$.
+\textit{out-of-vocabulary} has lower accuracy for POS-tagging tasks in
+general. The randomly generated embedding for
+\textit{out-of-vocabulary} entries method could produce POS-tagging
+results for three different pretrained embedding averaged around
+$91\%$ and by using OOV handling model the accuracy increased to be
+around $93\%$.
 
-\section{CNN against LSTM for Extracting Text Features}
+\section{CNN against bi-LSTM for Extracting Text Features}
 As shown by the results of the downstream tasks, CNN model generally
-outperforms bi-LSTM implemented in \textsc{Mimick}. As mentioned before,
-\textsc{Mimick} uses the last state of the hidden state from the
-bi-LSTM architecture. This renders the intermediate sequence that
-could be important for predicting the embedding lost when the cell
-gate decided to drop previous information. By using CNN to extract
-text features, the intermediate sequence that appears somewhere in the
-middle of a word can still be inferred. With some generalization, the
-CNN features also able to use one kernel for several sequence that has
-certain similarities in terms of sequence of embeddings, hence the
-higher accuracy and Spearman's rank correlation values.
+outperforms bi-LSTM implemented in \textsc{Mimick}. As mentioned
+before, \textsc{Mimick} uses the last state of the hidden state from
+the bi-LSTM architecture. There can exist a case where the cell gate
+decided to drop the previous sequence rendering information from early
+sequence to be missing. Even though by the nature of neural network
+that it is a black box, the solution for such problem in this case
+such as increasing the size of the hidden neuron size and by using
+bidirectional LSTM to reduce the chance of such cases to be minimized,
+\textsc{Mimick} still perform worse than CNN N-grams. It can also be
+that the parameters used in this research is not high enough, so
+further analysis for this case needed to be done. On the other hand,
+by using CNN to extract text features, the intermediate sequence that
+appears somewhere in the middle of a word can still be inferred. With
+some generalization, the CNN features also able to use one kernel for
+several sequence that has certain similarities in terms of sequence of
+embeddings, hence the higher accuracy and Spearman's rank correlation
+values.
 
+\section{CNN against bi-LSTM for Downstream Tasks}
 \subsection{POS-tagging}
 In POS-tagging tasks, CNN model accuracy was averaged around 0.2\% higher than
 \textsc{Mimick} across all settings. On top of the CNN architecture, some batch

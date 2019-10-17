@@ -18,7 +18,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LINE SPACING 
-\newcommand{\linespacing}{1.5}
+\newcommand{\linespacing}{1.3}
 \renewcommand{\baselinestretch}{\linespacing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -84,8 +84,8 @@
 % \usepackage{hyperref}
 % For print version, use this instead:
 \usepackage[pdfusetitle,bookmarksnumbered,plainpages=false]{hyperref}
-\usepackage{backref}
-\renewcommand{\backrefpagesname}{Cited on}
+% \usepackage{backref}
+% \renewcommand{\backrefpagesname}{Cited on}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \usepackage{fancyhdr}
@@ -127,28 +127,29 @@
 \vskip40mm
 \begin{center}
 % TITLE
-\huge\textbf{OOV Handling by Learning Subword using CNN based N-grams}\\
-\vskip 1.5cm
+\LARGE\textbf{OOV Handling by Learning Subword using CNN based N-grams}\\
+\vskip 2.5cm
 % SUBTITLE (optional)
 % \LARGE\textit{How it all works}
 % \vskip5mm
 % AUTHOR
 \large Yonathan Purbo Santosa\\
 Matriculation Number: 2993106\\
-XXXX XX, XX\\
+October 2019\\
 % \Large\textbf{Joe Bloggs}
 % \normalsize
 % \vfill
-\vskip 1.5cm
-Master thesis\\
-Computer Science
+\vskip 2cm
+\small A thesis submitted for the
+degree of Master of Science\\
+\large \textbf{Institute of Computer Science}
 % \vfill
-\vskip 1.5cm
+\vskip 2cm
 Supervisors:\\
-Prof. Jens Lehmann\\
+Prof. Dr. Jens Lehmann\\
 Dr. Giulio Napolitano
 \vfill
-\textsc{Institut f{\"u}r Informatik III}\\
+\textsc{Institut f{\"u}r Informatik}\\
 \textsc{Rheinische Friedrich-Wilhelms-Universit{\"a}t Bonn}
 \end{center}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,7 +175,7 @@ it is my own. I confirm that:
 	clearly attributed.
 	\item Where I have quoted from the work of others, the source is always
 	given. Except for such quotations, this thesis is entirely my own work.
-	I have acknowledged all main sources of help.
+	\item I have acknowledged all main sources of help.
 	\item Where the thesis is based on work done by myself jointly with others,
 	I have made clear exactly what was done by others and what I have
 	contributed myself.
@@ -344,16 +345,16 @@ The implementation can be accessed in
 \section*{Training Screenshot}
 % \begin{figure*}
 \centering
-\includegraphics[width=.8\linewidth]{images/train_oovmodel.jpg}\\
+\includegraphics[width=.8\linewidth]{images/train_oovmodel_white.jpg}\\
 Figure: OOV Handling Model Training
 % \caption{OOV Handling Model Training}
 % \label{fig:postag}
 % \end{figure*}
 % \begin{figure*}
 \centering
-\includegraphics[width=.8\linewidth]{images/train_postag.jpg}\\
+\includegraphics[width=.8\linewidth]{images/train_postag_white.jpg}\\
 Figure: POS-tagger Training\\~\\
-\includegraphics[width=.7\linewidth]{images/calculate_wordsim.jpg}\\
+\includegraphics[width=.8\linewidth]{images/calculate_wordsim_white.jpg}\\
 Figure: Calculating Spearman's Rank Correlation Coefficient for Word
 Similarity Task
 % \caption{OOV Handling Model Training}
